@@ -20,7 +20,7 @@ class CSRM:
                  dim_proj=150,
                  hidden_units=150,
                  patience=10,
-                 memory_size=1,
+                 memory_size=10,
                  memory_dim=100,
                  shift_range=1,
                  controller_layer_numbers=0,
@@ -365,13 +365,15 @@ class CSRM:
         print(" [*] Initialization finished")
 
 
-        #kf_test = self.get_minibatches_idx(len(Test_data[0]), self.batch_size)
+
         uidx = 0
         bad_count = 0
         estop = False
         for epoch in range(self.epoch):
             kf = self.get_minibatches_idx(len(train[0]), self.batch_size)
             kf_valid = self.get_minibatches_idx(len(valid[0]), self.batch_size)
+            # kf_test = self.get_minibatches_idx(len(Test_data[0]), self.batch_size)
+
             start_time = time.time()
             nsamples = 0
             epoch_loss = []
@@ -453,7 +455,6 @@ class CSRM:
             Prediction scores for selected items on how likely to be the next item of this session. Indexed by the item IDs.
 
         '''
-        self.memory_size=1
         if (self.session != session_id):  # new session
 
             self.session = session_id
@@ -476,9 +477,10 @@ class CSRM:
 
     def pred_function(self,seqs, label):
         ntm_init_state = np.random.normal(0, 0.05, size=[1, self.hidden_units])
+        #ntm_init_state = np.random.normal(0, 0.05, size=[1, len(seqs)])
         batch_data = seqs
         batch_label = label
-        feed_dict = self.construct_feeddict(batch_data, batch_label, self.no_dropout, ntm_init_state)
+        feed_dict = self.construct_feeddict(batch_data, batch_label, self.no_dropout, ntm_init_state,True)
         preds, ntm_init_state = self.sess.run([self.hypo, self.memory_new_state], feed_dict=feed_dict)
 
         return preds, ntm_init_state
