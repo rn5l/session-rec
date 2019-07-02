@@ -1,0 +1,50 @@
+---
+type: window # single|window, maybe add opt
+key: baselines #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: 30music #added in the end of the csv names
+  folder: ../../data/30music/slices/
+  prefix: 30music-200ks
+  slices: 5 #only window
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/window/30music/
+  pickle_models: results/models/music-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+#- class: saver.Saver
+#  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/30music/slices/recs/markov }
+  key: markov
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/30music/slices/recs/ar }
+  key: ar
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/30music/slices/recs/sr }
+  key: sr
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/30music/slices/recs/sknn }
+  key: sknn
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/30music/slices/recs/vsknn }
+  key: vsknn

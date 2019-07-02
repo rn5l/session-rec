@@ -1,0 +1,39 @@
+---
+type: opt # single|window, maybe add opt
+key: nextitnet #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: diginetica-wrongtime #added in the end of the csv names
+  folder: data/diginetica/prepared_stamp/
+  prefix: train-item-views
+  opts: {sessions_test: 5000}
+
+results:
+  folder: results/opt/diginetica/
+
+metrics:
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: nextitnet.nextitrec.Nextitrec
+  params: {}
+  params_opt:
+    learning_rate: [{from: 0.01, to: 0.001, in: 10, type: float32},{from: 0.001, to: 0.0001, in: 10, type: float32}]
+    iterations: [10,20]
+    is_negsample: [True,False]
+  key: nextitnet

@@ -1,0 +1,52 @@
+---
+type: single # single|window, maybe add opt
+key: models #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15_64 #added in the end of the csv names
+  folder: ../../data/rsc15/prepared/
+  prefix: yoochoose-clicks-full-64
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/single/rsc15_64_multiple/
+  pickle_models: results/models/rsc15_64/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.0004, n_epochs: 30, decay_rate: 0.4}
+  key: stamp
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.005 }
+  key: narm
+- class: nextitnet.nextitrec.Nextitrec
+  params: { learning_rate: 0.001, iterations: 10 }
+  key: nextitnet
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'bpr-max', final_act: 'linear', dropout_p_hidden: 0.1, learning_rate: 0.05, momentum: 0.3 }
+  key: gru4rec-m1 
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'bpr-max', final_act: 'elu-0.5', dropout_p_hidden: 0.0, learning_rate: 0.2, momentum: 0.3 }
+  key: gru4rec-default
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre

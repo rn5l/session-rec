@@ -1,0 +1,20 @@
+---
+type: window # single|window
+preprocessor: retailrocket # 
+data:
+  folder: data/retailrocket/raw/
+  prefix: events
+
+filter:
+  min_item_support: 5
+  min_session_length: 2
+  
+params:
+  days_test: 2
+  days_train: 25 #only window
+  num_slices: 5 #only window
+  days_offset: 0 #only window
+  days_shift: 27 #only window
+
+output:
+  folder: data/retailrocket/slices/

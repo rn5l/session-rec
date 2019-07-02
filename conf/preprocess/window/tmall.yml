@@ -1,0 +1,20 @@
+---
+type: window # single|window
+dataset: tmall # 
+data:
+  folder: data/tmall/raw/
+  prefix: dataset
+
+filter:
+  min_item_support: 5
+  min_session_length: 2
+
+params:
+  days_test: 1
+  days_train: 90
+  num_slices: 5 #only window
+  days_offset: 1 #only window
+  days_shift: 10 #only window
+
+output:
+  folder: data/tmall/slices/

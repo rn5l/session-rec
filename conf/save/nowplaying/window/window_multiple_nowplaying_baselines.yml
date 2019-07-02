@@ -1,0 +1,56 @@
+---
+type: window # single|window, maybe add opt
+key: models #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: nowplaying-multiple #added in the end of the csv names
+  folder: data/nowplaying/slices/
+  prefix: nowplaying
+  slices: 5 #only window
+
+results:
+  folder: results/window/nowplaying/
+  pickle_models: results/models/nowplaying-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: baselines.markov.MarkovModel
+  params: {}
+  key: markov
+- class: baselines.ar.AssociationRules
+  params: {}
+  key: ar
+- class: baselines.sr.SequentialRules
+  params: { steps: 9, weighting: quadratic }
+  key: sr
+- class: knn.sknn.ContextKNN
+  params:
+    k: 50
+    sample_size: 2500
+    similarity: jaccard
+  key: sknn
+- class: knn.vsknn.VMContextKNN
+  params:
+    k: 100
+    sample_size: 2500
+    weighting: quadratic
+    weighting_score: quadratic
+  key: vsknn

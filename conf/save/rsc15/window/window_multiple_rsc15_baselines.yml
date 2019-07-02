@@ -1,0 +1,57 @@
+---
+type: window # single|window, maybe add opt
+key: baselines #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15-multiple #added in the end of the csv names
+  folder: ../../data/rsc15/slices/
+  prefix: yoochoose-clicks-full
+  slices: 5
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/window/rsc15/
+  pickle_models: results/models/rsc15-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: baselines.markov.MarkovModel
+  params: {}
+  key: markov
+- class: baselines.ar.AssociationRules
+  params: {}
+  key: ar
+- class: baselines.sr.SequentialRules
+  params: { steps: 8, weighting: div }
+  key: sr
+- class: knn.sknn.ContextKNN
+  params:
+    k: 500
+    sample_size: 10000
+    similarity: jaccard
+  key: sknn
+- class: knn.vsknn.VMContextKNN
+  params:
+    k: 100
+    sample_size: 1000
+    weighting: quadratic
+    weighting_score: quadratic
+  key: vsknn

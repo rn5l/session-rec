@@ -1,0 +1,38 @@
+---
+type: opt # single|window, maybe add opt
+key: sr #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15-window #added in the end of the csv names
+  folder: ../../data/rsc15/single/
+  prefix: yoochoose-clicks-full
+  opts: {sessions_test: 5000}
+
+results:
+  folder: results/opt/rsc15_window/
+
+metrics:
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: baselines.sr.SequentialRules
+  params: {}
+  params_opt:
+    steps: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,25,30]
+    weighting: ['linear','div','quadratic','log']
+  key: sr

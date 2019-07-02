@@ -1,0 +1,20 @@
+---
+type: window # single|window
+preprocessor: diginetica #
+data:
+  folder: data/diginetica/raw/
+  prefix: train-item-views
+
+filter:
+  min_item_support: 5
+  min_session_length: 2
+
+params:
+  days_test: 7
+  days_train: 25 #only window
+  num_slices: 5 #only window
+  days_offset: 45 #only window
+  days_shift: 18 #only window
+
+output:
+  folder: data/diginetica/slices/

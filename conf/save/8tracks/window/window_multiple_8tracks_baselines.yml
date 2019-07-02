@@ -1,0 +1,50 @@
+---
+type: window # single|window, maybe add opt
+key: models #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: 8tracks #added in the end of the csv names
+  folder: data/8tracks/slices/
+  prefix: playlists-8tracks
+  slices: 5 #only window
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/window/8tracks/
+  pickle_models: results/models/music-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+#- class: saver.Saver
+#  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/8tracks/slices/recs/markov }
+  key: markov
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/8tracks/slices/recs/ar }
+  key: ar
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/8tracks/slices/recs/sr }
+  key: sr
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/8tracks/slices/recs/sknn }
+  key: sknn
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/8tracks/slices/recs/vsknn }
+  key: vsknn

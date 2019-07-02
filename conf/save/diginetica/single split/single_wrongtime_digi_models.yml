@@ -1,0 +1,46 @@
+---
+type: single # single|window, maybe add opt
+key: models #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: diginetica-wrongtime #added in the end of the csv names
+  folder: data/diginetica/prepared_stamp/
+  prefix: train-item-views
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/single/diginetica/
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.0004, n_epochs: 30, decay_rate: 0.9}
+  key: stamp
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.002, factors: 50 }
+  key: narm
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'bpr-max', final_act: 'elu-0.5', dropout_p_hidden: 0.2, learning_rate: 0.05, momentum: 0.1, constrained_embedding: True }
+  key: gru4rec-best
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'top1-max', final_act: 'linear', dropout_p_hidden: 0.0, learning_rate: 0.07, momentum: 0.0, constrained_embedding: True }
+  key: gru4rec-backup
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre

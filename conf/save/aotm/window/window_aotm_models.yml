@@ -1,0 +1,50 @@
+---
+type: window # single|window, maybe add opt
+key: models2 #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: aotm #added in the end of the csv names
+  folder: data/aotm/slices/
+  prefix: playlists-aotm
+  slices: 5 #only window
+
+results:
+  folder: results/window/aotm/
+  pickle_models: results/models/aotm-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.004, n_epochs: 30, decay_rate: 0.0}
+  key: stamp
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.004 }
+  key: narm
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'top1-max', final_act: 'elu-0.5', dropout_p_hidden: 0.0, learning_rate: 0.04, momentum: 0.6 }
+  key: gru4rec-best
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'bpr-max', final_act: 'elu-0.5', dropout_p_hidden: 0.1, learning_rate: 0.2, momentum: 0.4 }
+  key: gru4rec-backup
+- class: nextitnet.nextitrec.Nextitrec
+  params: { learning_rate: 0.005, iterations: 30, is_negsample: True }
+  key: nextitnet
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre

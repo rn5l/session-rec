@@ -1,0 +1,49 @@
+---
+type: window # single|window, maybe add opt
+key: models #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: retailr-window-multiple #added in the end of the csv names
+  folder: data/retailrocket/slices/
+  prefix: events
+  slices: 5
+
+results:
+  folder: results/window/retailrocket/
+  pickle_models: results/models/retailrocket-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.0.0008, n_epochs: 10, decay_rate: 0.6}
+  key: stamp
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.01 }
+  key: narm
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'top1-max', final_act: 'linear', dropout_p_hidden: 0.3, learning_rate: 0.03, momentum: 0.2, constrained_embedding: True }
+  key: gru4rec
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre
+- class: nextitnet.nextitrec.Nextitrec
+  params: { learning_rate: 0.006, iterations: 10 }
+  key: nextitnet

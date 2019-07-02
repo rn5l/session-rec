@@ -1,0 +1,40 @@
+---
+type: window # single|window, maybe add opt
+key: stamp #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: nowplaying-multiple #added in the end of the csv names
+  folder: data/nowplaying/slices/
+  prefix: nowplaying
+  slices: 5 #only window
+
+results:
+  folder: results/window/nowplaying/
+  pickle_models: results/models/nowplaying-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.0007, n_epochs: 20, decay_rate: 0.4}
+  key: stamp-second
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.0005, n_epochs: 20, decay_rate: 0.9}
+  key: stamp-org

@@ -1,0 +1,62 @@
+---
+type: window # single|window, maybe add opt
+key: time #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: zalando #added in the end of the csv names
+  folder: data/zalando/slices/
+  prefix: clicks
+  slices: 5
+  skip: [1,2,3,4]
+  opts: {sessions_test: 1000}
+
+results:
+  folder: results/window/zalando/
+  #pickle_models: results/models/rsc15-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.009, n_epochs: 1, decay_rate: 0.7}
+  key: stamp
+- class: narm.narm.NARM
+  params: { epochs: 1, lr: 0.007 }
+  key: narm
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { n_epochs: 1, loss: 'bpr-max', final_act: 'elu-0.5', dropout_p_hidden: 0.1, learning_rate: 0.1, momentum: 0.3 }
+  key: gru4rec
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre
+- class: baselines.markov.MarkovModel
+  params: {}
+  key: markov
+- class: baselines.ar.AssociationRules
+  params: {}
+  key: ar
+- class: baselines.sr.SequentialRules
+  params: { steps: 7, weighting: div }
+  key: sr
+- class: knn.sknn.ContextKNN
+  params: 
+    k: 50
+    sample_size: 10000
+    similarity: cosine
+  key: sknn
+- class: knn.vsknn.VMContextKNN
+  params: 
+    k: 50
+    sample_size: 10000
+    weighting: log
+    weighting_score: quadratic
+    idf_weighting: 10
+  key: vsknn
+  

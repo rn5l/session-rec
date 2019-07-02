@@ -1,0 +1,16 @@
+---
+type: single # single|window
+preprocessor: diginetica # dataset (folder) name
+data:
+  folder: data/diginetica/raw/
+  prefix: train-item-views
+
+filter:
+  min_item_support: 5
+  min_session_length: 2
+
+params:
+  days_test: 7
+
+output:
+  folder: data/diginetica/prepared/

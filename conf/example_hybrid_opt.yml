@@ -1,0 +1,54 @@
+---
+type: single # single|window, maybe add opt
+key: baselines #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: aotm #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-100k
+#  slices: 5 #only window
+#  skip: [0,3] #only window
+  opts: {sessions_test: 10}
+
+results:
+  folder: results/hybrid_opt/rsc15_100k/
+
+metrics:
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: hybrid.mixed.MixedHybrid
+  params:
+    algorithms: #ex with parameters
+    - class: baselines.sr.SequentialRules
+      params: { weighting: div }
+      key: sr
+    - class: baselines.ar.AssociationRules
+      key: ar
+    fit: True
+  params_var:
+    recomLengths: [[5],[10],[15]] # ex for 3 algorithms: [[5, 5],[5, 10],[10, 5]]
+  key: mixed
+- class: hybrid.weighted.WeightedHybrid
+  params:
+    algorithms: #ex with file model
+    - class: filemodel.resultfile.ResultFile
+      params: { file: data/rsc15/recommendations/recoms_rsc15_100k_ar }
+      key: sr
+    - class: filemodel.resultfile.ResultFile
+      params: { file: data/rsc15/recommendations/recoms_rsc15_100k_sr }
+      key: ar
+    fit: True
+  params_var:
+    weights: [[0.25, 0.75],[0.5, 0.5],[0.75, 0.25]] # ex for 3 algorithms: [[0.5, 0.25, 0.25],[0.25, 0.5, 0.25],[0.25, 0.25, 0.5]]
+  key: weighted

@@ -1,0 +1,53 @@
+---
+type: window # single|window, maybe add opt
+key: baselines #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: diginetica-window-wrongtime #added in the end of the csv names
+  folder: ../../data/diginetica/slices_stamp/
+  prefix: train-item-views
+#  opts: {sessions_test: 5000}
+  slices: 5
+
+results:
+  folder: results/window/diginetica/
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: baselines.markov.MarkovModel
+  params: {}
+  key: markov
+- class: baselines.ar.AssociationRules
+  params: {}
+  key: ar
+- class: baselines.sr.SequentialRules
+  params: { steps: 30, weighting: quadratic }
+  key: sr
+- class: knn.sknn.ContextKNN
+  params: { k: 1500, sample_size: 5000, similarity: cosine }
+  key: sknn_1500_5000
+- class: knn.sknn.ContextKNN
+  params: { k: 1000, sample_size: 5000, similarity: cosine }
+  key: sknn_1000_5000
+- class: knn.sknn.ContextKNN
+  params: { k: 1000, sample_size: 10000, similarity: cosine }
+  key: sknn_1000_10000
+- class: knn.vsknn.VMContextKNN
+  params: { k: 50, sample_size: 2500, weighting: log , weighting_score: quadratic, idf_weighting: 1  }
+  key: vsknn

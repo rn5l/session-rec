@@ -1,0 +1,16 @@
+---
+type: single # single|window
+preprocessor: rsc15 # 
+data:
+  folder: data/rsc15/raw/
+  prefix: rsc15-clicks
+
+filter:
+  min_item_support: 5
+  min_session_length: 2
+
+params:
+  days_test: 1
+
+output:
+  folder: data/rsc15/prepared/

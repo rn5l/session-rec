@@ -1,0 +1,57 @@
+---
+type: single # single|window, maybe add opt
+key: baselines #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: aotm #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-100k
+  opts: {sessions_test: 100}
+
+results:
+  folder: results/multiple/rsc15_100k/
+  pickle_models: results/models/rsc15_100k/
+  
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+
+# ex with file models
+# baselines
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/rsc15/recommendations/recoms_rsc15_100k_vsknn  }
+  key: vsknn
+# models
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/rsc15/recommendations/recoms_rsc15_100k_gru4rec }
+  key: gru4rec
+# hybrids
+- class: hybrid.weighted.WeightedHybrid
+  params:
+    algorithms:
+    - class: filemodel.resultfile.ResultFile
+      params: { file: data/rsc15/recommendations/recoms_rsc15_100k_ar }
+      key: sr
+    - class: filemodel.resultfile.ResultFile
+      params: { file: data/rsc15/recommendations/recoms_rsc15_100k_sr }
+      key: ar
+    weights: [0.5, 0.5]
+    fit: True
+  key: weighted

@@ -1,0 +1,36 @@
+---
+type: window # single|window, maybe add opt
+key: stamp #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: nowplaying #added in the end of the csv names
+  folder: data/nowplaying/slices/
+  prefix: nowplaying
+  slices: 5 #only window
+
+results:
+  folder: results/window/nowplaying/
+  pickle_models: results/models/nowplaying-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy.HitRate
+  length: [1,3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/nowplaying/slices/recs/stamp-second }
+  key: stamp-second
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/nowplaying/slices/recs/stamp-org }
+  key: stamp-org

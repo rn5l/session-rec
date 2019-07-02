@@ -1,0 +1,93 @@
+---
+type: opt # single|window, maybe add opt
+key: baselines_and_models #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15-100k #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-100k
+  opts: {sessions_test: 100}
+
+results:
+  folder: results/opt/rsc15_100k/
+
+metrics:
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+# No need for AR
+- class: baselines.sr.SequentialRules
+  params: {}
+  params_opt:
+    steps: {from: 1, to: 20, in: 19, type: int32}
+    weighting: ['div', 'linear','quadratic','log', 'same']
+  key: sr
+- class: knn.sknn.ContextKNN
+  params: {}
+  params_opt:
+    k: [50,100,500,1000,1500]
+    sample_size: [500,1000,2500,5000,10000]
+    similarity: ['cosine','jaccard']
+  key: sknn
+- class: knn.vsknn.VMContextKNN
+  params: {}
+  params_opt:
+    k: [50,100,500,1000,1500]
+    sample_size: [500,1000,2500,5000,10000]
+    weighting: ['same','div','linear','quadratic','log']
+    weighting_score: ['same','div','linear','quadratic','log']
+    idf_weighting: [False,1,2,5,10]
+  key: vsknn
+- class: gru4rec.gru4rec.GRU4Rec
+  params: {}
+  params_opt:
+    loss: ['bpr-max', 'top1-max']
+    final_act: ['elu-0.5','linear']
+    dropout_p_hidden: {from: 0.0, to: 0.9, in: 10, type: float}
+    momentum: {from: 0.0, to: 0.9, in: 10, type: float32}
+    learning_rate: [{from: 0.1, to: 0.01, in: 10, type: float32}, {from: 0.5, to: 0.1, in: 5, type: float32}]
+    constrained_embedding: [True,False]
+  key: gru4rec
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: {}
+  params_opt:
+    n_epochs: [10,20,30]
+    decay_rate: {from: 0.0, to: 0.9, in: 10, type: float32}
+    init_lr: [{from: 0.001, to: 0.01, in: 10, type: float32},{from: 0.0001, to: 0.001, in: 10, type: float32}]
+  key: stamp
+- class: narm.narm.NARM
+  params: { epochs: 20 }
+  params_opt:
+    factors: [50, 100]
+    hidden_units: [50, 100]
+    lr: [{from: 0.01, to: 0.001, in: 10, type: float32},{from: 0.001, to: 0.0001, in: 10, type: float32}]
+  key: narm
+- class: nextitnet.nextitrec.Nextitrec
+  params: {}
+  params_opt:
+    learning_rate: [{from: 0.01, to: 0.001, in: 10, type: float32},{from: 0.001, to: 0.0001, in: 10, type: float32}]
+    iterations: [10,20,30]
+    is_negsample: [True,False]
+  key: nextitnet
+- class: ct.ct.ContextTree
+  params: {}
+  params_opt:
+    expert: ['StdExpert', 'DirichletExpert']
+    history_maxlen: [5,10,20,30,40,50,75]
+    nb_candidates: [250,500,1000,1500]
+  key: ct

@@ -1,0 +1,34 @@
+---
+type: single # single|window, maybe add opt
+key: baselines #added to the csv names
+evaluation: evaluation_ext #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: aotm #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-full-64
+  opts: {sessions_test: 10000}
+
+results:
+  folder: results/single/
+  pickle_models: results/models/rsc15_64/
+
+metrics:
+- class: accuracy_ext.HitRate
+  length: [5,10,15,20]
+- class: accuracy_ext.MRR
+  length: [5,10,15,20]
+
+algorithms:
+
+- class: baselines.ar.AssociationRules
+  key: ar
+- class: baselines.sr.SequentialRules
+  params: { weighting: div }
+  key: sr
+- class: knn.vmknn.VMContextKNN
+  params:
+    k: 100
+    sample_size: 1000
+    weighting: quadratic
+    weighting_score: quadratic
+  key: vsknn

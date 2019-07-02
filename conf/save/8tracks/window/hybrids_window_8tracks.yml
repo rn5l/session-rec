@@ -1,0 +1,66 @@
+---
+type: window # single|window, maybe add opt
+key: hybrids#added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: 8tracks #added in the end of the csv names
+  folder: ../../data/8tracks/slices/
+  prefix: playlists-8tracks
+  slices: 5 #only window
+#  skip: [0,3] #only window
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/window/
+
+metrics:
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: hybrid.weighted.WeightedHybrid
+  params:
+    algorithms:
+#    - class: baselines.sr.SequentialRules
+#      params: { weighting: div }
+#      key: sr
+#    - class: baselines.ar.AssociationRules
+#      key: ar
+    - class: filemodel.resultfile.ResultFile
+      params: { file: ../../data/8tracks/slices/recs/vsknn }
+      key: vskk
+    - class: filemodel.resultfile.ResultFile
+      params: { file: ../../data/8tracks/slices/recs/stamp.0008-n_epochs=10-decay_rate=0.8 }
+      key: stamp
+    fit: True
+  params_var:
+    weights: [[0.25, 0.75],[0.5, 0.5],[0.75, 0.25],[0.1, 0.9],[0.9, 0.1],[0.2, 0.8],[0.8, 0.2],[0.3, 0.7],[0.7, 0.3],[0.4, 0.6],[0.6, 0.4]] 
+  key: weighted
+- class: hybrid.weighted.WeightedHybrid
+  params:
+    algorithms:
+#    - class: baselines.sr.SequentialRules
+#      params: { weighting: div }
+#      key: sr
+#    - class: baselines.ar.AssociationRules
+#      key: ar
+    - class: filemodel.resultfile.ResultFile
+      params: { file: ../../data/8tracks/slices/recs/ar }
+      key: ar
+    - class: filemodel.resultfile.ResultFile
+      params: { file: ../../data/8tracks/slices/recs/stamp.0008-n_epochs=10-decay_rate=0.8 }
+      key: stamp
+    fit: True
+  params_var:
+    weights: [[0.25, 0.75],[0.5, 0.5],[0.75, 0.25],[0.1, 0.9],[0.9, 0.1],[0.2, 0.8],[0.8, 0.2],[0.3, 0.7],[0.7, 0.3],[0.4, 0.6],[0.6, 0.4]] 
+  key: weighted
+

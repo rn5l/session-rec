@@ -1,0 +1,56 @@
+---
+type: window # single|window, maybe add opt
+key: baselines #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: diginetica-window #added in the end of the csv names
+  folder: ../../data/diginetica/slices_stamp/
+  prefix: train-item-views
+#  opts: {sessions_test: 5000}
+  slices: 5
+
+results:
+  folder: results/window-wrongtime/diginetica/
+  #pickle_models: results/models/music-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+#- class: saver.Saver
+#  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/markov/test_window_baselines_diginetica-window-wrongtime.markov }
+  key: markov
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/ar/test_window_baselines_diginetica-window-wrongtime.ar }
+  key: ar
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/sr/test_window_baselines_diginetica-window-wrongtime.sr-steps=30-weighting=quadratic }
+  key: sr
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/sknn_1000_5000/test_window_baselines_diginetica-window-wrongtime.sknn_1000_5000-k=1000-sample_size=5000-similarity=cosine }
+  key: sknn_1000_5000
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/sknn_1000_10000/test_window_baselines_diginetica-window-wrongtime.sknn_1000_10000-k=1000-sample_size=10000-similarity=cosine }
+  key: sknn_1000_10000
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/sknn_1500_5000/test_window_baselines_diginetica-window-wrongtime.sknn_1500_5000-k=1500-sample_size=5000-similarity=cosine }
+  key: sknn_1500_5000
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/vsknn/test_window_baselines_diginetica-window-wrongtime.vsknn-k=50-sample_size=2500-weighting=log-weighting_score=quadratic-idf_weighting=1 }
+  key: vsknn

@@ -1,0 +1,32 @@
+---
+type: window # single|window, maybe add opt
+key: models #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15 #added in the end of the csv names
+  folder: ../../data/rsc15/slices/
+  prefix: yoochoose-clicks-full
+  slices: 5
+  skip: [1,2,3,4]
+  opts: {sessions_test: 2000}
+
+results:
+  folder: results/window/memory/rsc15/
+  pickle_models: results/models/rsc15-window/ # not working for tensorflow models
+
+metrics:
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { n_epochs: 0}
+  key: gru4rec-best
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { n_epochs: 0}
+  key: stamp
+- class: narm.narm.NARM
+  params: { epochs: 0 }
+  key: narm
+- class: nextitnet.nextitrec.Nextitrec
+  params: { iterations: 0 }
+  key: nextitnet

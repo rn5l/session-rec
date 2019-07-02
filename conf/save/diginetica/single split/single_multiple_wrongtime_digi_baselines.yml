@@ -1,0 +1,49 @@
+---
+type: single # single|window, maybe add opt
+key: baselinesopt #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: diginetica-multiple-wrongtime #added in the end of the csv names
+  folder: data/diginetica/prepared_stamp/
+  prefix: train-item-views
+#  opts: {sessions_test: 5000}
+
+results:
+  folder: results/diginetica_single/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+#- class: saver.Saver
+#  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/diginetica/prepared_stamp/recs/markov }
+  key: markov
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/diginetica/prepared_stamp/recs/ar }
+  key: ar
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/diginetica/prepared_stamp/recs/sr }
+  key: sr
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/diginetica/prepared_stamp/recs/sknn }
+  key: sknn
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/diginetica/prepared_stamp/recs/vsknn }
+  key: vsknn
+

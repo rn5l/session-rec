@@ -1,0 +1,20 @@
+---
+type: window # single|window
+preprocessor: music # 
+data:
+  folder: data/nowplaying/raw/
+  prefix: nowplaying
+
+filter: 
+  min_item_support: 2
+  min_session_length: 5
+
+params:
+  days_test: 5
+  days_train: 90
+  num_slices: 5 #only window
+  days_offset: 0 #only window
+  days_shift: 60 #only window
+
+output:
+  folder: data/nowplaying/slices/

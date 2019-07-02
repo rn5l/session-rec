@@ -1,0 +1,47 @@
+---
+type: single # single|window, maybe add opt
+key: baselines #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15_4-multiple #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-full-4
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/single/rsc15_4/
+  pickle_models: results/models/rsc15_4/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/rsc15/prepared/recs_4/markov }
+  key: markov
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/rsc15/prepared/recs_4/ar }
+  key: ar
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/rsc15/prepared/recs_4/sr }
+  key: sr
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/rsc15/prepared/recs_4/sknn }
+  key: sknn
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/rsc15/prepared/recs_4/vsknn }
+  key: vsknn

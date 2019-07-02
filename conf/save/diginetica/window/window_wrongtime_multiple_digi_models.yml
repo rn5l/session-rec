@@ -1,0 +1,53 @@
+---
+type: window # single|window, maybe add opt
+key: models #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: diginetica-window #added in the end of the csv names
+  folder: ../../data/diginetica/slices_stamp/
+  prefix: train-item-views
+#  opts: {sessions_test: 5000}
+  slices: 5
+
+results:
+  folder: results/window-wrongtime/diginetica/
+  #pickle_models: results/models/music-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+#- class: saver.Saver
+#  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/narm/test_window_models-narm_diginetica-window-wrongtime.narm-epochs=20-lr=0.008-factors=100 }
+  key: narm
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/stamp/test_window_models-stamp_diginetica-window-wrongtime.stamp-init_lr=0.0008-n_epochs=30-decay_rate=0.0 }
+  key: stamp
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/gru4rec-best/test_window_gru_diginetica-window-wrongtime.gru4rec-best-loss=top1-max-final_act=elu-0.5-dropout_p_hidden=0.6-learning_rate=0.07-momentum=0-constrained_embedding=True }
+  key: gru4rec-best
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/gru4rec-backup/test_window_gru_diginetica-window-wrongtime.gru4rec-backup-loss=top1-max-final_act=elu-0.5-dropout_p_hidden=0.5-learning_rate=0.09-momentum=0-constrained_embedding=True }
+  key: gru4rec-backup
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/nextitnet/test_window_models-nextitnet_diginetica-window-wrongtime.nextitnet-learning_rate=0.009-iterations=20-is_negsample=False }
+  key: nextitnet
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/diginetica/prepared_stamp/recommendations/ct-pre/test_window_models-ct_diginetica-window-wrongtime.ct-pre }
+  key: ct-pre

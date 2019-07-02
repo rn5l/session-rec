@@ -1,0 +1,20 @@
+---
+type: window # single|window
+preprocessor: rsc15 # 
+data:
+  folder: data/rsc15/raw/
+  prefix: rsc15-clicks
+
+filter:
+  min_item_support: 5
+  min_session_length: 2
+
+params:
+  days_test: 1
+  days_train: 30 #only window
+  num_slices: 5 #only window
+  days_offset: 5 #only window
+  days_shift: 31 #only window
+
+output:
+  folder: data/rsc15/slices/

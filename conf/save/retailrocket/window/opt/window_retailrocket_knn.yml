@@ -1,0 +1,47 @@
+---
+type: opt # single|window, maybe add opt
+key: knn #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: retailr #added in the end of the csv names
+  folder: data/retailrocket/slices/
+  prefix: events
+  opts: {sessions_test: 5000}
+
+results:
+  folder: results/opt/retailrocket_window/
+
+metrics:
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: knn.sknn.ContextKNN
+  params: {}
+  params_opt:
+    k: [50,100,500,1000,1500]
+    sample_size: [500,1000,2500,5000,10000]
+    similarity: ['cosine','jaccard']
+  key: sknn
+- class: knn.vsknn.VMContextKNN
+  params: {}
+  params_opt:
+    k: [50,100,500,1000,1500]
+    sample_size: [500,1000,2500,5000,10000]
+    weighting: ['same','div','linear','quadratic','log']
+    weighting_score: ['same','div','linear','quadratic','log']
+  key: vsknn

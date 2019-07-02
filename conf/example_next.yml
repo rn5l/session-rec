@@ -1,0 +1,85 @@
+---
+type: single # single|window, maybe add opt
+key: baselines_and_models_and_hybrids #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15-100k #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-100k
+#  slices: 5 #only window
+#  skip: [0,3] #only window
+  opts: {sessions_test: 100}
+
+results:
+  folder: results/next/rsc15-100k/
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+# ex with parameters
+# baselines
+- class: baselines.ar.AssociationRules
+  key: ar
+- class: baselines.sr.SequentialRules
+  params: { steps: 20, weighting: quadratic }
+  key: sr
+- class: knn.sknn.ContextKNN
+  params: { k: 100, sample_size: 500, similarity: cosine }
+  key: sknn
+- class: knn.vsknn.VMContextKNN
+  params: { k: 500, sample_size: 5000, weighting: quadratic , weighting_score: div, idf_weighting: 5  }
+  key: vsknn
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre
+# models
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'top1-max', final_act: 'linear', dropout_p_hidden: 0.1, learning_rate: 0.08, momentum: 0.1, constrained_embedding: False }
+  key: gru4rec
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.003, n_epochs: 10, decay_rate: 0.4}
+  key: stamp
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.007, hidden_units: 100, factors: 100 }
+  key: narm
+- class: nextitnet.nextitrec.Nextitrec
+  params: { learning_rate: 0.005, iterations: 30, is_negsample: True }
+  key: nextitnet
+# hybrids
+- class: hybrid.mixed.MixedHybrid
+  params:
+    algorithms:
+    - class: baselines.sr.SequentialRules
+      params: { weighting: div }
+      key: sr
+    - class: baselines.ar.AssociationRules
+      key: ar
+    recomLengths: [5,15]
+    fit: True
+  key: mixed
+- class: hybrid.weighted.WeightedHybrid
+  params:
+    algorithms:
+    - class: baselines.sr.SequentialRules
+      params: { weighting: div }
+      key: sr
+    - class: baselines.ar.AssociationRules
+      key: ar
+    weights: [0.5, 0.5]
+    fit: True
+  key: weighted
