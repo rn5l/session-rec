@@ -20,7 +20,7 @@ class CSRM:
                  dim_proj=150,
                  hidden_units=150,
                  patience=10,
-                 memory_size=512,
+                 memory_size=1,
                  memory_dim=100,
                  shift_range=1,
                  controller_layer_numbers=0,
@@ -36,7 +36,7 @@ class CSRM:
         config = tf.ConfigProto()
         config.gpu_options.allow_growth = True
         self.sess = tf.Session(config=config)
-
+        self.session = -1
         self.session_key = session_key
         self.item_key = item_key
         self.dim_proj = dim_proj
@@ -318,6 +318,7 @@ class CSRM:
 
         return feed
 
+
     def fit(self, data, test=None):
         '''
         Trains the predictor.
@@ -363,14 +364,14 @@ class CSRM:
         self.sess.run(tf.global_variables_initializer())
         print(" [*] Initialization finished")
 
-        kf = self.get_minibatches_idx(len(train[0]), self.batch_size)
-        kf_valid = self.get_minibatches_idx(len(valid[0]), self.batch_size)
+
         #kf_test = self.get_minibatches_idx(len(Test_data[0]), self.batch_size)
-        #self.pred_function= theano.function([x, mask], pred, name='f_pred_prob')
         uidx = 0
         bad_count = 0
         estop = False
         for epoch in range(self.epoch):
+            kf = self.get_minibatches_idx(len(train[0]), self.batch_size)
+            kf_valid = self.get_minibatches_idx(len(valid[0]), self.batch_size)
             start_time = time.time()
             nsamples = 0
             epoch_loss = []
@@ -452,7 +453,7 @@ class CSRM:
             Prediction scores for selected items on how likely to be the next item of this session. Indexed by the item IDs.
 
         '''
-
+        self.memory_size=1
         if (self.session != session_id):  # new session
 
             self.session = session_id
@@ -464,8 +465,9 @@ class CSRM:
         if skip:
             return
 
+
         x = [self.itemmap[self.session_items].values]
-        y = x
+        y = self.itemmap[self.session_items].values.tolist()
 
         #x, mask, y = self.prepare_data(x, y)
         preds,session_memory_state = self.pred_function(x, y)
