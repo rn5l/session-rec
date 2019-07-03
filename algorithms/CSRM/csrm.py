@@ -17,19 +17,19 @@ def numpy_floatX(data):
 
 class CSRM:
     def __init__(self,
-                 dim_proj=150,
-                 hidden_units=150,
-                 patience=10,
-                 memory_size=10,
+                 dim_proj=100,
+                 hidden_units=100,
+                 patience=5,
+                 memory_size=512,
                  memory_dim=100,
                  shift_range=1,
                  controller_layer_numbers=0,
-                 batch_size=150,
-                 epoch=10,
+                 batch_size=512,
+                 epoch=15,
                  lr=0.0005,
                  keep_probability='[0.75,0.5]',
                  no_dropout='[1.0,1.0]',
-                 display_frequency=100,
+                 display_frequency=200,
                  session_key='SessionId', item_key='ItemId'
                  ):
 
@@ -109,6 +109,7 @@ class CSRM:
             p = tf.expand_dims(tf.reduce_sum(att, axis=1), 1)
             weight = att / p
             atttention_proj = tf.reduce_sum((outputs_local * tf.expand_dims(weight, 2)), 1)
+            
         self.global_session_representation = last_global
         self.attentive_session_represention = atttention_proj
 
@@ -191,13 +192,20 @@ class CSRM:
 
         return zip(range(len(minibatches)), minibatches)
 
-    def create_training_data(self, data):
-
+    def create_training_data(self, data, test):
+        
+        #data['mintime'] = data.groupby(self.session_key).Time.transform(max)
+        #test['mintime'] = test.groupby(self.session_key).Time.transform(max)
+        #data.sort_values( ['mintime',self.session_key,'Time'], inplace=True )
+        #test.sort_values( ['mintime',self.session_key,'Time'], inplace=True )
+        data.sort_values( [self.session_key,'Time'], inplace=True )
+        test.sort_values( [self.session_key,'Time'], inplace=True )
+        
         index_session = data.columns.get_loc(self.session_key)
         index_item = data.columns.get_loc('ItemIdx')
-
-        out_seqs = []
-        labs = []
+        
+        out_seqs_tr = []
+        labs_tr = []
 
         session = -1
         session_items = []
@@ -211,10 +219,32 @@ class CSRM:
             session_items.append(row[index_item])
 
             if len(session_items) > 1:
-                out_seqs += [session_items[:-1]]
-                labs += [session_items[-1]]
+                out_seqs_tr += [session_items[:-1]]
+                labs_tr += [session_items[-1]]
+        
+        
+        index_session = test.columns.get_loc(self.session_key)
+        index_item = test.columns.get_loc('ItemIdx')
+        
+        out_seqs_te = []
+        labs_te = []
 
-        return out_seqs, labs
+        session = -1
+        session_items = []
+
+        for row in test.itertuples(index=False):
+            # cache items of sessions
+            if row[index_session] != session:
+                session = row[index_session]
+                session_items = list()
+
+            session_items.append(row[index_item])
+
+            if len(session_items) > 1:
+                out_seqs_te += [session_items[:-1]]
+                labs_te += [session_items[-1]]
+        
+        return (out_seqs_tr, labs_tr), (out_seqs_te, labs_te)
 
     def prepare_data(self,seqs, labels):
         np.random.seed(42)
@@ -243,7 +273,7 @@ class CSRM:
 
         return x, x_mask, labels, lengths
 
-    def load_data(self, valid_portion=0.1, maxlen=19, sort_by_len=False):
+    def load_data(self, train_set, valid_portion=0.1, maxlen=False, sort_by_len=False):
         '''Loads the dataset
         :type path: String
         :param path: The path to the dataset (here RSC2015)
@@ -265,8 +295,6 @@ class CSRM:
         # LOAD DATA #
         #############
 
-        train_set = self.traindata
-
         if maxlen:
             new_train_set_x = []
             new_train_set_y = []
@@ -284,7 +312,7 @@ class CSRM:
         train_set_x, train_set_y = train_set
         n_samples = len(train_set_x)
         sidx = np.arange(n_samples, dtype='int32')
-        np.random.shuffle(sidx)
+        #np.random.shuffle(sidx)
         n_train = int(np.round(n_samples * (1. - valid_portion)))
         valid_set_x = [train_set_x[s] for s in sidx[n_train:]]
         valid_set_y = [train_set_y[s] for s in sidx[n_train:]]
@@ -309,7 +337,44 @@ class CSRM:
         valid = (valid_set_x, valid_set_y)
 
         return train, valid
+    
+    def load_test(self, test_set, maxlen=None):
+        '''Loads the dataset
+        :type path: String
+        :param path: The path to the dataset (here RSC2015)
+        :type n_items: int
+        :param n_items: The number of items.
+        :type valid_portion: float
+        :param valid_portion: The proportion of the full train set used for
+            the validation set.
+        :type maxlen: None or positive int
+        :param maxlen: the max sequence length we use in the train/valid set.
+        :type sort_by_len: bool
+        :name sort_by_len: Sort by the sequence lenght for the train,
+            valid and test set. This allow faster execution as it cause
+            less padding per minibatch. Another mechanism must be used to
+            shuffle the train set at each epoch.
+        '''
 
+        #############
+        # LOAD DATA #
+        #############
+
+        if maxlen:
+            new_test_set_x = []
+            new_test_set_y = []
+            for x, y in zip(test_set[0], test_set[1]):
+                if len(x) < maxlen:
+                    new_test_set_x.append(x)
+                    new_test_set_y.append(y)
+                else:
+                    new_test_set_x.append(x[:maxlen])
+                    new_test_set_y.append(y)
+            test_set = (new_test_set_x, new_test_set_y)
+            del new_test_set_x, new_test_set_y
+
+        return test_set
+    
     def construct_feeddict(self, batch_data, batch_label, keepprob, state, starting=False):
         x, mask, y, lengths = self.prepare_data(batch_data, batch_label)
         feed = {self.x_input: x, self.mask_x: mask, self.y_target: y, self.len_x: lengths, self.keep_prob: keepprob,
@@ -338,10 +403,13 @@ class CSRM:
 
         self.itemmap = pd.Series(index=data[self.item_key].unique(), data=range(1, nis + 1))
         data = data.merge(self.itemmap.to_frame('ItemIdx'), how='inner', right_index=True, left_on=self.item_key)
-        data.sort_values(['SessionId', 'Time'], inplace=True)
-
-        self.traindata = self.create_training_data(data)
-        self.dataload = (self.load_data, self.prepare_data)
+        #data.sort_values(['SessionId', 'Time'], inplace=True)
+        
+        test = test.merge(self.itemmap.to_frame('ItemIdx'), how='inner', right_index=True, left_on=self.item_key)
+        #test.sort_values(['SessionId', 'Time'], inplace=True)
+        
+        self.traindata, self.testdata = self.create_training_data(data, test)
+        self.dataload = (self.load_data, self.load_test)
         #self.layers = {'gru': (self.param_init_gru, self.gru_layer)}
 
         self.train_gru()
@@ -351,20 +419,21 @@ class CSRM:
 
         self.train_loss_record = []
         self.valid_loss_record = []
+        self.test_loss_record = []
 
         self.train_recall_record, self.train_mrr_record = [], []
         self.valid_recall_record, self.valid_mrr_record = [], []
+        self.test_recall_record, self.test_mrr_record = [], []
+        
+        load_data, load_test = self.get_dataset()
 
-        load_data, prepare_data = self.get_dataset()
-
-        train, valid = load_data()
+        train, valid = load_data(self.traindata)
+        test = load_test(self.testdata)
 
         # 初始化参数
         print(" [*] Initialize all variables")
         self.sess.run(tf.global_variables_initializer())
         print(" [*] Initialization finished")
-
-
 
         uidx = 0
         bad_count = 0
@@ -372,7 +441,7 @@ class CSRM:
         for epoch in range(self.epoch):
             kf = self.get_minibatches_idx(len(train[0]), self.batch_size)
             kf_valid = self.get_minibatches_idx(len(valid[0]), self.batch_size)
-            # kf_test = self.get_minibatches_idx(len(Test_data[0]), self.batch_size)
+            kf_test = self.get_minibatches_idx(len(test[0]), self.batch_size)
 
             start_time = time.time()
             nsamples = 0
@@ -405,11 +474,11 @@ class CSRM:
                 #self.saver.save(self.sess, result_path + "/model.ckpt")
                 #pickle.dump(session_memory_state, open('save/lastfm_memory.pkl', 'w'))
 
-            # test_evaluation, session_memory_state = self.pred_evaluation(Test_data, kf_test, session_memory_state)
-            # self.test_recall_record.append(test_evaluation[0])
-            # self.test_mrr_record.append(test_evaluation[1])
-            print('Valid Recall@20:', valid_evaluation[0], '   Valid Mrr@20:', valid_evaluation[1])
-                  # '\nTest Recall@20', test_evaluation[0], '   Test Mrr@20:', test_evaluation[1])
+            test_evaluation, session_memory_state = self.pred_evaluation(test, kf_test, session_memory_state)
+            self.test_recall_record.append(test_evaluation[0])
+            self.test_mrr_record.append(test_evaluation[1])
+            print('Valid Recall@20:', valid_evaluation[0], '   Valid Mrr@20:', valid_evaluation[1], 
+                  '\nTest Recall@20', test_evaluation[0], '   Test Mrr@20:', test_evaluation[1])
 
             if valid_evaluation[0] < np.array(self.valid_recall_record).max():
                 bad_count += 1
@@ -428,9 +497,11 @@ class CSRM:
 
         p = self.valid_recall_record.index(np.array(self.valid_recall_record).max())
         print('=================Best performance=================')
-        print('Valid Recall@20:', self.valid_recall_record[p], '   Valid Mrr@20:', self.valid_mrr_record[p])
-                  # '\nTest Recall@20', self.test_recall_record[p], '   Test Mrr@20:', self.test_mrr_record[p])
+        print('Valid Recall@20:', self.valid_recall_record[p], '   Valid Mrr@20:', self.valid_mrr_record[p], 
+             '\nTest Recall@20', self.test_recall_record[p], '   Test Mrr@20:', self.test_mrr_record[p])
         print('==================================================')
+        
+        self.last_state = session_memory_state
 
     def get_dataset(self):
         return self.dataload[0], self.dataload[1]
@@ -471,18 +542,22 @@ class CSRM:
         y = self.itemmap[self.session_items].values.tolist()
 
         #x, mask, y = self.prepare_data(x, y)
-        preds,session_memory_state = self.pred_function(x, y)
+        preds, session_memory_state = self.pred_function( x, y, ntm_init_state=self.last_state )
+        self.last_state = session_memory_state
 
         return pd.Series(data=preds[0][1:], index=self.itemmap.index)
 
-    def pred_function(self,seqs, label):
-        ntm_init_state = np.random.normal(0, 0.05, size=[1, self.hidden_units])
+    def pred_function(self,seqs, label, ntm_init_state=None):
+        start = False
+        if ntm_init_state is None:
+            start = True
+            ntm_init_state = np.random.normal(0, 0.05, size=[1, self.hidden_units])
         #ntm_init_state = np.random.normal(0, 0.05, size=[1, len(seqs)])
         batch_data = seqs
         batch_label = label
-        feed_dict = self.construct_feeddict(batch_data, batch_label, self.no_dropout, ntm_init_state,True)
+        feed_dict = self.construct_feeddict(batch_data, batch_label, self.no_dropout, ntm_init_state, start)
         preds, ntm_init_state = self.sess.run([self.hypo, self.memory_new_state], feed_dict=feed_dict)
-
+                
         return preds, ntm_init_state
 
     def pred_evaluation(self, data, iterator, ntm_init_state):
