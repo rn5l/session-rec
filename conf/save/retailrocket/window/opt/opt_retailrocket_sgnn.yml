@@ -1,0 +1,43 @@
+---
+type: opt # single|window, maybe add opt
+key: sgnn #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+#  name: digi-sample #added in the end of the csv names
+  name: digi #added in the end of the csv names
+  folder: ../../data/retailrocket/single/
+  prefix: events
+#  slices: 5 #only window
+#  skip: [0,3] #only window
+
+results:
+  folder: results/sgnn/opt/retailrocket/
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: sgnn.gnn.GGNN
+  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: True}
+  params_opt:
+    lr: [{from: 0.01, to: 0.001, in: 10, type: float32},{from: 0.001, to: 0.0001, in: 10, type: float32}]
+    l2: [{from: 0.0001, to: 0.00001, in: 10, type: float32},{from: 0.00001, to: 0.000001, in: 10, type: float32}]
+    lr_dc: {from: 0.1, to: 0.9, in: 10, type: float32}
+    lr_dc_step: [3, 5, 7]
+  key: sgnn
+
