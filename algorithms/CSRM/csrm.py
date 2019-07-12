@@ -194,12 +194,12 @@ class CSRM:
 
     def create_training_data(self, data, test):
         
-        #data['mintime'] = data.groupby(self.session_key).Time.transform(max)
-        #test['mintime'] = test.groupby(self.session_key).Time.transform(max)
-        #data.sort_values( ['mintime',self.session_key,'Time'], inplace=True )
-        #test.sort_values( ['mintime',self.session_key,'Time'], inplace=True )
-        data.sort_values( [self.session_key,'Time'], inplace=True )
-        test.sort_values( [self.session_key,'Time'], inplace=True )
+        data['maxtime'] = data.groupby(self.session_key).Time.transform(max)
+        test['maxtime'] = test.groupby(self.session_key).Time.transform(max)
+        data.sort_values( ['maxtime',self.session_key,'Time'], inplace=True )
+        test.sort_values( ['maxtime',self.session_key,'Time'], inplace=True )
+        #data.sort_values( [self.session_key,'Time'], inplace=True )
+        #test.sort_values( [self.session_key,'Time'], inplace=True )
         
         index_session = data.columns.get_loc(self.session_key)
         index_item = data.columns.get_loc('ItemIdx')
@@ -312,7 +312,7 @@ class CSRM:
         train_set_x, train_set_y = train_set
         n_samples = len(train_set_x)
         sidx = np.arange(n_samples, dtype='int32')
-        #np.random.shuffle(sidx)
+        np.random.shuffle(sidx)
         n_train = int(np.round(n_samples * (1. - valid_portion)))
         valid_set_x = [train_set_x[s] for s in sidx[n_train:]]
         valid_set_y = [train_set_y[s] for s in sidx[n_train:]]
