@@ -1,2 +1,3 @@
 pyyaml==5.1
 python-telegram-bot
+networkx

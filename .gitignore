@@ -109,3 +109,8 @@ venv.bak/
 /data/**/*.txt
 /data/**/*.csv
 /data/**/*.dat
+.idea/misc.xml
+.idea/modules.xml
+.idea/session-rec.iml
+.idea/vcs.xml
+.idea/workspace.xml
