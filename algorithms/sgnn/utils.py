@@ -235,7 +235,7 @@ def process_seqs(iseqs, idates):
         for i in reversed( range(1, len(seq)) ):
             tar = seq[-i]
             labs += [tar]
-            out_seqs += seq[max(0, len(seq) - i - 50):-i]
+            out_seqs += [seq[max(0, len(seq) - i - 50):-i]]
             #out_seqs += [seq[:-i]]
             out_dates += [date]
             ids += [id]
