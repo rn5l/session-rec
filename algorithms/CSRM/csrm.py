@@ -194,12 +194,12 @@ class CSRM:
 
     def create_training_data(self, data, test):
         
-        #data['mintime'] = data.groupby(self.session_key).Time.transform(max)
-        #test['mintime'] = test.groupby(self.session_key).Time.transform(max)
-        #data.sort_values( ['mintime',self.session_key,'Time'], inplace=True )
-        #test.sort_values( ['mintime',self.session_key,'Time'], inplace=True )
-        data.sort_values( [self.session_key,'Time'], inplace=True )
-        test.sort_values( [self.session_key,'Time'], inplace=True )
+        data['maxtime'] = data.groupby(self.session_key).Time.transform(max)
+        test['maxtime'] = test.groupby(self.session_key).Time.transform(max)
+        data.sort_values( ['maxtime',self.session_key,'Time'], inplace=True )
+        test.sort_values( ['maxtime',self.session_key,'Time'], inplace=True )
+        #data.sort_values( [self.session_key,'Time'], inplace=True )
+        #test.sort_values( [self.session_key,'Time'], inplace=True )
         
         index_session = data.columns.get_loc(self.session_key)
         index_item = data.columns.get_loc('ItemIdx')
