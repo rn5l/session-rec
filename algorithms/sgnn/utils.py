@@ -226,7 +226,7 @@ def obtian_tes(tes_sess, sess_clicks, item_dict):
     return test_ids, test_dates, test_seqs
 
 
-def process_seqs(iseqs, idates):
+def process_seqs(iseqs, idates, max_len=None):
     out_seqs = []
     out_dates = []
     labs = []
@@ -235,13 +235,16 @@ def process_seqs(iseqs, idates):
         for i in reversed( range(1, len(seq)) ):
             tar = seq[-i]
             labs += [tar]
-            out_seqs += [seq[:-i]]
+            if max_len:
+                out_seqs += [seq[max(0, len(seq) - i - max_len):-i]]
+            else:
+                out_seqs += [seq[:-i]]
             out_dates += [date]
             ids += [id]
     return out_seqs, out_dates, labs, ids
 
 
-def prepare_data(train, test):
+def prepare_data(train, test, max_len=None):
 
     sess_clicks = OrderedDict()
 
@@ -319,8 +322,8 @@ def prepare_data(train, test):
     tra_ids, tra_dates, tra_seqs, item_dict, reversed_item_dict = obtian_tra(tra_sess, sess_clicks)
     tes_ids, tes_dates, tes_seqs = obtian_tes(tes_sess, sess_clicks, item_dict)
 
-    tr_seqs, tr_dates, tr_labs, tr_ids = process_seqs(tra_seqs, tra_dates)
-    te_seqs, te_dates, te_labs, te_ids = process_seqs(tes_seqs, tes_dates)
+    tr_seqs, tr_dates, tr_labs, tr_ids = process_seqs(tra_seqs, tra_dates, max_len=max_len)
+    te_seqs, te_dates, te_labs, te_ids = process_seqs(tes_seqs, tes_dates, max_len=max_len)
 
     tra = (tr_seqs, tr_labs)
     tes = (te_seqs, te_labs)

@@ -58,8 +58,8 @@ class Model(object):
 
 
 class GGNN(Model):
-    def __init__(self,hidden_size=100, out_size=100, batch_size=100,
-                 lr=0.001, l2=0.00001, step=1, lr_dc=0.1, lr_dc_step=3, nonhybrid=True, epoch_n=30, batch_predict=False):
+    def __init__(self, hidden_size=100, out_size=100, batch_size=100, max_sess_length=100, 
+                 lr=0.001, l2=0.00001, step=1, lr_dc=0.1, lr_dc_step=3, nonhybrid=True, epoch_n=10, batch_predict=False):
         super(GGNN,self).__init__(hidden_size, out_size, batch_size, nonhybrid)
 
         self.L2 = l2
@@ -69,6 +69,7 @@ class GGNN(Model):
         self.lr_dc = lr_dc        
         self.lr = lr
         self.epoch_n = epoch_n
+        self.max_sess_length = max_sess_length
 
         # updated while recommending
         self.session = -1
@@ -237,6 +238,9 @@ class GGNN(Model):
             self.test_idx += 1
 
         else:
+            items = self.session_items
+            if self.max_sess_length:
+                items = items[ -self.max_sess_length: ]
             adj_in, adj_out, alias, item, mask, targets = self.test_data.get_slice_by_session_items(self.session_items, self.test_data.len_max)
             feed_dict = {self.tar: targets, self.item: item, self.adj_in_ts: adj_in,
                          self.adj_out_ts: adj_out, self.alias: alias, self.mask: mask}
