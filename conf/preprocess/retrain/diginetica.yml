@@ -1,0 +1,18 @@
+---
+type: retrain # single|window|retrain
+preprocessor: diginetica #
+data:
+  folder: data/diginetica/raw/
+  prefix: train-item-views
+
+filter:
+  min_item_support: 5
+  min_session_length: 2
+
+params:
+  days_test: 14 #all days to be tested
+  days_train: 60 #to start retaining
+  days_retrain: 1 #numner of days to include data for retraining
+
+output:
+  folder: data/diginetica/retrain/
