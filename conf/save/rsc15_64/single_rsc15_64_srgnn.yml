@@ -1,0 +1,38 @@
+---
+type: single # single|window, maybe add opt
+key: models #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15_64 #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-full-64
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/single/rsc15_64/
+  #pickle_models: results/models/rsc15_64/ # not working for tensorflow models
+
+metrics:
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: sgnn.gnn.GGNN
+  params: { lr: 0.008, l2: 0.0001, lr_dc: 0.45, lr_dc_step: 3, epoch_n: 10}
+  key: sgnn-best
+- class: sgnn.gnn.GGNN
+  params: { lr: 0.005, l2: 0.000007, lr_dc: 0.1, lr_dc_step: 5, epoch_n: 10}
+  key: sgnn-second
