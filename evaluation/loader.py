@@ -331,6 +331,21 @@ def check_data( train, test ):
         session_min_test = test.groupby( 'SessionId' ).size().min()
         if session_min_test == 0:
             print( 'WAAAAAARRRNIIIIING: session length 1 in train set' )
+        
+        sess_train = train.SessionId.unique()
+        sess_test = test.SessionId.unique()
+        
+        if not all(sess_train[i] <= sess_train[i+1] for i in range(len(sess_train)-1)):
+            print( 'WAAAAAARRRNIIIIING: train sessions not sorted by id' )
+            train.sort_values( ['SessionId','Time'], inplace=True )
+            print( ' -- corrected the order' )
+            
+        if not all(sess_test[i] <= sess_test[i+1] for i in range(len(sess_test)-1)):
+            print( 'WAAAAAARRRNIIIIING: test sessions not sorted by id' )
+            test.sort_values( ['SessionId','Time'], inplace=True )
+            print( ' -- corrected the order' )
+        
+        test.SessionId.unique()
           
     else: 
         print( 'data check not possible due to individual column names' )
