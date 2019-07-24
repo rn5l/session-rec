@@ -32,6 +32,8 @@ DAYS_OFFSET = 45
 DAYS_SHIFT = 18
 DAYS_TRAIN = 25
 DAYS_TEST = 7
+
+# retraining default config
 DAYS_RETRAIN = 1
 
 
@@ -383,50 +385,6 @@ def retrain_data(data, output_file, days_train=DAYS_TRAIN, days_test=DAYS_TEST, 
         test_set_num = retrain_num - retrain_n
         for test_n in range(0,test_set_num):
             split_data_retrain_test(data, train, output_file, days_train, days_retrain, retrain_n, test_n)  #split_data_retrain(data, output_file, days_train, days_test, file_num)
-
-def split_data_retrain(data, output_file, days_train, days_test, retrain_num):
-
-    data_start = datetime.fromtimestamp(data.Time.min(), timezone.utc)
-    train_from = data_start
-    new_days = retrain_num * days_test
-    train_to = data_start + timedelta(days=days_train) + timedelta(days=new_days)
-    test_to = train_to + timedelta(days=days_test)
-
-    session_min_times = data.groupby('SessionId').Time.min()
-    session_max_times = data.groupby('SessionId').Time.max()
-    session_train = session_max_times[(session_min_times >= train_from.timestamp()) & (session_max_times <= train_to.timestamp())].index
-    session_test = session_max_times[(session_max_times > train_to.timestamp()) & (session_max_times <= test_to.timestamp())].index
-
-    train = data[np.in1d(data.SessionId, session_train)]
-    trlength = train.groupby('SessionId').size()
-    train = train[np.in1d(train.SessionId, trlength[trlength>=2].index)]
-    test = data[np.in1d(data.SessionId, session_test)]
-    test = test[np.in1d(test.ItemId, train.ItemId)]
-    tslength = test.groupby('SessionId').size()
-    test = test[np.in1d(test.SessionId, tslength[tslength >= 2].index)]
-    print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(train), train.SessionId.nunique(),
-                                                                             train.ItemId.nunique()))
-    train.to_csv(output_file + '_train_full.' + str(retrain_num) + '.txt', sep='\t', index=False)
-    print('Test set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(test), test.SessionId.nunique(),
-                                                                       test.ItemId.nunique()))
-    test.to_csv(output_file + '_test.' + str(retrain_num) + '.txt', sep='\t', index=False)
-
-    data_end = datetime.fromtimestamp(train.Time.max(), timezone.utc)
-    valid_from = data_end - timedelta(days=days_test)
-    session_max_times = train.groupby('SessionId').Time.max()
-    session_train = session_max_times[session_max_times < valid_from.timestamp()].index
-    session_valid = session_max_times[session_max_times >= valid_from.timestamp()].index
-    train_tr = train[np.in1d(train.SessionId, session_train)]
-    valid = train[np.in1d(train.SessionId, session_valid)]
-    valid = valid[np.in1d(valid.ItemId, train_tr.ItemId)]
-    tslength = valid.groupby('SessionId').size()
-    valid = valid[np.in1d(valid.SessionId, tslength[tslength >= 2].index)]
-    print('Train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(train_tr), train_tr.SessionId.nunique(),
-                                                                        train_tr.ItemId.nunique()))
-    train_tr.to_csv(output_file + '_train_tr.' + str(retrain_num) + '.txt', sep='\t', index=False)
-    print('Validation set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(valid), valid.SessionId.nunique(),
-                                                                             valid.ItemId.nunique()))
-    valid.to_csv(output_file + '_train_valid.' + str(retrain_num) + '.txt', sep='\t', index=False)
 
 
 def split_data_retrain_train(data, output_file, days_train, days_test, retrain_num):
