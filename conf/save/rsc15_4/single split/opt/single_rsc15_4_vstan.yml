@@ -37,10 +37,10 @@ algorithms:
     sample_size: [1000,2500,5000,10000]
     similarity: ['cosine','vec']
     #stan
-    lambda_spw: [0.00001,0.625,1.25,2.5,5,10]
+    lambda_spw: [0.00001,0.5,1,2,4,8]
     lambda_snh: [0.00001,2.5,5,10,20,40,80,100]
-    lambda_inh: [0.00001,0.625,1.25,2.5,5,10]
+    lambda_inh: [0.00001,0.5,1,2,4,8]
     #vsknn
-    lambda_ipw: [0.00001,0.625,1.25,2.5,5,10]
+    lambda_ipw: [0.00001,0.5,1,2,4,8]
     lambda_idf: [False,1,2,5,10]
   key: vstan
