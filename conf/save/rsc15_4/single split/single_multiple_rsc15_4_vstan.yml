@@ -31,7 +31,7 @@ metrics:
 
 algorithms:
 - class: knn.vstan.VSKNN_STAN
-  params_opt:
+  params:
     k: 1500
     sample_size: 5000
     similarity: 'vec'
@@ -44,7 +44,7 @@ algorithms:
     lambda_idf: 5
   key: vstan-mrr
 - class: knn.vstan.VSKNN_STAN
-  params_opt:
+  params:
     k: 1500
     sample_size: 10000 
     similarity: 'cosine'
