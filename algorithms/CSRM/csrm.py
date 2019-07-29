@@ -33,9 +33,6 @@ class CSRM:
                  session_key='SessionId', item_key='ItemId'
                  ):
 
-        config = tf.ConfigProto()
-        config.gpu_options.allow_growth = True
-        self.sess = tf.Session(config=config)
         self.session = -1
         self.session_key = session_key
         self.item_key = item_key
@@ -200,6 +197,8 @@ class CSRM:
         test.sort_values( ['maxtime',self.session_key,'Time'], inplace=True )
         #data.sort_values( [self.session_key,'Time'], inplace=True )
         #test.sort_values( [self.session_key,'Time'], inplace=True )
+        
+        del data['maxtime'], test['maxtime']
         
         index_session = data.columns.get_loc(self.session_key)
         index_item = data.columns.get_loc('ItemIdx')
@@ -395,28 +394,34 @@ class CSRM:
             It must have a header. Column names are arbitrary, but must correspond to the ones you set during the initialization of the network (session_key, item_key, time_key properties).
 
         '''
-
-        self.n_items = len(data[self.item_key].unique()) + 1
-        self.build_graph()
-
-        nis = data[self.item_key].nunique()
-
-        self.itemmap = pd.Series(index=data[self.item_key].unique(), data=range(1, nis + 1))
-        data = data.merge(self.itemmap.to_frame('ItemIdx'), how='inner', right_index=True, left_on=self.item_key)
-        #data.sort_values(['SessionId', 'Time'], inplace=True)
         
-        test = test.merge(self.itemmap.to_frame('ItemIdx'), how='inner', right_index=True, left_on=self.item_key)
-        #test.sort_values(['SessionId', 'Time'], inplace=True)
-        
-        self.traindata, self.testdata = self.create_training_data(data, test)
-        self.dataload = (self.load_data, self.load_test)
-        #self.layers = {'gru': (self.param_init_gru, self.gru_layer)}
-
-        self.train_gru()
+        with tf.Graph().as_default():
+            
+            config = tf.ConfigProto()
+            config.gpu_options.allow_growth = True
+            self.sess = tf.Session(config=config)
+            
+            self.n_items = len(data[self.item_key].unique()) + 1
+            self.build_graph()
+    
+            nis = data[self.item_key].nunique()
+    
+            self.itemmap = pd.Series(index=data[self.item_key].unique(), data=range(1, nis + 1))
+            data = data.merge(self.itemmap.to_frame('ItemIdx'), how='inner', right_index=True, left_on=self.item_key)
+            #data.sort_values(['SessionId', 'Time'], inplace=True)
+            
+            test = test.merge(self.itemmap.to_frame('ItemIdx'), how='inner', right_index=True, left_on=self.item_key)
+            #test.sort_values(['SessionId', 'Time'], inplace=True)
+            
+            self.traindata, self.testdata = self.create_training_data(data, test)
+            self.dataload = (self.load_data, self.load_test)
+            #self.layers = {'gru': (self.param_init_gru, self.gru_layer)}
+    
+            self.train_gru()
 
     #def fit(self, Train_data, Validation_data, Test_data, result_path='save/'):
     def train_gru(self):
-
+                
         self.train_loss_record = []
         self.valid_loss_record = []
         self.test_loss_record = []

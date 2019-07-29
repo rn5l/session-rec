@@ -4,10 +4,9 @@ key: sgnn #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: 30music-window #added in the end of the csv names
-  folder: data/30music/single/
+  folder: ../../data/30music/single/
   prefix: 30music-200ks
   opts: {sessions_test: 5000}
-
 
 results:
   folder: results/opt/30music/sgnn/

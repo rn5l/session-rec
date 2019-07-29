@@ -1,15 +1,15 @@
 ---
 type: opt # single|window, maybe add opt
-key: sgnn #added to the csv names
+key: gru #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: rsc15-64 #added in the end of the csv names
-  folder: ../../data/rsc15/prepared/
-  prefix: yoochoose-clicks-full-64
+  name: aotm-window #added in the end of the csv names
+  folder: data/aotm/single/
+  prefix: playlists-aotm
   opts: {sessions_test: 5000}
 
 results:
-  folder: results/opt/single/rsc15_64/
+  folder: results/opt/aotm_window/
 
 metrics:
 - class: accuracy.HitRate
@@ -22,13 +22,12 @@ metrics:
   length: [20]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
-#- class: time_memory_usage.Memory_usage
+- class: time_memory_usage.Memory_usage
 
 optimize:
   class: accuracy.MRR
   length: [20]
   iterations: 100 #optional
-
 
 algorithms:
 - class: sgnn.gnn.GGNN
@@ -39,4 +38,3 @@ algorithms:
     lr_dc: {from: 0.1, to: 0.9, in: 10, type: float32}
     lr_dc_step: [3, 5, 7]
   key: sgnn
-

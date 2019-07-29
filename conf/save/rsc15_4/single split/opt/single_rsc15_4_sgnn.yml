@@ -32,8 +32,8 @@ optimize:
 
 
 algorithms:
-- class: sgnn.gnn_ml_fast.GGNN
-  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10}
+- class: sgnn.gnn.GGNN
+  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: True}
   params_opt:
     lr: [{from: 0.01, to: 0.001, in: 10, type: float32},{from: 0.001, to: 0.0001, in: 10, type: float32}]
     l2: [{from: 0.0001, to: 0.00001, in: 10, type: float32},{from: 0.00001, to: 0.000001, in: 10, type: float32}]
