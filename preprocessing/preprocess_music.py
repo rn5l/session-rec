@@ -234,8 +234,13 @@ def split_data_retrain_train(data, output_file, days_train, days_test, retrain_n
     train = data[np.in1d(data.SessionId, session_train)]
     trlength = train.groupby('SessionId').size()
     train = train[np.in1d(train.SessionId, trlength[trlength>=2].index)]
-    print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(train), train.SessionId.nunique(),
-                                                                             train.ItemId.nunique()))
+    # print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(train), train.SessionId.nunique(),
+    #                                                                          train.ItemId.nunique()))
+
+    print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}\n\tSpan: {} / {}\n\n'.
+          format(len(train), train.SessionId.nunique(), train.ItemId.nunique(), train_from.date().isoformat(),
+                 train_to.date().isoformat()))
+
     train.to_csv(output_file + '_train_full.' + str(retrain_num) + '.txt', sep='\t', index=False)
 
     data_end = datetime.fromtimestamp(train.Time.max(), timezone.utc)
@@ -285,9 +290,17 @@ def split_data_retrain_test(data, train, output_file, days_train, days_test, ret
     # print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(train), train.SessionId.nunique(),
     #                                                                          train.ItemId.nunique()))
     # train.to_csv(output_file + '_train_full.' + str(retrain_num) + '.txt', sep='\t', index=False)
-    print('Test set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(test), test.SessionId.nunique(),
-                                                                       test.ItemId.nunique()))
-    test.to_csv(output_file + '_test.' + str(retrain_num) + '_' + str(test_set_num) + '.txt', sep='\t', index=False)
+    # print('Test set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(test), test.SessionId.nunique(),
+    #                                                                    test.ItemId.nunique()))
+
+    print('Test set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}\n\tSpan: {} / {}\n\n'.
+          format(len(test), test.SessionId.nunique(), test.ItemId.nunique(), test_from.date().isoformat(),
+                 test_to.date().isoformat()))
+
+    if(test.empty): #todo: or handle it while reading the data in running experiments
+        print('Test data is empty!!!')
+    else:
+        test.to_csv(output_file + '_test.' + str(retrain_num) + '_' + str(test_set_num) + '.txt', sep='\t', index=False)
 
 
 
