@@ -3,16 +3,16 @@ type: retrain # single|window, maybe add opt
 key: re #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: nowplaying #added in the end of the csv names
-  folder: ../../data/nowplaying/retrain/2months_2weeks/ #ex2: data/diginetica/retrain/13/
-  prefix: nowplaying
+  name: digi #added in the end of the csv names
+  folder: ../../data/diginetica/retrain/2months_2weeks/ #ex2: data/diginetica/retrain/13/
+  prefix: train-item-views
 #  opts: {sessions_test: 100}
   test_num: 7 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 14 | ex_last: 1
-  trian_set: 3 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
+  trian_set: 7 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
 #  skip: [0,3] #todo
 
 results:
-  folder: results/next/nowplaying_retraing/gru/3/ #ex2: results/next/digi_retraing/13/
+  folder: results/next/digi_retraing/narm/7/ #ex2: results/next/digi_retraing/13/
 
 metrics:
 - class: accuracy.HitRate
@@ -32,6 +32,6 @@ metrics:
 #- class: time_memory_usage.Memory_usage
 
 algorithms:
-- class: gru4rec.gru4rec.GRU4Rec
-  params: { loss: 'bpr-max', final_act: 'linear', dropout_p_hidden: 0.0, learning_rate: 0.04, momentum: 0.4, constrained_embedding: True }
-  key: gru
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.009, factors: 50 }
+  key: narm
