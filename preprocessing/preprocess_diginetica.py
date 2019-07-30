@@ -408,8 +408,8 @@ def split_data_retrain_train(data, output_file, days_train, days_test, retrain_n
     # test = test[np.in1d(test.ItemId, train.ItemId)]
     # tslength = test.groupby('SessionId').size()
     # test = test[np.in1d(test.SessionId, tslength[tslength >= 2].index)]
-    print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(train), train.SessionId.nunique(),
-                                                                             train.ItemId.nunique()))
+    # print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(train), train.SessionId.nunique(),
+    #                                                                          train.ItemId.nunique()))
     print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}\n\tSpan: {} / {}\n\n'.
           format(len(train), train.SessionId.nunique(), train.ItemId.nunique(), train_from.date().isoformat(),
                  train_to.date().isoformat()))
@@ -465,8 +465,8 @@ def split_data_retrain_test(data, train, output_file, days_train, days_test, ret
     # print('Full train set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(train), train.SessionId.nunique(),
     #                                                                          train.ItemId.nunique()))
     # train.to_csv(output_file + '_train_full.' + str(retrain_num) + '.txt', sep='\t', index=False)
-    print('Test set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(test), test.SessionId.nunique(),
-                                                                       test.ItemId.nunique()))
+    # print('Test set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}'.format(len(test), test.SessionId.nunique(),
+    #                                                                    test.ItemId.nunique()))
 
     print('Test set\n\tEvents: {}\n\tSessions: {}\n\tItems: {}\n\tSpan: {} / {}\n\n'.
           format(len(test), test.SessionId.nunique(), test.ItemId.nunique(), test_from.date().isoformat(),
