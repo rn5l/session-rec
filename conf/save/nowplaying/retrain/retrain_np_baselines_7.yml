@@ -7,12 +7,12 @@ data:
   folder: ../../data/nowplaying/retrain/2months_2weeks/ #ex2: data/diginetica/retrain/13/
   prefix: nowplaying
 #  opts: {sessions_test: 100}
-  trian_set: 0 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
-  test_num: 10 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 14 | ex_last: 1
+  trian_set: 7 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
+  test_num: 3 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 14 | ex_last: 1
 #  skip: [0,3] #todo
 
 results:
-  folder: results/next/np_retraing/0/ #ex2: results/next/digi_retraing/13/
+  folder: results/next/np_retraing/7/ #ex2: results/next/digi_retraing/13/
 
 metrics:
 - class: accuracy.HitRate

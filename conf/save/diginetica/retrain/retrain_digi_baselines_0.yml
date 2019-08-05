@@ -36,11 +36,11 @@ algorithms:
   params: {}
   key: ar
 - class: baselines.sr.SequentialRules
-  params: { steps: 2, weighting: log }
+  params: { steps: 25, weighting: div }
   key: sr
 - class: knn.sknn.ContextKNN
-  params: { k: 50, sampling: 500, similarity: cosine }
+  params: { k: 50, sampling: 10000, similarity: cosine }
   key: sknn
 - class: knn.vsknn.VMContextKNN
-  params: { k: 1500, sampling: 10000, weighting: quadratic , weighting_score: linear, idf_weighting: 10  }
+  params: { k: 50, sampling: 2500, weighting: div , weighting_score: linear, idf_weighting: 10  }
   key: vsknn
