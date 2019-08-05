@@ -1,0 +1,39 @@
+---
+type: window # single|window, maybe add opt
+key: srgnn #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15-multiple #added in the end of the csv names
+  folder: data/rsc15/slices/
+  prefix: yoochoose-clicks-full
+  slices: 5
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/window/rsc15/
+  #pickle_models: results/models/rsc15-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: sgnn.gnn.GGNN
+  params: { lr: 0.0007, l2: 0.00001, lr_dc: 0.1, lr_dc_step: 7, nonhybrid: True, epoch_n: 10 }
+  key: srgnn-best
+
