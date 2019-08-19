@@ -26,13 +26,15 @@ class SequentialRules:
     
     '''
 
-    def __init__(self, steps=10, weighting='div', pruning=20, last_n_days=None, idf_weight=False,
+    def __init__(self, steps=10, weighting='div', pruning=20, last_n_days=None, idf_weight=False, last_in_session=False, session_weighting='div', 
                  session_key='SessionId', item_key='ItemId', time_key='Time'):
         self.steps = steps
         self.pruning = pruning
         self.weighting = weighting
+        self.session_weighting = session_weighting
         self.last_n_days = last_n_days
         self.idf_weight = idf_weight
+        self.last_in_session = last_in_session
         self.session_key = session_key
         self.item_key = item_key
         self.time_key = time_key
@@ -156,14 +158,19 @@ class SequentialRules:
         if input_item_id in self.rules:
             for key in self.rules[input_item_id]:
                 preds[predict_for_item_ids == key] = self.rules[input_item_id][key]
-
-        # test
-        #         for i in range(2,4):
-        #             if len(self.session_items) >= i :
-        #                 item = self.session_items[-i]
-        #                 for key in self.rules[ item ]:
-        #                     preds[ predict_for_item_ids == key ] += self.rules[item][key] * (1/i)
-
+        
+        
+        if self.last_in_session:
+            for i in range(2,self.last_in_session+2):
+                if len(self.session_items) >= i :
+                    item = self.session_items[-i]
+                    if item in self.rules:
+                        for key in self.rules[ item ]:
+                            preds[ predict_for_item_ids == key ] += self.rules[item][key] * getattr(self, self.session_weighting)(i)
+                    else:
+                        print( item )
+                else:
+                    break
         series = pd.Series(data=preds, index=predict_for_item_ids)
 
         series = series / series.max()
