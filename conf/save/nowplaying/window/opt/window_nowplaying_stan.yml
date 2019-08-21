@@ -1,9 +1,9 @@
 ---
 type: opt # single|window, maybe add opt
-key: gru #added to the csv names
+key: vstan #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: nowplaying-window #added in the end of the csv names
+  name: nowplaying #added in the end of the csv names
   folder: data/nowplaying/single/
   prefix: nowplaying
   opts: {sessions_test: 5000}
@@ -22,7 +22,7 @@ metrics:
   length: [20]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
-- class: time_memory_usage.Memory_usage
+#- class: time_memory_usage.Memory_usage
 
 optimize:
   class: accuracy.MRR
@@ -30,11 +30,17 @@ optimize:
   iterations: 100 #optional
 
 algorithms:
-- class: sgnn.gnn.GGNN
-  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: True}
+- class: knn.vstan.VSKNN_STAN
+  params: {}
   params_opt:
-    lr: [{from: 0.01, to: 0.001, in: 10, type: float32},{from: 0.001, to: 0.0001, in: 10, type: float32}]
-    l2: [{from: 0.0001, to: 0.00001, in: 10, type: float32},{from: 0.00001, to: 0.000001, in: 10, type: float32}]
-    lr_dc: {from: 0.1, to: 0.9, in: 10, type: float32}
-    lr_dc_step: [3, 5, 7]
-  key: sgnn
+    k: [100,200,500,1000,1500,2000]
+    sample_size: [1000,2500,5000,10000]
+    similarity: ['cosine','vec']
+    #stan
+    lambda_spw: [0.00001,1.275,2.55,5.1,10.2,20.4]
+    lambda_snh: [0.00001,2.5,5,10,20,40,80,100]
+    lambda_inh: [0.00001,1.275,2.55,5.1,10.2,20.4]
+    #vsknn
+    lambda_ipw: [0.00001,1.275,2.55,5.1,10.2,20.4]
+    lambda_idf: [False,1,2,5,10]
+  key: stan
