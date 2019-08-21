@@ -33,8 +33,8 @@ metrics:
 
 algorithms:
 - class: CSRM.csrm.CSRM
-  params: { hidden_units: 100, epoch: 10, lr: 0.0005, memory_size: 128}
-  key: csrm-best
-- class: CSRM.csrm.CSRM
-  params: { hidden_units: 100, epoch: 10, lr: 0.0008, memory_size: 512}
+  params: { hidden_units: 100, epoch: 10, lr: 0.0008, memory_size: 256, batch_size: 256}
   key: csrm-second
+#- class: CSRM.csrm.CSRM
+#  params: { hidden_units: 100, epoch: 10, lr: 0.0005, memory_size: 128, batch_size: 256}
+#  key: csrm-best

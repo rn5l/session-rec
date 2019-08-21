@@ -29,8 +29,8 @@ metrics:
 
 algorithms:
 - class: filemodel.resultfile.ResultFile
-  params: { file: data/nowplaying/slices/recs/srgnn-best }
+  params: { file: data/aotm/slices/recs/srgnn-best }
   key: srgnn-best
 - class: filemodel.resultfile.ResultFile
-  params: { file: data/nowplaying/slices/recs/srgnn-second }
+  params: { file: data/aotm/slices/recs/srgnn-second }
   key: srgnn-second
