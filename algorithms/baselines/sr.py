@@ -167,8 +167,6 @@ class SequentialRules:
                     if item in self.rules:
                         for key in self.rules[ item ]:
                             preds[ predict_for_item_ids == key ] += self.rules[item][key] * getattr(self, self.session_weighting)(i)
-                    else:
-                        print( item )
                 else:
                     break
         series = pd.Series(data=preds, index=predict_for_item_ids)
