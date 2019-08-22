@@ -1,0 +1,50 @@
+---
+type: single # single|window, maybe add opt
+key: stan #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: rsc15_64 #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-full-64
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/single/rsc15_64/
+  #pickle_models: results/models/rsc15_64/ # not working for tensorflow models
+
+metrics:
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: knn.stan.STAN
+  params:
+    k: 1500
+    sample_size: 10000
+    #stan
+    lambda_spw: 0.00001
+    lambda_snh: 2.5
+    lambda_inh: 4
+  key: stan-mrr
+- class: knn.stan.STAN
+  params:
+    k: 500
+    sample_size: 5000
+    #stan
+    lambda_spw: 1
+    lambda_snh: 10
+    lambda_inh: 1
+  key: stan-hr
