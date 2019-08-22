@@ -293,7 +293,36 @@ class VMContextKNN:
         
         return res 
     
-    def cosine(self, first, second):
+    def vec(self, current, neighbor, pos_map):
+        '''
+        Calculates the ? for 2 sessions
+        
+        Parameters
+        --------
+        first: Id of a session
+        second: Id of a session
+        
+        Returns 
+        --------
+        out : float value           
+        '''
+        intersection = current & neighbor
+        
+        if pos_map is not None:
+            vp_sum = 0
+            current_sum = len(pos_map)
+            for i in intersection:
+                vp_sum += pos_map[i]
+                
+        else:
+            vp_sum = len( intersection )
+            current_sum = len( current )
+        
+        result = vp_sum / current_sum
+
+        return result
+    
+    def cosine(self, current, neighbor, pos_map):
         '''
         Calculates the cosine similarity for two sessions
         
@@ -306,74 +335,24 @@ class VMContextKNN:
         --------
         out : float value           
         '''
-        li = len(first&second)
-        la = len(first)
-        lb = len(second)
-        result = li / sqrt(la) * sqrt(lb)
-
-        return result
-    
-    def tanimoto(self, first, second):
-        '''
-        Calculates the cosine tanimoto similarity for two sessions
+                
+        lneighbor = len(neighbor)
+        intersection = current & neighbor
         
-        Parameters
-        --------
-        first: Id of a session
-        second: Id of a session
+        if pos_map is not None:
+            
+            vp_sum = 0
+            current_sum = 0
+            for i in current:
+                current_sum += pos_map[i] * pos_map[i]
+                if i in intersection:
+                    vp_sum += pos_map[i]
+        else:
+            vp_sum = len( intersection )
+            current_sum = len( current )
+                
+        result = vp_sum / (sqrt(current_sum) * sqrt(lneighbor))
         
-        Returns 
-        --------
-        out : float value           
-        '''
-        li = len(first&second)
-        la = len(first)
-        lb = len(second)
-        result = li / ( la + lb -li )
-
-        return result
-    
-    def binary(self, first, second):
-        '''
-        Calculates the ? for 2 sessions
-        
-        Parameters
-        --------
-        first: Id of a session
-        second: Id of a session
-        
-        Returns 
-        --------
-        out : float value           
-        '''
-        a = len(first&second)
-        b = len(first)
-        c = len(second)
-        
-        result = (2 * a) / ((2 * a) + b + c)
-
-        return result
-    
-    def vec(self, first, second, map):
-        '''
-        Calculates the ? for 2 sessions
-        
-        Parameters
-        --------
-        first: Id of a session
-        second: Id of a session
-        
-        Returns 
-        --------
-        out : float value           
-        '''
-        a = first & second
-        sum = 0
-        for i in a:
-            sum += map[i]
-        
-        result = sum / len(map)
-
         return result
     
     def items_for_session(self, session):
@@ -550,7 +529,9 @@ class VMContextKNN:
             sts = self.session_time[session]
 
             #dot product
-            similarity = self.vec(items, n_items, pos_map)        
+            #similarity = self.vec(items, n_items, pos_map)
+            similarity = getattr(self, self.similarity)( items, n_items, pos_map )
+            
             if similarity > 0:
                 
                 if self.weighting_time:
