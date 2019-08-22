@@ -3,19 +3,19 @@ type: opt # single|window, maybe add opt
 key: csrm #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: rsc15-64 #added in the end of the csv names
-  folder: ../../data/30music/single/
-  prefix: 30music-200ks
+  name: 30music-window #added in the end of the csv names
+  folder: data/30music/single/
+  prefix: 30music-200ks  
   opts: {sessions_test: 5000}
 
 results:
-  folder: results/csrm/opt/30music/
+  folder: results/opt/30music_window/
 
 metrics:
 - class: accuracy.HitRate
-  length: [3,5,10,15,20]
+  length: [5,10,15,20]
 - class: accuracy.MRR
-  length: [3,5,10,15,20]
+  length: [5,10,15,20]
 - class: coverage.Coverage
   length: [20]
 - class: popularity.Popularity
@@ -24,10 +24,11 @@ metrics:
 - class: time_memory_usage.Time_usage_testing
 #- class: time_memory_usage.Memory_usage
 
+
 optimize:
   class: accuracy.MRR
   length: [20]
-  iterations: 100 #optional
+  iterations: 50 #optional
 
 algorithms:
 - class: CSRM.csrm.CSRM
@@ -36,4 +37,3 @@ algorithms:
     lr: [{from: 0.001, to: 0.0001, in: 10, type: float32},{from: 0.0001, to: 0.00001, in: 10, type: float32}]
     memory_size: [128,256,512]
   key: csrm
-

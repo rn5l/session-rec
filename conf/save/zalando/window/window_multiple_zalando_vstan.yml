@@ -3,7 +3,7 @@ type: window # single|window, maybe add opt
 key: vstan #added to the csv names
 evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: zalando #added in the end of the csv names
+  name: zalando-multiple #added in the end of the csv names
   folder: data/zalando/slices/
   prefix: clicks
   slices: 5 #only window

@@ -49,7 +49,7 @@ class VMContextKNN:
         Header of the timestamp column in the input file. (default: 'Time')
     '''
 
-    def __init__( self, k, sample_size=1000, sampling='recent', similarity='cosine', weighting='div', dwelling_time=False, last_n_days=None, last_n_clicks=None, remind=True, push_reminders=False, add_reminders=False, extend=False, weighting_score='div', weighting_time=False, normalize=True, idf_weighting=False, idf_weighting_session=False, session_key = 'SessionId', item_key= 'ItemId', time_key= 'Time' ):
+    def __init__( self, k, sample_size=1000, sampling='recent', similarity='vec', weighting='div', dwelling_time=False, last_n_days=None, last_n_clicks=None, remind=True, push_reminders=False, add_reminders=False, extend=False, weighting_score='div', weighting_time=False, normalize=True, idf_weighting=False, idf_weighting_session=False, session_key = 'SessionId', item_key= 'ItemId', time_key= 'Time' ):
        
         self.k = k
         self.sample_size = sample_size

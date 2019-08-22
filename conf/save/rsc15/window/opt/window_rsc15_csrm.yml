@@ -9,6 +9,7 @@ data:
   prefix: yoochoose-clicks-full
 #  slices: 5 #only window
 #  skip: [0,3] #only window
+  opts: {sessions_test: 5000}
 
 results:
   folder: results/sgnn/opt/rsc15/

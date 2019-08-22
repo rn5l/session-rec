@@ -1,16 +1,16 @@
 ---
 type: window # single|window, maybe add opt
-key: csrm #added to the csv names
+key: vstan #added to the csv names
 evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: 8tracks #added in the end of the csv names
-  folder: ../../data/8tracks/slices/
-  prefix: playlists-8tracks
+  name: 30music-window-multiple #added in the end of the csv names
+  folder: ../../data/30music/slices/
+  prefix: 30music-200ks
   slices: 5 #only window
   #opts: {sessions_test: 10}
 
 results:
-  folder: results/window/8tracks/
+  folder: results/diginetica_window/
   #pickle_models: results/models/music-window/ # not working for tensorflow models
 
 metrics:
@@ -26,16 +26,37 @@ metrics:
   length: [20]
 - class: popularity.Popularity
   length: [20]
-- class: saver.Saver
-  length: [50]
+#- class: saver.Saver
+#  length: [50]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
 #- class: time_memory_usage.Memory_usage
 
 algorithms:
-- class: CSRM.csrm.CSRM
-  params: { hidden_units: 100, epoch: 10, lr: 0.00008, memory_size: 256}
-  key: csrm-best
-- class: CSRM.csrm.CSRM
-  params: { hidden_units: 100, epoch: 10, lr: 0.00008, memory_size: 128}
-  key: csrm-second
+- class: knn.vstan.VSKNN_STAN
+  params:
+    k: 2000
+    sample_size: 1000
+    similarity: 'vec'
+    #stan
+    lambda_spw: 8.4
+    lambda_snh: 40
+    lambda_inh: 4.2
+    #vsknn
+    lambda_ipw: 0.00001
+    lambda_idf: 1
+  key: vstan-mrr
+- class: knn.vstan.VSKNN_STAN
+  params:
+    k: 1000
+    sample_size: 5000
+    similarity: 'vec'
+    #stan
+    lambda_spw: 33.6
+    lambda_snh: 100
+    lambda_inh: 8.4
+    #vsknn
+    lambda_ipw: 0.00001
+    lambda_idf: 5
+  key: vstan-hr
+
