@@ -1,0 +1,52 @@
+---
+type: window # single|window, maybe add opt
+key: stan #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: retailr-window-multiple #added in the end of the csv names
+  folder: data/retailrocket/slices/
+  prefix: events
+  slices: 5
+
+results:
+  folder: results/retailrocket_window/
+  #pickle_models: results/models/retailrocket-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+#- class: saver.Saver
+#  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: knn.stan.STAN
+  params_opt:
+    k: 500
+    sample_size: 1000
+    #stan
+    lambda_spw: 1.81
+    lambda_snh: 100
+    lambda_inh: 0.4525
+  key: stan-mrr
+- class: knn.stan.STAN
+  params_opt:
+    k: 200
+    sample_size: 5000
+    #stan
+    lambda_spw: 3.62
+    lambda_snh: 40
+    lambda_inh: 7.24
+  key: stan-hr
