@@ -118,3 +118,10 @@ conf/out/stamp_retrain_0.yml1564319709.740563.error
 conf/out/stamp_retrain_0.yml1564320026.303935.error
 conf/out/stamp_retrain_0.yml1564320214.1478534.error
 conf/in/opt_digi_sgnn.yml
+conf/in/test_window_sr_multi_diginetica-window.0.csv
+conf/in/test_window_sr_multi_diginetica-window.1.csv
+conf/in/test_window_sr_multi_diginetica-window.2.csv
+conf/in/test_window_sr_multi_diginetica-window.3.csv
+conf/in/test_window_sr_multi_diginetica-window.4.csv
+conf/in/window_digi_sr.yml
+conf/in/window_multiple_digi_sr.yml
