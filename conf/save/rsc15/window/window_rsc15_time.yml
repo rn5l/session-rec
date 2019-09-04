@@ -4,14 +4,14 @@ key: time #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: rsc15-window #added in the end of the csv names
-  folder: data/rsc15/slices/
+  folder: ../../data/rsc15/slices/
   prefix: yoochoose-clicks-full
   slices: 5
   skip: [1,2,3,4]
   opts: {sessions_test: 1000}
 
 results:
-  folder: results/window/rsc15/
+  folder: results/window/time/rsc15/
   #pickle_models: results/models/rsc15-window/ # not working for tensorflow models
 
 metrics:
@@ -66,7 +66,7 @@ algorithms:
   key: vsknn
   algorithms:
 - class: knn.vstan.VSKNN_STAN
-  params_opt:
+  params:
     k: 200
     sample_size: 1000
     similarity: 'vec'
