@@ -3,31 +3,33 @@ type: opt # single|window, maybe add opt
 key: csrm #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: nowplaying #added in the end of the csv names
-  folder: data/nowplaying/single/
-  prefix: nowplaying
-  opts: {sessions_test: 5000}
+#  name: digi-sample #added in the end of the csv names
+  name: digi #added in the end of the csv names
+  folder: ../../data/diginetica/single/
+  prefix: train-item-views
+#  slices: 5 #only window
+#  skip: [0,3] #only window
 
 results:
-  folder: results/opt/nowplaying_window/
+  folder: results/csrm/opt/diginetica/
 
 metrics:
 - class: accuracy.HitRate
-  length: [5,10,15,20]
+  length: [3,5,10,15,20]
 - class: accuracy.MRR
-  length: [5,10,15,20]
+  length: [3,5,10,15,20]
 - class: coverage.Coverage
   length: [20]
 - class: popularity.Popularity
   length: [20]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
-# - class: time_memory_usage.Memory_usage
+#- class: time_memory_usage.Memory_usage
 
 optimize:
   class: accuracy.MRR
   length: [20]
-  iterations: 50 #optional
+  iterations: 100 #optional
 
 algorithms:
 - class: CSRM.csrm.CSRM
