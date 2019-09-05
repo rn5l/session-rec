@@ -4,7 +4,7 @@ key: csrm #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: zalando #added in the end of the csv names
-  folder: data/zalando/slices/
+  folder: ../../data/zalando/slices/
   prefix: clicks
   slices: 5 #only window
 
@@ -29,8 +29,8 @@ metrics:
 
 algorithms:
 - class: CSRM.csrm.CSRM
-  params: { hidden_units: 100, epoch: 10, lr: 0.0005, memory_size: 256, batch_size: 128}
+  params: { hidden_units: 100, epoch: 10, lr: 0.0005, memory_size: 256, batch_size: 256}
   key: csrm
 #- class: CSRM.csrm.CSRM
-#  params: { hidden_units: 100, epoch: 10, lr: 0.0006, memory_size: 512, batch_size: 128}
+#  params: { hidden_units: 100, epoch: 10, lr: 0.0006, memory_size: 512, batch_size: 512}
 #  key: csrm-second
