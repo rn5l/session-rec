@@ -3,7 +3,7 @@ type: single # single|window, maybe add opt
 key: stan #added to the csv names
 evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: rsc15_64 #added in the end of the csv names
+  name: rsc15_64-multiple #added in the end of the csv names
   folder: data/rsc15/prepared/
   prefix: yoochoose-clicks-full-64
   #opts: {sessions_test: 10}

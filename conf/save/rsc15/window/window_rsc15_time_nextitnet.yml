@@ -8,7 +8,7 @@ data:
   prefix: yoochoose-clicks-full
   slices: 5
   skip: [1,2,3,4]
-  opts: {sessions_test: 500}
+  opts: {sessions_test: 1000}
 
 results:
   folder: results/window/rsc15/
