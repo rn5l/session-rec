@@ -4,7 +4,7 @@ key: time-nin #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: 8tracks #added in the end of the csv names
-  folder: data/8tracks/slices/
+  folder: ../../data/8tracks/slices/
   prefix: playlists-8tracks
   slices: 5 #only window
   skip: [1,2,3,4]
