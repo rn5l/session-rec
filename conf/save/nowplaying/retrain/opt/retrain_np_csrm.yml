@@ -3,13 +3,13 @@ type: opt # single|window, maybe add opt
 key: csrm #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: diginetica #added in the end of the csv names
-  folder: ../../data/diginetica/retrain/opt/
-  prefix: train-item-views
+  name: np #added in the end of the csv names
+  folder: ../../data/nowplaying/retrain/opt/
+  prefix: nowplaying
   opts: {sessions_test: 5000}
 
 results:
-  folder: results/retrain/opt/diginetica/csrm/
+  folder: results/retrain/opt/nowplaying/csrm/
 
 metrics:
 - class: accuracy.HitRate
@@ -22,12 +22,12 @@ metrics:
   length: [20]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
-#- class: time_memory_usage.Memory_usage
+# - class: time_memory_usage.Memory_usage
 
 optimize:
   class: accuracy.MRR
   length: [20]
-  iterations: 100 #optional
+  iterations: 50 #optional
 
 algorithms:
 - class: CSRM.csrm.CSRM

@@ -3,13 +3,13 @@ type: opt # single|window, maybe add opt
 key: sgnn #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: nowplaying-window #added in the end of the csv names
-  folder: data/nowplaying/single/
+  name: np #added in the end of the csv names
+  folder: ../../data/nowplaying/retrain/opt/
   prefix: nowplaying
   opts: {sessions_test: 5000}
 
 results:
-  folder: results/opt/nowplaying_window/
+  folder: results/retrain/opt/nowplaying/sgnn/
 
 metrics:
 - class: accuracy.HitRate
