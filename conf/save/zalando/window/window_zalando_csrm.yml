@@ -23,6 +23,8 @@ metrics:
   length: [20]
 - class: popularity.Popularity
   length: [20]
+- class: saver.Saver
+  length: [50]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
 #- class: time_memory_usage.Memory_usage
