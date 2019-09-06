@@ -4,14 +4,14 @@ key: time #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: zalando #added in the end of the csv names
-  folder: data/zalando/slices/
+  folder: ../../data/zalando/slices/
   prefix: clicks
   slices: 5
   skip: [1,2,3,4]
   opts: {sessions_test: 1000}
 
 results:
-  folder: results/window/zalando/
+  folder: results/window/time/zalando/
   #pickle_models: results/models/rsc15-window/ # not working for tensorflow models
 
 metrics:
