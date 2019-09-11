@@ -51,9 +51,11 @@ algorithms:
     sample_size: 5000
     #stan
     lambda_spw: 2.45
-    lambda_snh: 20
+    lambda_snh:- class: nextitnet.nextitrec.Nextitrec
+  params: { learning_rate: 0.002, iterations: 10, is_negsample: True }
+  key: nextit 20
     lambda_inh: 2.45
   key: stan
-- class: nextitnet.nextitrec.Nextitrec
-  params: { learning_rate: 0.002, iterations: 10, is_negsample: True }
-  key: nextitnet
+#- class: nextitnet.nextitrec.Nextitrec
+#  params: { learning_rate: 0.002, iterations: 10, is_negsample: True }
+#  key: nextitnet
