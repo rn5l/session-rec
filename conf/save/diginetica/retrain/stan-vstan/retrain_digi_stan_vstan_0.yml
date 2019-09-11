@@ -7,12 +7,12 @@ data:
   folder: ../../data/diginetica/retrain/2months_2weeks/ #ex2: data/diginetica/retrain/13/
   prefix: train-item-views
 #  opts: {sessions_test: 100}
-  trian_set: 9 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
-  test_num: 5 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 14 | ex_last: 1
+  trian_set: 0 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
+  test_num: 14 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 14 | ex_last: 1
 #  skip: [0,3] #todo
 
 results:
-  folder: results/next/digi_retraing/stan-vstan-nextitnet/9/ #ex2: results/next/digi_retraing/13/
+  folder: results/next/digi_retraing/stan-vstan/0/ #ex2: results/next/digi_retraing/13/
 
 metrics:
 - class: accuracy.HitRate
@@ -54,6 +54,3 @@ algorithms:
     lambda_snh: 20
     lambda_inh: 2.45
   key: stan
-- class: nextitnet.nextitrec.Nextitrec
-  params: { learning_rate: 0.002, iterations: 10, is_negsample: True }
-  key: nextitnet
