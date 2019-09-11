@@ -54,3 +54,4 @@ algorithms:
     lambda_snh: 20
     lambda_inh: 2.45
   key: stan
+
