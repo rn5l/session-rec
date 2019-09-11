@@ -7,12 +7,12 @@ data:
   folder: ../../data/nowplaying/retrain/2months_2weeks/ #ex2: data/diginetica/retrain/13/
   prefix: nowplaying
 #  opts: {sessions_test: 100}
-  trian_set: 2 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
-  test_num: 8 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 14 | ex_last: 1
+  trian_set: 3 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
+  test_num: 7 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 14 | ex_last: 1
 #  skip: [0,3] #todo
 
 results:
-  folder: results/next/np_retraing/2/ #ex2: results/next/digi_retraing/13/
+  folder: results/next/np_retraing/3/ #ex2: results/next/digi_retraing/13/
 
 metrics:
 - class: accuracy.HitRate
@@ -32,15 +32,25 @@ metrics:
 #- class: time_memory_usage.Memory_usage
 
 algorithms:
-- class: baselines.ar.AssociationRules
-  params: {}
-  key: ar
-- class: baselines.sr.SequentialRules
-  params: { steps: 30, weighting: quadratic }
-  key: sr
-- class: knn.sknn.ContextKNN
-  params: { k: 100, sampling: 2500, similarity: cosine }
-  key: sknn
-- class: knn.vsknn.VMContextKNN
-  params: { k: 1000, sampling: 10000, weighting: same , weighting_score: quadratic, idf_weighting: 1  }
-  key: vsknn
+- class: knn.vstan.VSKNN_STAN
+  params:
+    k: 1500
+    sample_size: 1000
+    similarity: 'cosine'
+    #stan
+    lambda_spw: 10.2
+    lambda_snh: 100
+    lambda_inh: 5.1
+    #vsknn
+    lambda_ipw: 0.00001
+    lambda_idf: 1
+  key: vstan
+- class: knn.stan.STAN
+  params:
+    k: 2000
+    sample_size: 2500
+    #stan
+    lambda_spw: 0.00001
+    lambda_snh: 80
+    lambda_inh: 4.9
+  key: stan
