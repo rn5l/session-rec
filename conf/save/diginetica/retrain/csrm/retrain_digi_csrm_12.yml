@@ -1,6 +1,6 @@
 ---
 type: retrain # single|window, maybe add opt
-key: re-svn #added to the csv names
+key: re #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: digi #added in the end of the csv names
@@ -12,7 +12,7 @@ data:
 #  skip: [0,3] #todo
 
 results:
-  folder: results/next/digi_retraing/stan-vstan-nextitnet/12/ #ex2: results/next/digi_retraing/13/
+  folder: results/next/digi_retraing/csrm/12/ #ex2: results/next/digi_retraing/13/
 
 metrics:
 - class: accuracy.HitRate
@@ -32,28 +32,6 @@ metrics:
 #- class: time_memory_usage.Memory_usage
 
 algorithms:
-- class: knn.vstan.VSKNN_STAN
-  params:
-    k: 500
-    sample_size: 5000
-    similarity: 'cosine'
-    #stan
-    lambda_spw: 4.9
-    lambda_snh: 20
-    lambda_inh: 9.8
-    #vsknn
-    lambda_ipw: 4.9
-    lambda_idf: 2
-  key: vstan
-- class: knn.stan.STAN
-  params:
-    k: 200
-    sample_size: 5000
-    #stan
-    lambda_spw: 2.45
-    lambda_snh: 20
-    lambda_inh: 2.45
-  key: stan
-- class: nextitnet.nextitrec.Nextitrec
-  params: { learning_rate: 0.002, iterations: 10, is_negsample: True }
-  key: nextitnet
+- class: CSRM.csrm.CSRM
+  params: { hidden_units: 100, epoch: 10, lr: 0.0003, memory_size: 128}
+  key: csrm
