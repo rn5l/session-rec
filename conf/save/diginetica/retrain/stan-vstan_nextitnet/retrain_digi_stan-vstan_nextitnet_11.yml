@@ -1,6 +1,6 @@
 ---
 type: retrain # single|window, maybe add opt
-key: re #added to the csv names
+key: re-svn #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: digi #added in the end of the csv names
