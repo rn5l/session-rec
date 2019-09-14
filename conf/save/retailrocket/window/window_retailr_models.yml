@@ -46,3 +46,6 @@ algorithms:
 - class: nextitnet.nextitrec.Nextitrec
   params: { learning_rate: 0.006, iterations: 10 }
   key: nextitnet
+- class: sgnn.gnn.GGNN
+  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: True, lr: 0.006, l2: 3.00E-05, lr_dc: 0.36666667, lr_dc_step: 3}
+  key: sgnn

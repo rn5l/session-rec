@@ -51,3 +51,6 @@ algorithms:
 - class: nextitnet.nextitrec.Nextitrec
   params: { learning_rate: 0.003, iterations: 10, is_negsample: False }
   key: nextitnet
+- class: sgnn.gnn.GGNN
+  params: { lr: 0.0001, l2: 0.000007, lr_dc: 0.63, lr_dc_step: 3, nonhybrid: True, epoch_n: 10 }
+  key: srgnn-best

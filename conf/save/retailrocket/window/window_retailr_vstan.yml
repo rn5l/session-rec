@@ -1,0 +1,59 @@
+---
+type: window # single|window, maybe add opt
+key: vstan #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: retailr-window #added in the end of the csv names
+  folder: data/retailrocket/slices/
+  prefix: events
+  slices: 5
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/retailrocket_window/
+  #pickle_models: results/window/retailrocket/ # not working for tensorflow models
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+#- class: saver.Saver
+#  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+			
+algorithms:
+- class: knn.vstan.VSKNN_STAN
+  params_opt:
+    k: 1000
+    sample_size: 2500
+    similarity: 'vec'
+    #stan
+    lambda_spw: 3.62
+    lambda_snh: 100
+    lambda_inh: 0.4525
+    #vsknn
+    lambda_ipw: 3.62
+    lambda_idf: 1
+  key: vstan-mrr
+- class: knn.vstan.VSKNN_STAN
+  params_opt:
+    k: 500
+    sample_size: 1000
+    similarity: 'cosine'
+    #stan
+    lambda_spw: 7.24
+    lambda_snh: 100
+    lambda_inh: 3.62
+    #vsknn
+    lambda_ipw: 3.62
+    lambda_idf: 1
+  key: vstan-hr
