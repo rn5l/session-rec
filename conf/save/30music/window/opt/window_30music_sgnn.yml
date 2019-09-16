@@ -1,28 +1,28 @@
 ---
 type: opt # single|window, maybe add opt
-key: gru #added to the csv names
+key: sgnn #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: 30music-window #added in the end of the csv names
-  folder: data/30music/single/
-  prefix: 30music-200ks  
+  folder: ../../data/30music/single/
+  prefix: 30music-200ks
   opts: {sessions_test: 5000}
 
 results:
-  folder: results/opt/30music_window/
+  folder: results/opt/30music/sgnn/
 
 metrics:
 - class: accuracy.HitRate
-  length: [5,10,15,20]
+  length: [3,5,10,15,20]
 - class: accuracy.MRR
-  length: [5,10,15,20]
+  length: [3,5,10,15,20]
 - class: coverage.Coverage
   length: [20]
 - class: popularity.Popularity
   length: [20]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
-- class: time_memory_usage.Memory_usage
+#- class: time_memory_usage.Memory_usage
 
 optimize:
   class: accuracy.MRR
@@ -38,3 +38,4 @@ algorithms:
     lr_dc: {from: 0.1, to: 0.9, in: 10, type: float32}
     lr_dc_step: [3, 5, 7]
   key: sgnn
+

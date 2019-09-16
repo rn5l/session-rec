@@ -1,16 +1,18 @@
 ---
-type: window # single|window, maybe add opt
+type: single # single|window, maybe add opt
 key: sgnn #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: 30music-window #added in the end of the csv names
-  folder: data/30music/slices/
-  prefix: 30music-200ks
-#  opts: {sessions_test: 5000}
-  slices: 5
+  name: rsc #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  #prefix: yoochoose-clicks-100k
+  prefix: yoochoose-clicks-short
+#  slices: 5 #only window
+#  skip: [0,3] #only window
+  opts: {sessions_test: 100}
 
 results:
-  folder: results/window/30music/
+  folder: results/next/rsc15/
 
 metrics:
 - class: accuracy.HitRate
@@ -30,5 +32,11 @@ metrics:
 #- class: time_memory_usage.Memory_usage
 
 algorithms:
-- class: sgnn.gnn.GGNN
-  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: True, lr: 0.0006, l2: 3.00E-05, lr_dc: 0.36666667, lr_dc_step: 3}
+- class: baselines.ar.AssociationRules
+  key: ar
+#- class: narm.narm.NARM
+#  params: { epochs: 10, lr: 0.007, hidden_units: 100, factors: 100 }
+#  key: narm
+- class: CSRM.csrm.CSRM
+  params: { } # , epoch_n: 30 -- for diginetica
+  key: csrm

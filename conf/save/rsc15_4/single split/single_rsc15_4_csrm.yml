@@ -1,15 +1,16 @@
 ---
-type: opt # single|window, maybe add opt
+type: single # single|window, maybe add opt
 key: csrm #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: nowplaying #added in the end of the csv names
-  folder: data/nowplaying/single/
-  prefix: nowplaying
-  opts: {sessions_test: 5000}
+  name: rsc15_4 #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-full-4
+  #opts: {sessions_test: 10}
 
 results:
-  folder: results/csrm/opt/nowplaying/
+  folder: results/single/rsc15_4/
+  #pickle_models: results/models/rsc15_4/ # not working for tensorflow models
 
 metrics:
 - class: accuracy.HitRate
@@ -20,20 +21,13 @@ metrics:
   length: [20]
 - class: popularity.Popularity
   length: [20]
+#- class: saver.Saver
+#  length: [50]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
 #- class: time_memory_usage.Memory_usage
 
-optimize:
-  class: accuracy.MRR
-  length: [20]
-  iterations: 100 #optional
-
 algorithms:
 - class: CSRM.csrm.CSRM
-  params: { hidden_units: 100, epoch: 10}
-  params_opt:
-    lr: [{from: 0.001, to: 0.0001, in: 10, type: float32},{from: 0.0001, to: 0.00001, in: 10, type: float32}]
-    memory_size: [128,256,512]
+  params: { hidden_units: 100, epoch: 10, lr: 0.0008, memory_size: 512}
   key: csrm
-

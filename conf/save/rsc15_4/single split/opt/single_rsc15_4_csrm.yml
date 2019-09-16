@@ -3,13 +3,13 @@ type: opt # single|window, maybe add opt
 key: csrm #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: nowplaying #added in the end of the csv names
-  folder: data/nowplaying/single/
-  prefix: nowplaying
+  name: rsc15-4 #added in the end of the csv names
+  folder: data/rsc15/prepared/
+  prefix: yoochoose-clicks-full-4
   opts: {sessions_test: 5000}
 
 results:
-  folder: results/csrm/opt/nowplaying/
+  folder: results/csrm/opt/rsc15_4/
 
 metrics:
 - class: accuracy.HitRate
@@ -36,4 +36,3 @@ algorithms:
     lr: [{from: 0.001, to: 0.0001, in: 10, type: float32},{from: 0.0001, to: 0.00001, in: 10, type: float32}]
     memory_size: [128,256,512]
   key: csrm
-

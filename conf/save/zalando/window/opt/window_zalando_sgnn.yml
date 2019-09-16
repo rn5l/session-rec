@@ -4,7 +4,7 @@ key: sgnn #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
 #  name: digi-sample #added in the end of the csv names
-  name: digi #added in the end of the csv names
+  name: zalando #added in the end of the csv names
   folder: ../../data/zalando/single/
   prefix: clicks
 #  slices: 5 #only window
