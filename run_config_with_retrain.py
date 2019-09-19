@@ -162,7 +162,7 @@ def run_file( conf ):
         run_window( conf )
     elif conf['type'] == 'opt':
         run_opt( conf )
-    elif conf['type'] == 'retrain':
+    elif conf['type'] == 'retrain' or conf['type'] == 'retrain_nextitnet':
         run_retrain(conf)
     elif conf['type'] == 'retrain_newDays':
         run_retrain_newDays(conf)
@@ -306,11 +306,22 @@ def run_retrain(conf, slice=None):
     metrics = create_metric_list(conf['metrics'])
     evaluation = load_evaluation(conf['evaluation'])
 
-    if 'opts' in conf['data']:
-        train, test_list = dl.load_data_session_retrain(conf['data']['folder'], conf['data']['prefix'], conf['data']['trian_set'], conf['data']['test_num'], slice_num=slice,
-                                           **conf['data']['opts'])
-    else:
-        train, test_list = dl.load_data_session_retrain(conf['data']['folder'], conf['data']['prefix'], conf['data']['trian_set'], conf['data']['test_num'], slice_num=slice)
+    if conf['type'] == 'retrain_nextitnet':
+        if 'opts' in conf['data']:
+            train, test_list = dl.load_data_session_retrain_nextitnet(conf['data']['folder'], conf['data']['prefix'],
+                                                            conf['data']['trian_set'], conf['data']['test_idx'],
+                                                            slice_num=slice,
+                                                            **conf['data']['opts'])
+        else:
+            train, test_list = dl.load_data_session_retrain_nextitnet(conf['data']['folder'], conf['data']['prefix'],
+                                                            conf['data']['trian_set'], conf['data']['test_idx'],
+                                                            slice_num=slice)
+    else: # other algorithms except nextitnet
+        if 'opts' in conf['data']:
+            train, test_list = dl.load_data_session_retrain(conf['data']['folder'], conf['data']['prefix'], conf['data']['trian_set'], conf['data']['test_num'], slice_num=slice,
+                                               **conf['data']['opts'])
+        else:
+            train, test_list = dl.load_data_session_retrain(conf['data']['folder'], conf['data']['prefix'], conf['data']['trian_set'], conf['data']['test_num'], slice_num=slice)
 
     # buys = pd.DataFrame() #todo: if it is needed, modify for the list of test sets, instead of a test set
     # if 'buys' in conf['data'] and 'file_buys' in conf['data']:
@@ -324,7 +335,7 @@ def run_retrain(conf, slice=None):
     results = {}
 
     for k, a in algorithms.items():
-        eval_algorithm_retrain(train, test_list, k, a, evaluation, metrics, results, conf, slice=slice, iteration=slice)
+        eval_algorithm_retrain(train, test_list, k, a, evaluation, metrics, results, conf, slice=slice, iteration=slice, out=True, test_idx=conf['data']['test_idx'])
 
     print_results(results)
     write_results_csv(results, conf, iteration=slice)
@@ -472,7 +483,7 @@ def eval_algorithm( train, test, key, algorithm, eval, metrics, results, conf, s
     if not(retrain):
         algorithm.clear()
     
-def eval_algorithm_retrain(train, test_list, key, algorithm, eval, metrics, results, conf, slice=None, iteration=None, out=True):
+def eval_algorithm_retrain(train, test_list, key, algorithm, eval, metrics, results, conf, slice=None, iteration=None, out=True, test_idx=None):
     '''
     Evaluate one single algorithm
         --------
@@ -520,9 +531,17 @@ def eval_algorithm_retrain(train, test_list, key, algorithm, eval, metrics, resu
             m.stop(algorithm)
 
     key_org = key
-    for i in range(0,len(test_list)):
-        key = key_org+ '_' + str(i)
-        test = test_list[i]
+
+    if test_idx is None: # all algorithms except nextitnet
+        for i in range(0,len(test_list)):
+            key = key_org+ '_' + str(i)
+            test = test_list[i]
+            results[key] = eval.evaluate_sessions(algorithm, metrics, test, train)
+            if out:
+                write_results_csv({key: results[key]}, conf, extra=key, iteration=iteration)
+    else:
+        key = key_org+ '_' + str(test_idx)
+        test = test_list[0]
         results[key] = eval.evaluate_sessions(algorithm, metrics, test, train)
         if out:
             write_results_csv({key: results[key]}, conf, extra=key, iteration=iteration)

@@ -1,0 +1,38 @@
+---
+type: retrain_nextitnet # single|window, maybe add opt
+key: retrain #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: digi #added in the end of the csv names
+  folder: ../../data/diginetica/retrain/2months_2weeks/ #ex2: data/diginetica/retrain/13/
+  prefix: train-item-views
+#  opts: {sessions_test: 100}
+  trian_set: 1 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 0 | ex_last: 13
+#  test_num: 13 #is used in loader to load list of the test sets - (for 2 weeks as test days) ex_first: 14 | ex_last: 1
+  test_idx: 5
+#  skip: [0,3] #todo
+
+results:
+  folder: results/next/digi_retraing/nextitnet/1/ #ex2: results/next/digi_retraing/13/
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+- class: nextitnet.nextitrec.Nextitrec
+  params: { learning_rate: 0.002, iterations: 10, is_negsample: True }
+  key: nextitnet
