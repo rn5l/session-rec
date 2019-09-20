@@ -334,8 +334,12 @@ def run_retrain(conf, slice=None):
 
     results = {}
 
-    for k, a in algorithms.items():
-        eval_algorithm_retrain(train, test_list, k, a, evaluation, metrics, results, conf, slice=slice, iteration=slice, out=True, test_idx=conf['data']['test_idx'])
+    if conf['type'] == 'retrain_nextitnet':
+        for k, a in algorithms.items():
+            eval_algorithm_retrain(train, test_list, k, a, evaluation, metrics, results, conf, slice=slice, iteration=slice, out=True, test_idx=conf['data']['test_idx'])
+    else:
+        for k, a in algorithms.items():
+            eval_algorithm_retrain(train, test_list, k, a, evaluation, metrics, results, conf, slice=slice, iteration=slice, out=True)
 
     print_results(results)
     write_results_csv(results, conf, iteration=slice)
