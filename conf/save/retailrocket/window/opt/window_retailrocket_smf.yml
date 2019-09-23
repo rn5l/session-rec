@@ -32,7 +32,7 @@ algorithms:
 - class: smf.smf.SessionMF
   params: {}
   params_opt:
-    objective: ['bpr_max', 'top1_max']
+    objective: ['bpr_max_org', 'top1_max']
     activation: ['linear']
     dropout: {from: 0.0, to: 0.4, in: 5, type: float32}
     skip: {from: 0.0, to: 0.5, in: 6, type: float32}
