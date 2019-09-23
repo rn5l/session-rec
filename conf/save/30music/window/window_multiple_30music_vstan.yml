@@ -4,7 +4,7 @@ key: vstan #added to the csv names
 evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
 data:
   name: 30music-window-multiple #added in the end of the csv names
-  folder: data/30music/slices/
+  folder: ../../data/30music/slices/
   prefix: 30music-200ks
   slices: 5 #only window
   #opts: {sessions_test: 10}

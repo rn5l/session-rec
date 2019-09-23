@@ -1,15 +1,15 @@
 ---
 type: single # single|window, maybe add opt
 key: sgnn #added to the csv names
-evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: rsc15_4 #added in the end of the csv names
-  folder: data/rsc15/prepared/
+  name: rsc15_4_multi #added in the end of the csv names
+  folder: ../../data/rsc15/prepared/
   prefix: yoochoose-clicks-full-4
   #opts: {sessions_test: 10}
 
 results:
-  folder: results/single/rsc15_4/
+  folder: results/single/rsc15_4/multiple/
   #pickle_models: results/models/rsc15_4/ # not working for tensorflow models
 
 metrics:
@@ -21,13 +21,13 @@ metrics:
   length: [20]
 - class: popularity.Popularity
   length: [20]
-- class: saver.Saver
-  length: [50]
+#- class: saver.Saver
+#  length: [50]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
 #- class: time_memory_usage.Memory_usage
 
 algorithms:
-- class: sgnn.gnn.GGNN
-  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: True, lr: 0.0006, l2: 5.00E-06, lr_dc: 0.1, lr_dc_step: 3}
+- class: filemodel.resultfile.ResultFile
+  params: { file: ../../data/rsc15/rsc15_4_recommendations/test_single_sgnn_rsc15_4 }
   key: sgnn
