@@ -3,13 +3,13 @@ type: opt # single|window, maybe add opt
 key: smf #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: nowplaying-window #added in the end of the csv names
-  folder: ../../data/30music/single/
-  prefix: 30music-200ks
+  name: zalando #added in the end of the csv names
+  folder: ../../data/zalando/single/
+  prefix: clicks
   opts: {sessions_test: 5000}
 
 results:
-  folder: results/opt/nowplaying-window/
+  folder: results/opt/zalando-window/
 
 metrics:
 - class: accuracy.HitRate

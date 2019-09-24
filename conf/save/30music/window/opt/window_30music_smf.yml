@@ -3,9 +3,9 @@ type: opt # single|window, maybe add opt
 key: smf #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: nowplaying-window #added in the end of the csv names
-  folder: data/nowplaying/single/
-  prefix: nowplaying
+  name: 30music #added in the end of the csv names
+  folder: ../../data/30music/single/
+  prefix: 30music-200ks
   opts: {sessions_test: 5000}
 
 results:
