@@ -10,7 +10,7 @@ data:
   slices: 5
 
 results:
-  folder: results/diginetica_single/
+  folder: results/window/diginetica/smf/
 
 metrics:
 - class: accuracy.HitRate
