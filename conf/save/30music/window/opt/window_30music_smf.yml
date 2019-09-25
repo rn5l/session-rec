@@ -9,7 +9,7 @@ data:
   opts: {sessions_test: 5000}
 
 results:
-  folder: results/opt/nowplaying-window/
+  folder: results/opt/30music-window/
 
 metrics:
 - class: accuracy.HitRate
