@@ -9,7 +9,7 @@ data:
   #opts: {sessions_test: 10}
 
 results:
-  folder: results/single/rsc15_4/
+  folder: results_new/single/rsc15_4/
   #pickle_models: results/models/rsc15_4/ # not working for tensorflow models
 
 metrics:
@@ -21,8 +21,8 @@ metrics:
   length: [20]
 - class: popularity.Popularity
   length: [20]
-#- class: saver.Saver
-#  length: [50]
+- class: saver.Saver
+  length: [50]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
 #- class: time_memory_usage.Memory_usage
