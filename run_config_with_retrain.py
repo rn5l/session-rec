@@ -27,10 +27,10 @@ import gc
 # updater.start_polling()
 NOTIFY = False
 
-CHAT_ID = -1001383817131
-BOT_TOKEN = '794036011:AAE23ukZvSmJ7D7yHAX0IHjz6ien1HcFv0s'
-updater = Updater('794036011:AAE23ukZvSmJ7D7yHAX0IHjz6ien1HcFv0s')
-updater.start_polling()
+# CHAT_ID = -1001383817131
+# BOT_TOKEN = '794036011:AAE23ukZvSmJ7D7yHAX0IHjz6ien1HcFv0s'
+# updater = Updater('794036011:AAE23ukZvSmJ7D7yHAX0IHjz6ien1HcFv0s')
+# updater.start_polling()
 
 
 def main( conf, out=None ): 
