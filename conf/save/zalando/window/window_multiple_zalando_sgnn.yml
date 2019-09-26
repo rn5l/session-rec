@@ -1,16 +1,17 @@
 ---
-type: single # single|window, maybe add opt
-key: csrm #added to the csv names
+type: window # single|window, maybe add opt
+key: models #added to the csv names
 evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
 data:
-  name: rsc15_4-multiple #added in the end of the csv names
-  folder: data/rsc15/prepared/
-  prefix: yoochoose-clicks-full-4
+  name: zalando #added in the end of the csv names
+  folder: ../..data/zalando/slices/
+  prefix: clicks
+  slices: 5 #only window
   #opts: {sessions_test: 10}
 
 results:
-  folder: results_new/single/multiple/rsc15_4/
-  #pickle_models: results/models/rsc15_4/ # not working for tensorflow models
+  folder: results/window/zalando/sgnn/multiple/
+  pickle_models: results/models/music-window/ # not working for tensorflow models
 
 metrics:
 - class: accuracy_multiple.Precision
@@ -21,6 +22,8 @@ metrics:
   length: [3,5,10,15,20]
 - class: accuracy_multiple.NDCG
   length: [3,5,10,15,20]
+#- class: saver.Saver
+#  length: [50]
 - class: coverage.Coverage
   length: [20]
 - class: popularity.Popularity
@@ -31,5 +34,5 @@ metrics:
 
 algorithms:
 - class: filemodel.resultfile.ResultFile
-  params: { file: data/rsc15/rsc15_4_recommendations/csrm }
-  key: csrm
+  params: { file: ../../data/zalando/slices/recs/sgnn }
+  key: sgnn
