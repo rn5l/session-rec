@@ -9,7 +9,7 @@ data:
   #opts: {sessions_test: 10}
 
 results:
-  folder: results/single/rsc15_4/
+  folder: results_new/single/multiple/rsc15_4/
   #pickle_models: results/models/rsc15_4/ # not working for tensorflow models
 
 metrics:
@@ -30,6 +30,6 @@ metrics:
 #- class: time_memory_usage.Memory_usage
 
 algorithms:
-- class: CSRM.csrm.CSRM
-  params: { hidden_units: 100, epoch: 10, lr: 0.0008, memory_size: 512}
+- class: filemodel.resultfile.ResultFile
+  params: { file: data/rsc15/rsc15_4_recommendations/csrm }
   key: csrm
