@@ -1,0 +1,62 @@
+---
+type: window # single|window, maybe add opt
+key: smf #added to the csv names
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: aotm-multiple #added in the end of the csv names
+  folder: data/aotm/slices/
+  prefix: playlists-aotm
+  slices: 5 #only window
+
+results:
+  folder: results/window/aotm/
+  #pickle_models: results/models/aotm-window/ # not working for tensorflow models
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: saver.Saver
+  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+algorithms:
+- class: smf.smf.SessionMF
+  params:
+    objective: top1_max
+    activation: linear
+    dropout: 0.3
+    skip: 0.1
+    momentum: 0
+    learning_rate: 0.09
+  key: smf-best
+- class: smf.smf.SessionMF
+  params:
+    objective: bpr_max_org
+    activation: linear
+    dropout: 0.1
+    skip: 0.1
+    momentum: 0.2
+    learning_rate: 0.05
+  key: smf-second
+- class: smf.smf.SessionMF
+  params:
+    objective: bpr_max_org
+    activation: linear
+    dropout: 0.1
+    skip: 0.1
+    momentum: 0.5
+    learning_rate: 0.01
+  key: smf-hr
