@@ -1,0 +1,20 @@
+
+h2 {
+	color:#333333;
+}
+.nav-tabs a:hover {
+    color: #333333;
+}
+
+table th {
+	border-top: 1px solid  #333333;
+	border-bottom: 1px solid  #333333;
+}
+
+table tr:nth-child(odd) {
+	background-color: #f7f7f7;
+}
+
+table tr:last-child td {
+	border-bottom: 1px solid #333333;
+}

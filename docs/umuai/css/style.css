@@ -1,0 +1,157 @@
+* {
+	font-family:'Zilla Slab',Calibri,Arial
+}
+	
+body {
+	text-align: center;
+}
+
+.mainbox { 
+	display: inline-block;
+	width:1200px;
+	text-align: center;
+}
+
+.italic {
+	font-style: italic;;
+}
+
+.subtext {
+	font-size: 18px;
+}
+
+.caps {
+	font-variant: small-caps;
+}
+
+h2 {
+	color:#82B722;
+}
+
+a, a-visited  {
+	color:black;
+}
+
+.tt {
+	font-family:Courier New;font-weight:bold;font-size:11pt;
+}
+
+.author {
+	display: inline-block;
+}
+
+.author {
+	margin-right: 60px;
+}
+
+.author:last-child {
+	margin-right: 0px;
+}
+
+hr {
+	clear: both;
+}
+
+.abstract {
+	width: 625px;
+	margin: auto;
+	text-align: left;
+}
+
+nav, ul.nav {
+	margin-bottom: 10px;
+}
+
+.nav-tabs > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-tabs a:hover {
+    color: #82B722;
+}
+
+.nav-tabs {
+	text-align: center;
+}
+
+table {
+	width: 100%;
+	text-align: left;
+	border-spacing: 0px;
+}
+table.hyper-space {
+	width: 400px;
+	margin: 0 auto;
+	vertical-align: center;
+	text-align: left;
+	border-spacing: 0px;
+}
+
+table th {
+	border-top: 1px solid  #82B722;
+	border-bottom: 1px solid  #82B722;
+	padding: 5px;
+}
+
+table td {
+	padding: 5px;
+}
+
+table:not(.feature-desc) th:not(:nth-child(1)) {
+	text-align: right;
+	width: auto;
+}
+
+table:not(.feature-desc) th:nth-child(1) {
+	text-align: left;
+	width: auto;
+}
+
+table tr:nth-child(odd) {
+	background-color: #f5fbe9;
+}
+
+table tr:last-child td {
+	border-bottom: 1px solid #82B722;
+}
+
+
+table.params {
+	width: 100%;
+	text-align: right;
+	border-spacing: 0px;
+}
+
+table.multiple {
+	width: auto;
+	margin-left:auto; 
+   	margin-right:auto;
+}
+
+table.params tr:nth-child(odd) {
+	background-color: inherit;
+}
+
+table.params th {
+	border-top: 1px solid  white;
+	border-bottom: 1px solid  white;
+	padding: 2px;
+}
+
+table.params td {
+	padding: 5px;
+}
+
+table.params tr:last-child td {
+	border-bottom: 1px solid white;
+}
+
+.tooltip-inner {
+    max-width: 370px;
+    /* If max-width does not work, try using width instead */
+/*  width: 350px; */
+}
+	
