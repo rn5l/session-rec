@@ -5,7 +5,6 @@
 		<li class=""><a href="#opt-nextitnet" data-toggle="tab" aria-expanded="true">NEXTITNET</a></li>
 		<li class=""><a href="#opt-csrm" data-toggle="tab" aria-expanded="true">CSRM</a></li>
 		<li class=""><a href="#opt-srgnn" data-toggle="tab" aria-expanded="true">SR-GNN</a></li>
-		<li><a href="#opt-ar" data-toggle="tab" aria-expanded="true">AR</a></li>
 		<li><a href="#opt-sr" data-toggle="tab" aria-expanded="true">SR</a></li>
 		<li><a href="#opt-sknn" data-toggle="tab" aria-expanded="true">SKNN</a></li>
 		<li><a href="#opt-vsknn" data-toggle="tab" aria-expanded="true">VSKNN</a></li>
@@ -445,11 +444,6 @@
 					<th>Learning Rate</th>
 					<th>Memory Size</th>
 				</tr>
-				<tr>
-					<th>Dataset</th>
-					<th>Steps</th>
-					<th>Weighting</th>
-				</tr>
 			    <tr>
 					<td>RSC15</td><!--dataset -->	
 					<td align="right">0.0002</td><!--steps -->
@@ -495,8 +489,7 @@
 
 		</div>
 
-		<div id="opt-srgnn" class="tab-pane fade active in">
-			
+		<div id="opt-srgnn" class="tab-pane fade">
 			<h3>Hyperparameters for <span class="caps">sr-gnn</span> (fixed hidden layer size of 100)</h3>
 			<p>
 				We tested the following hyperparameter space:
@@ -606,14 +599,9 @@
 						
 		</div>
 
-		<div id="opt-ar" class="tab-pane fade">
-
-			<h3>Hyperparameters for <span class="caps">ar</span> <br>fixed pruning size of 20</h3>
-
-		</div>
 		<div id="opt-sr" class="tab-pane fade">
 
-			<h3>Hyperparameters for <span class="caps">sr</span> (fixed pruning size of 100)</h3>
+			<h3>Hyperparameters for <span class="caps">sr</span></h3>
 			<p>
 				We tested the following hyperparameter space:
 			</p>
@@ -1074,7 +1062,7 @@
 				We tested the following hyperparameter space:
 			</p>
 			<table class="hyper-space">
-				<tbody	>
+				<tbody>
 				<tr>
 					<th>Parameter</th>
 					<th>Options</th>
