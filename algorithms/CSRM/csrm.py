@@ -552,7 +552,7 @@ class CSRM:
 
         return pd.Series(data=preds[0][1:], index=self.itemmap.index)
 
-    def pred_function(self,seqs, label, ntm_init_state=None):
+    def pred_function(self, seqs, label, ntm_init_state=None):
         start = False
         if ntm_init_state is None:
             start = True
