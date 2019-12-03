@@ -17,7 +17,7 @@ class Nextitrec:
     '''
 
     def __init__(self, test_path="", top_k=5, beta1=0.99, eval_iter=5000, save_para_every=10000, kernel_size=3,
-                 learning_rate=0.01, batch_size=32, iterations=10, is_negsample=False, session_key='SessionId',
+                 learning_rate=0.01, batch_size=32, iterations=10, sampling_rate=0.2, is_negsample=False, session_key='SessionId',
                  item_key='ItemId', time_key='Time'):
 
         '''
@@ -36,6 +36,7 @@ class Nextitrec:
         self.learning_rate = learning_rate
         self.batch_size = batch_size
         self.iterations = iterations
+        self.sampling_rate = sampling_rate
         self.isnegsample = is_negsample
         self.test_path = test_path
         self.item_key = item_key
@@ -85,6 +86,7 @@ class Nextitrec:
             'learning_rate': self.learning_rate,
             'batch_size': self.batch_size,
             'iterations': self.iterations,
+            'sampling_rate': self.sampling_rate,
             'is_negsample': self.isnegsample  # False denotes no negative sampling
         }
 

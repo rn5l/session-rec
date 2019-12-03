@@ -17,7 +17,7 @@ class NextItNet:
     '''
 
     def __init__(self, test_path="", top_k=20, beta1=0.99, eval_iter=250, save_para_every=10000, kernel_size=3,
-                 learning_rate=0.01, batch_size=32, iterations=10, dilations=[1,4,], dilated_channels=100, is_negsample=False, sampling_rate=0.2, limit_input_length=None, session_key='SessionId',
+                 learning_rate=0.01, batch_size=128, iterations=10, dilations=[1,4,], dilated_channels=100, is_negsample=False, sampling_rate=0.2, limit_input_length=None, session_key='SessionId',
                  item_key='ItemId', time_key='Time'):
 
         '''
@@ -111,13 +111,14 @@ class NextItNet:
             self.sess.run(init)
             saver = tf.train.Saver()
 
-            shuffle_train = np.random.permutation(np.arange(len(train_set)))
-            train_set = train_set[shuffle_train]
-
             numIters = 1
             tstart = time.time()
 
             for iter in range(model_para['iterations']):
+
+                shuffle_train = np.random.permutation(np.arange(len(train_set)))
+                train_set = train_set[shuffle_train]
+
                 batch_no = 0
                 batch_size = model_para['batch_size']
                 while (batch_no + 1) * batch_size < train_set.shape[0]:
