@@ -3,7 +3,7 @@ scipy==1.2.1
 pandas==0.24.2
 dill==0.2.9
 scikit-learn==0.21.2
-tensorflow-gpu==1.13.1
+tensorflow-gpu==1.15.0
 theano==1.0.3
 pympler==0.7
 pyyaml==5.1
