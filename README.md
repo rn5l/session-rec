@@ -141,7 +141,7 @@ At the end of the experiments, you can find the evalutaion results in the "resul
         <li>
             Run a configuration with the following command: </br>
             <code>
-                ./dpython run_preprocesing.py conf/preprocess/window/rsc15.yml
+                ./dpython run_preprocessing.py conf/preprocess/window/rsc15.yml
             </code>
         </li>
     </ol>
