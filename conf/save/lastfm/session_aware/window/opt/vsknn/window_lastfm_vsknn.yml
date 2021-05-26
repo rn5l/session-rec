@@ -1,0 +1,39 @@
+type: opt # single|window, maybe add opt
+key: vsknn #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname.3
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/window/lastfm/vsknn/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: knn.vsknn.VMContextKNN
+  params: {}
+  params_opt:
+    k: [50,100,500,1000,1500]
+    sample_size: [500,1000,2500,5000,10000]
+    weighting: ['same','div','linear','quadratic','log']
+    weighting_score: ['same','div','linear','quadratic','log']
+    idf_weighting: [False,1,2,5,10]
+  key: vsknn

@@ -1,0 +1,51 @@
+---
+type: single # single|window, maybe add opt
+key: usr #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared/
+  prefix: events
+  type: hdf #hdf (if there is no type, the default is csv)
+#  folder: data/xing/dense/last-session-out/
+#  prefix: lso
+#  type: csv #hdf|csv
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/single/retailrocket/usr/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+# usr_reminders-steps=13-weighting=quadratic-boost_own_sessions=3,3
+- class: baselines.usr.USequentialRules
+  params: { steps: 13, weighting: quadratic, boost_own_sessions: 3.3 }
+  key: usr
+# sr_reminders-reminders=True-remind_strategy=recency-steps=30-weighting=quadratic-remind_mode=end-remind_sessions_num=3-reminders_num=4
+- class: baselines.usr.USequentialRules
+  params: { steps: 30, weighting: quadratic, reminders: True, remind_strategy: recency, remind_mode: end, remind_sessions_num: 3, reminders_num: 4 }
+  key: sr_reminders
+# usr-reminders=True-remind_strategy=recency-steps=8-weighting=quadratic-boost_own_sessions=2,7-remind_mode=end-remind_sessions_num=5-reminders_num=4
+- class: baselines.usr.USequentialRules
+  params: { steps: 8, weighting: quadratic, boost_own_sessions: 2.7, reminders: True, remind_strategy: recency, remind_mode: end, remind_sessions_num: 5, reminders_num: 4 }
+  key: usr_reminders

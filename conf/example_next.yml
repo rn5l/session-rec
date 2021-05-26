@@ -1,7 +1,6 @@
----
 type: single # single|window, maybe add opt
 key: baselines_and_models_and_hybrids #added to the csv names
-evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
 data:
   name: rsc15-100k #added in the end of the csv names
   folder: data/rsc15/prepared/

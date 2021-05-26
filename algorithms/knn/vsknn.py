@@ -62,10 +62,10 @@ class VMContextKNN:
         self.session_key = session_key
         self.item_key = item_key
         self.time_key = time_key
-        self.extend = extend
+        self.extend = extend  # to add evaluated sessions to the maps
         self.remind = remind
-        self.push_reminders = push_reminders
-        self.add_reminders = add_reminders
+        self.push_reminders = push_reminders  # give more score to the items that belongs to the current session
+        self.add_reminders = add_reminders  # force the last 3 items of the current session to be in the top 20
         self.idf_weighting = idf_weighting
         self.idf_weighting_session = idf_weighting_session
         self.normalize = normalize
@@ -149,7 +149,7 @@ class VMContextKNN:
             self.idf = self.idf['idf'].to_dict()
         
         
-    def predict_next( self, session_id, input_item_id, predict_for_item_ids, input_user_id=None, timestamp=0, skip=False, type='view'):
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids, timestamp=0, skip=False, mode_type='view'):
         '''
         Gives predicton scores for a selected set of items on how likely they be the next item in the session.
                 
@@ -194,7 +194,7 @@ class VMContextKNN:
             self.dwelling_times = list()
             self.relevant_sessions = set()
         
-        if type == 'view':
+        if mode_type == 'view':
             self.session_items.append( input_item_id )
             if self.dwelling_time:
                 if self.last_ts > 0:
@@ -676,4 +676,19 @@ class VMContextKNN:
         self.session_item_map = dict() 
         self.item_session_map = dict()
         self.session_time = dict()
-    
+
+    def support_users(self):
+        '''
+          whether it is a session-based or session-aware algorithm
+          (if returns True, method "predict_with_training_data" must be defined as well)
+
+          Parameters
+          --------
+
+          Returns
+          --------
+          True : if it is session-aware
+          False : if it is session-based
+        '''
+        return False
+

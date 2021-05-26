@@ -1,0 +1,34 @@
+type: window # opt|single|window
+key: vsknn_EBR #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
+data:
+  name: cosmetics #added in the end of the csv names
+  folder: data/cosmetics/prepared_window/sampled/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/cosmetics/uvsknn/EBR/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# vsknn_EBR-k=1500-sample_size=10000-weighting=quadratic-weighting_score=div-idf_weighting=10-extend_session_length=2-boost_own_sessions=0,9-reminders=True-remind_strategy=hybrid-remind_sessions_num=10-weight_base=9-weight_IRec=2-weight_SSim=3
+- class: knn.uvsknn.UVMContextKNN
+  params: { k: 1500, sample_size: 10000, weighting: quadratic , weighting_score: div, idf_weighting: 10, extend_session_length: 2, boost_own_sessions: 0.9, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 10, weight_base: 9, weight_IRec: 2, weight_SSim: 3 }
+  key: vsknn_EBR

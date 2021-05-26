@@ -1,0 +1,24 @@
+type: window # opt|single|window
+key: hgru4rec #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared_window/
+  prefix: events
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+  skip: [0,1,2,3] # we need only slice 4 (smallest one)
+
+results:
+  folder: results/window/scalability/retailrocket/
+
+metrics:
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+# HGRU4Rec
+- class: hgru4rec.hgru4rec.HGRU4Rec
+  params: { final_act: 'linear', dropout_p_hidden_usr: 0.4, dropout_p_hidden_ses: 0.3, dropout_p_init: 0.4, momentum: 0.3, learning_rate: 0.06, user_propagation_mode: 'all', batch_size: 50 }
+  key: hgru4rec

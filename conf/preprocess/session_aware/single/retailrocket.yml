@@ -1,0 +1,19 @@
+type: single # single
+mode: session_aware # session_based | session_aware
+preprocessor: retailrocket_aware # dataset (folder) name
+data:
+  folder: data/retailrocket/raw/
+  prefix: events
+
+filter:
+  min_item_support: 5
+  min_session_length: 2 #3
+  min_user_sessions: 3 # need to be 3, because we need at least 1 for each training, validation and test set!
+#  max_user_sessions: 200
+
+params:
+  min_session_length: 2 #3
+  test_sessions: 1
+
+output:
+  folder: data/retailrocket/prepared/

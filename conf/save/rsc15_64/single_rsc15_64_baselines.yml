@@ -45,3 +45,6 @@ algorithms:
 - class: knn.vsknn.VMContextKNN
   params: { k: 1000, sampling: 5000, weighting: log, weighting_score: quadratic, idf_weighting: 2 }
   key: vsknn
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre

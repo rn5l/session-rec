@@ -1,0 +1,36 @@
+type: window # opt|single|window
+key: session_based #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: xing #added in the end of the csv names
+  folder: data/xing/xing2016/prepared_window/
+  prefix: interactions # slice with maximum number of users
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+  skip: [0,1,2,4] # we need only slice 3
+
+results:
+  folder: results/window/scalability/xing/
+
+metrics:
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+# GRU4Rec
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'top1-max', final_act: 'elu-0.5', batch_size: 100, dropout_p_hidden: 0.8, learning_rate: 0.05, momentum: 0.6, constrained_embedding: True }
+  key: gru4rec
+- class: gru4rec.ugru4rec.UGRU4Rec
+  params: { loss: 'top1-max', final_act: 'elu-0.5', batch_size: 100, dropout_p_hidden: 0.8, learning_rate: 0.05, momentum: 0.6, constrained_embedding: True, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 3, weight_base: 9, weight_IRec: 4 }
+  key: gru4rec_R
+# NARM
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.007, factors: 100}
+  key: narm
+- class: narm.unarm.UNARM
+  params: { epochs: 20, lr: 0.007, factors: 100, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 7, weight_base: 7, weight_IRec: 3 }
+  key: narm_R
+
+

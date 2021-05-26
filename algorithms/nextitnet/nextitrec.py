@@ -17,7 +17,7 @@ class Nextitrec:
     '''
 
     def __init__(self, test_path="", top_k=5, beta1=0.99, eval_iter=5000, save_para_every=10000, kernel_size=3,
-                 learning_rate=0.01, batch_size=32, iterations=10, is_negsample=False, session_key='SessionId',
+                 learning_rate=0.01, batch_size=32, iterations=10, sampling_rate=0.2, is_negsample=False, session_key='SessionId',
                  item_key='ItemId', time_key='Time'):
 
         '''
@@ -36,6 +36,7 @@ class Nextitrec:
         self.learning_rate = learning_rate
         self.batch_size = batch_size
         self.iterations = iterations
+        self.sampling_rate = sampling_rate
         self.isnegsample = is_negsample
         self.test_path = test_path
         self.item_key = item_key
@@ -85,6 +86,7 @@ class Nextitrec:
             'learning_rate': self.learning_rate,
             'batch_size': self.batch_size,
             'iterations': self.iterations,
+            'sampling_rate': self.sampling_rate,
             'is_negsample': self.isnegsample  # False denotes no negative sampling
         }
 
@@ -148,7 +150,7 @@ class Nextitrec:
         index_list = [self.itemrev[a] for a in range(len(self.items))]
         self.index_list = list(map(lambda x: int(x) if x != '<UNK>' else -1, index_list))
 
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids=None, skip=False, type='view', timestamp=0):
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids=None, skip=False, mode_type='view', timestamp=0):
         # if numIters % args.eval_iter == 0:
         batch_size_test = 1
         if self.old_session_id != session_id:
@@ -208,3 +210,18 @@ class Nextitrec:
 
     def clear(self):
         self.sess.close()
+
+    def support_users(self):
+        '''
+          whether it is a session-based or session-aware algorithm
+          (if returns True, method "predict_with_training_data" must be defined as well)
+
+          Parameters
+          --------
+
+          Returns
+          --------
+          True : if it is session-aware
+          False : if it is session-based
+        '''
+        return False

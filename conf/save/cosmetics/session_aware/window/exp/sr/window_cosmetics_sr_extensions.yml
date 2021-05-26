@@ -1,0 +1,46 @@
+type: window # opt|single|window
+key: sr #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: cosmetics #added in the end of the csv names
+  folder: data/cosmetics/prepared_window/sampled/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/cosmetics/sr/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# sr-steps=15-weighting=div
+- class: baselines.sr.SequentialRules
+  params: { steps: 15, weighting: div }
+  key: sr
+# sr_R-steps=15-weighting=div-reminders=True-remind_strategy=hybrid-remind_sessions_num=10-weight_base=10-weight_IRec=7
+- class: baselines.usr.USequentialRules
+  params: {  steps: 15, weighting: div, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 10, weight_base: 10, weight_IRec: 7 }
+  key: sr_R
+# sr_B-steps=15-weighting=div-boost_own_sessions=3,7
+- class: baselines.usr.USequentialRules
+  params: { steps: 15, weighting: div, boost_own_sessions: 3.7 }
+  key: sr_B
+# usr_BR-steps=15-weighting=div-boost_own_sessions=3,7-reminders=True-remind_strategy=hybrid-remind_sessions_num=9-weight_base=8-weight_IRec=3
+- class: baselines.usr.USequentialRules
+  params: { steps: 15, weighting: div, boost_own_sessions: 3.7 , reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 9, weight_base: 8, weight_IRec: 3 }
+  key: sr_BR

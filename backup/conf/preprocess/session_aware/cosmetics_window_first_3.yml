@@ -1,0 +1,20 @@
+type: window # single
+mode: session_aware # session_based | session_aware
+preprocessor: cosmetics_aware # dataset (folder) name
+data:
+  folder: data/cosmetics/
+  prefix: interactions_first_3_months
+
+filter:
+  min_item_support: 5 #20
+  min_session_length: 2 #3
+  min_user_sessions: 3 # 5
+
+params:
+  num_slices: 5
+  days_offset: 0
+  days_shift: 15 # total_interval = 152
+  min_session_length: 2 #3
+
+output:
+  folder: data/cosmetics/prepared_window/

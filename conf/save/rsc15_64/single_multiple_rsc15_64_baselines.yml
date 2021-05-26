@@ -55,3 +55,6 @@ algorithms:
     weighting_score: quadratic
     idf_weighting: 2
   key: vsknn
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre

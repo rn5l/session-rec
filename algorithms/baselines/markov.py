@@ -81,7 +81,7 @@ class MarkovModel:
             
         self.rules = rules
     
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids, input_user_id=None, skip=False, type='view', timestamp=0):
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False, mode_type='view', timestamp=0):
         '''
         Gives predicton scores for a selected set of items on how likely they be the next item in the session.
                 
@@ -104,7 +104,7 @@ class MarkovModel:
             self.session_items = []
             self.session = session_id
         
-        if type == 'view':
+        if mode_type == 'view':
             self.session_items.append( input_item_id )
             
         if skip:
@@ -150,4 +150,18 @@ class MarkovModel:
     
     def clear(self):
         self.rules = {}
-    
+
+    def support_users(self):
+        '''
+          whether it is a session-based or session-aware algorithm
+          (if returns True, method "predict_with_training_data" must be defined as well)
+
+          Parameters
+          --------
+
+          Returns
+          --------
+          True : if it is session-aware
+          False : if it is session-based
+        '''
+        return False

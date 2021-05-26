@@ -1,0 +1,38 @@
+type: opt # opt|single|window
+key: usr #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared_window/
+  prefix: events.2
+  type: hdf #hdf (if there is no type, the default is csv)
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/opt/window/retailrocket/usr/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: baselines.usr.USequentialRules
+  params: {}
+  params_opt:
+    steps: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,25,30]
+    weighting: ['linear','div','quadratic','log']
+    boost_own_sessions: {from: 0.1, to: 3.9 , in: 20, type: float32}
+  key: sr_B

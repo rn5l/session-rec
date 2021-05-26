@@ -14,7 +14,7 @@ class SequentialRules:
     Code based on work by Kamehkhosh et al.,A Comparison of Frequent Pattern Techniques and a Deep Learning Method for Session-Based Recommendation, TempRec Workshop at ACM RecSys 2017.
 
     SequentialRules(steps = 3, weighting='div', pruning=0.0)
-        
+
     Parameters
     --------
     steps : int
@@ -23,16 +23,19 @@ class SequentialRules:
         TODO. (Default value: 3)
     pruning : float
         TODO. (Default value: 0)
-    
+
     '''
 
-    def __init__(self, steps=10, weighting='div', pruning=20, last_n_days=None, idf_weight=False,
+    def __init__(self, steps=10, weighting='div', pruning=20, last_n_days=None, idf_weight=False, last_in_session=False,
+                 session_weighting='div',
                  session_key='SessionId', item_key='ItemId', time_key='Time'):
         self.steps = steps
         self.pruning = pruning
         self.weighting = weighting
+        self.session_weighting = session_weighting
         self.last_n_days = last_n_days
         self.idf_weight = idf_weight
+        self.last_in_session = last_in_session
         self.session_key = session_key
         self.item_key = item_key
         self.time_key = time_key
@@ -42,14 +45,14 @@ class SequentialRules:
     def fit(self, data, test=None):
         '''
         Trains the predictor.
-        
+
         Parameters
         --------
         data: pandas.DataFrame
             Training data. It contains the transactions of the sessions. It has one column for session IDs, one for item IDs and one for the timestamp of the events (unix timestamps).
             It must have a header. Column names are arbitrary, but must correspond to the ones you set during the initialization of the network (session_key, item_key, time_key properties).
-        
-            
+
+
         '''
 
         if self.last_n_days != None:
@@ -121,11 +124,11 @@ class SequentialRules:
     def quadratic(self, i):
         return 1 / (i * i)
 
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids, input_user_id=None, skip=False, type='view',
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False, mode_type='view',
                      timestamp=0):
         '''
         Gives predicton scores for a selected set of items on how likely they be the next item in the session.
-                
+
         Parameters
         --------
         session_id : int or string
@@ -134,18 +137,18 @@ class SequentialRules:
             The item ID of the event.
         predict_for_item_ids : 1D array
             IDs of items for which the network should give prediction scores. Every ID must be in the set of item IDs of the training set.
-            
+
         Returns
         --------
         out : pandas.Series
             Prediction scores for selected items on how likely to be the next item of this session. Indexed by the item IDs.
-        
+
         '''
         if session_id != self.session:
             self.session_items = []
             self.session = session_id
 
-        if type == 'view':
+        if mode_type == 'view':
             self.session_items.append(input_item_id)
 
         if skip:
@@ -156,6 +159,18 @@ class SequentialRules:
         if input_item_id in self.rules:
             for key in self.rules[input_item_id]:
                 preds[predict_for_item_ids == key] = self.rules[input_item_id][key]
+
+        if self.last_in_session:
+            for i in range(2, self.last_in_session + 2):
+                if len(self.session_items) >= i:
+                    item = self.session_items[-i]
+                    if item in self.rules:
+                        for key in self.rules[item]:
+                            preds[predict_for_item_ids == key] += self.rules[item][key] * getattr(self,
+                                                                                                  self.session_weighting)(
+                                i)
+                else:
+                    break
 
         # test
         #         for i in range(2,4):
@@ -201,3 +216,18 @@ class SequentialRules:
 
     def clear(self):
         self.rules = {}
+
+    def support_users(self):
+        '''
+          whether it is a session-based or session-aware algorithm
+          (if returns True, method "predict_with_training_data" must be defined as well)
+
+          Parameters
+          --------
+
+          Returns
+          --------
+          True : if it is session-aware
+          False : if it is session-based
+        '''
+        return False

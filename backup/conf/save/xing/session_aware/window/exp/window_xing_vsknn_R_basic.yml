@@ -1,0 +1,39 @@
+type: window # opt|single|window
+key: vsknn_R #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: xing #added in the end of the csv names
+  folder: data/xing/xing2016/prepared_window/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/xing/uvsknn/R/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+# vsknn_reminders-k=100-sample_size=500-weighting=log-weighting_score=quadratic-idf_weighting=10-reminders=True-remind_strategy=recency-remind_mode=end-remind_sessions_num=6-reminders_num=5
+- class: knn.uvsknn.UVMContextKNN
+  params: { k: 100, sample_size: 500, weighting: log , weighting_score: quadratic, idf_weighting: 10, reminders: True, remind_strategy: 'recency', remind_mode: 'end', remind_sessions_num: 6, reminders_num: 5 }
+  key: vsknn_reminder

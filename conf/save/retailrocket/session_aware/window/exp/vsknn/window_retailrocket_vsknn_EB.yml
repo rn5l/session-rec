@@ -1,0 +1,39 @@
+type: window # opt|single|window
+key: vsknn_EB #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared_window/
+  prefix: events
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/retailrocket/uvsknn/EB/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+# uvsknn_EB-k=1500-sample_size=1000-weighting=log-weighting_score=linear-idf_weighting=1-extend_session_length=8-boost_own_sessions=0,1
+- class: knn.uvsknn.UVMContextKNN
+  params: { k: 1500, sample_size: 1000, weighting: log , weighting_score: linear, idf_weighting: 1, extend_session_length: 8, boost_own_sessions: 0.1 }
+  key: vsknn_EB

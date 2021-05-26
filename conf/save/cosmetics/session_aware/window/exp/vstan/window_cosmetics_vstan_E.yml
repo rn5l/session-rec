@@ -1,0 +1,36 @@
+type: window # opt|single|window
+key: vstan_E #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: cosmetics #added in the end of the csv names
+  folder: data/cosmetics/prepared_window/sampled/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/cosmetics/uvstan/E/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# uvstan_E-k=100-sample_size=2500-similarity=vec-lambda_spw=3,62-lambda_snh=100-lambda_inh=0,905-lambda_ipw=0,905-lambda_idf=10-extend_session_length=22
+- class: knn.uvstan.U_VSKNN_STAN
+  params: { k: 100, sample_size: 2500 , similarity: 'vec', lambda_spw: 3.62, lambda_snh: 100, lambda_inh: 0.905, lambda_ipw: 0.905, lambda_idf: 10, extend_session_length: 22 }
+  key: vstan_E

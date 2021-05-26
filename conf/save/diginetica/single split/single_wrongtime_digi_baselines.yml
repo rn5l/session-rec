@@ -39,8 +39,8 @@ algorithms:
   params: { steps: 8, weighting: quadratic }
   key: sr
 - class: knn.sknn.ContextKNN
-  params: { k: 100, sampling: 500, similarity: cosine }
+  params: { k: 100, sample_size: 500, similarity: cosine }
   key: sknn
 - class: knn.vsknn.VMContextKNN
-  params: { k: 500, sampling: 10000, weighting: quadratic , weighting_score: quadratic, idf_weighting: 10  }
+  params: { k: 500, sample_size: 10000, weighting: quadratic, weighting_score: quadratic, idf_weighting: 10 }
   key: vsknn

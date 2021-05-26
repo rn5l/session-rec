@@ -1,0 +1,38 @@
+type: opt # single|window, maybe add opt
+key: vstan_EBR #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
+data:
+  name: xing #added in the end of the csv names
+  folder: data/xing/xing2016/prepared_window/
+  prefix: interactions.3 # slice with maximum number of users
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/window/xing/uvstan/EBR/extra/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 30 #optional
+
+algorithms:
+- class: knn.uvstan.U_VSKNN_STAN
+  params: {k: 100, sample_size: 2500 , similarity: 'cosine', lambda_spw: 7.24, lambda_snh: 80, lambda_inh: 0.4525, lambda_ipw: 0.4525, lambda_idf: 5, extend_session_length: 1, boost_own_sessions: 2.1, reminders: True, remind_strategy: 'hybrid'}
+  params_opt:
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    weight_base: {from: 1, to: 10, in: 10, type: int32}
+    weight_IRec: {from: 0, to: 9, in: 10, type: int32}
+    weight_SSim: {from: 0, to: 9, in: 10, type: int32}
+  key: vstan_EBR

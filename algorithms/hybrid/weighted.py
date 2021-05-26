@@ -39,7 +39,7 @@ class WeightedHybrid:
             for a in self.algorithms:
                 a.fit(data)
 
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False, type='view', timestamp=0):
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False, mode_type='view', timestamp=0):
         '''
         Gives predicton scores for a selected set of items on how likely they be the next item in the session.
 
@@ -60,7 +60,7 @@ class WeightedHybrid:
         '''
         predictions = []
         for a in self.algorithms:
-            predictions.append(a.predict_next(session_id, input_item_id, predict_for_item_ids, skip=skip, type=type))
+            predictions.append(a.predict_next(session_id, input_item_id, predict_for_item_ids, skip=skip, mode_type=mode_type))
 
         if skip:
             return

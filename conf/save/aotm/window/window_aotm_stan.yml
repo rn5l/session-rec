@@ -1,0 +1,51 @@
+---
+type: window # single|window, maybe add opt
+key: stan #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: aotm-window #added in the end of the csv names
+  folder: data/aotm/slices/
+  prefix: playlists-aotm
+  slices: 5
+  #opts: {sessions_test: 10}
+
+results:
+  folder: results/aotm_window/
+  #pickle_models: results/window/aotm/ # not working for tensorflow models
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+#- class: saver.Saver
+#  length: [50]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage			
+
+algorithms:
+- class: knn.stan.STAN
+  params:
+    k: 500
+    sample_size: 1000
+    #stan
+    lambda_spw: 28.2
+    lambda_snh: 100
+    lambda_inh: 14.1
+  key: stan-mrr
+- class: knn.stan.STAN
+  params:
+    k: 100
+    sample_size: 5000
+    #stan
+    lambda_spw: 14.1
+    lambda_snh: 80
+    lambda_inh: 28.2
+  key: stan-hr

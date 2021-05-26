@@ -8,6 +8,7 @@
 		<li><a href="#opt-sknn" data-toggle="tab" aria-expanded="true">SKNN</a></li>
 		<li><a href="#opt-vsknn" data-toggle="tab" aria-expanded="true">VSKNN</a></li>
 		<li><a href="#opt-ct" data-toggle="tab" aria-expanded="true">CT</a></li>
+		<li><a href="#opt-sgnn" data-toggle="tab" aria-expanded="true">SGNN</a></li>
 
 	</ul>
 	<div class="tab-content">
@@ -421,20 +422,19 @@
 					<th>Steps</th>
 					<th>Options</th>
 				</tr>
-				
 				<tr>
 					<td>Steps</td>
-					<td align="right">2<br>14</td>
-					<td align="right">15<br>30</td>
-					<td align="right">13<br>4</td>
+					<td align="right">1</td>
+					<td align="right">20</td>
+					<td align="right">1</td> <!--todo: right?! -->
+                    <td align="right">-</td>
 				</tr>
-				
                 <tr>
                     <td>Weighting</td>
                     <td align="right">-</td>
                     <td align="right">-</td>
                     <td align="right">-</td>
-                    <td align="right">Div, Linear, Quadratic, Log</td>
+                    <td align="right">Div, Linear, Quadratic, Log, Same</td>
 				</tr>
 			</tbody></table>
 			<br>
@@ -752,6 +752,125 @@
 				</tr>
 
 			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-sgnn" class="tab-pane fade active in">
+
+			<h3>Hyperparameters for <span class="caps">sgnn</span> (fixed layer size of 100)</h3> <!--hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10-->
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Steps</th>
+                    </tr>
+                    <tr>
+                        <td>Learning Rate</td>
+                        <td align="right">0.01<br>0.001</td>
+                        <td align="right">0.001<br>0.0001</td>
+                        <td align="right">10<br>10</td>
+                    </tr>
+                    <tr>
+                        <td>L2 Penalty</td>
+                        <td align="right">0.0001<br>0.00001</td>
+                        <td align="right">0.00001<br>0.000001</td>
+                        <td align="right">10<br>10</td>
+                    </tr>
+                    <tr>
+                        <td>Decay Rate</td>
+                        <td align="right">0.1</td>
+                        <td align="right">0.9</td>
+                        <td align="right">10</td>
+                    </tr>
+                    <tr>
+                        <td>Decay Rate Step</td>
+                        <td align="right">3</td>
+                        <td align="right">7</td>
+                        <td align="right">2</td>
+                    </tr>
+			    </tbody>
+			</table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+					<tr>
+						<th>Dataset</th>
+						<th>Learning Rate</th>
+						<th>L2 Penalty</th>
+						<th>Decay Rate</th>
+						<th>Decay Rate Step</th>
+					</tr>
+					<tr>
+						<td>RSC15</td><!--dataset -->
+						<td align="right"></td><!--Learning Rate -->
+						<td align="right"></td><!--L2 Penalty -->
+						<td align="right"></td><!--Decay Rate -->
+						<td align="right"></td><!--Decay Rate Step -->
+					</tr>
+					<tr>
+						<td>RETAILROCKET</td><!--dataset -->
+						<td align="right">0.0002</td><!--Learning Rate -->
+						<td align="right">0.000003</td><!--L2 Penalty -->
+						<td align="right">0.54</td><!--Decay Rate -->
+						<td align="right">3</td><!--Decay Rate Step -->
+					</tr>
+					<tr>
+						<td>ZALANDO</td><!--dataset -->
+						<td align="right"></td><!--Learning Rate -->
+						<td align="right"></td><!--L2 Penalty -->
+						<td align="right"></td><!--Decay Rate -->
+						<td align="right"></td><!--Decay Rate Step -->
+					</tr>
+					<tr>
+						<td>DIGINETICA</td><!--dataset -->
+						<td align="right">0.0001</td><!--Learning Rate -->
+						<td align="right">0.00001</td><!--L2 Penalty -->
+						<td align="right">0.1</td><!--Decay Rate -->
+						<td align="right">5</td><!--Decay Rate Step -->
+					</tr>
+					<tr>
+						<td>DIGINETICA (STAMP)</td><!--dataset -->
+						<td align="right"></td><!--Learning Rate -->
+						<td align="right"></td><!--L2 Penalty -->
+						<td align="right"></td><!--Decay Rate -->
+						<td align="right"></td><!--Decay Rate Step -->
+					</tr>
+					<tr>
+						<td>8TRACKS</td><!--dataset -->
+						<td align="right"></td><!--Learning Rate -->
+						<td align="right"></td><!--L2 Penalty -->
+						<td align="right"></td><!--Decay Rate -->
+						<td align="right"></td><!--Decay Rate Step -->
+					</tr>
+					<tr>
+						<td>AOTM</td><!--dataset -->
+						<td align="right">0.001</td><!--Learning Rate -->
+						<td align="right">0.00006</td><!--L2 Penalty -->
+						<td align="right">0.1</td><!--Decay Rate -->
+						<td align="right">7</td><!--Decay Rate Step -->
+					</tr>
+					<tr>
+						<td>NOWPLAYING</td><!--dataset -->
+						<td align="right">0.006</td><!--Learning Rate -->
+						<td align="right">0.000007</td><!--L2 Penalty -->
+						<td align="right">0.1</td><!--Decay Rate -->
+						<td align="right">3</td><!--Decay Rate Step -->
+					</tr>
+					<tr>
+						<td>30MUSIC</td><!--dataset -->
+						<td align="right"></td><!--Learning Rate -->
+						<td align="right"></td><!--L2 Penalty -->
+						<td align="right"></td><!--Decay Rate -->
+						<td align="right"></td><!--Decay Rate Step -->
+					</tr>
+				</tbody>
+			</table>
 			<br>
 
 		</div>

@@ -1,0 +1,37 @@
+type: opt # single|window, maybe add opt
+key: vstan_reminder #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
+data:
+  name: xing #added in the end of the csv names
+  folder: data/xing/xing2016/prepared_window/
+  prefix: interactions.3 # slice with maximum number of users
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/window/xing/uvstan/R/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 20 #optional
+
+algorithms:
+- class: knn.uvstan.U_VSKNN_STAN
+  params: {k: 1500, sample_size: 10000 , similarity: 'cosine', lambda_spw: 3.62, lambda_snh: 20, lambda_inh: 0.4525, lambda_ipw: 0.4525, lambda_idf: 10, reminders: True, remind_mode: 'end' }
+  params_opt:
+    remind_strategy: ['recency', 'session_similarity']
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    reminders_num: {from: 1, to: 5, in: 5, type: int32}
+  key: vstan_reminder

@@ -46,3 +46,6 @@ algorithms:
 - class: ct.ct.ContextTree
   params: {}
   key: ct-pre
+- class: sgnn.gnn.GGNN
+  params: { lr: 0.0007, l2: 0.00001, lr_dc: 0.1, lr_dc_step: 7, hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: False }
+  key: sgnn

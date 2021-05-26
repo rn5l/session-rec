@@ -1,0 +1,35 @@
+type: window # opt|single|window
+key: stan_EBR #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: cosmetics #added in the end of the csv names
+  folder: data/cosmetics/prepared_window/sampled/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/cosmetics/ustan/EBR/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# stan_EBR-k=1500-sample_size=5000-lambda_spw=0,905-lambda_snh=100-lambda_inh=7,24-extend_session_length=2-boost_own_sessions=1,9-reminders=True-remind_strategy=hybrid-remind_sessions_num=4-weight_base=10-weight_IRec=1-weight_SSim=1
+- class: knn.ustan.USTAN
+  params: { k: 1500, sample_size: 5000, lambda_spw: 0.905 , lambda_snh: 100, lambda_inh: 7.24 , extend_session_length: 2, boost_own_sessions: 1.9, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 4, weight_base: 10, weight_IRec: 1, weight_SSim: 1 }
+  key: stan_EBR
+

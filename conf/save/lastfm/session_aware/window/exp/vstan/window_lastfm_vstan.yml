@@ -1,0 +1,39 @@
+type: window # opt|single|window
+key: vstan #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/lastfm/vstan/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+# vstan-k=1000-sample_size=5000-similarity=cosine-lambda_spw=1,81-lambda_snh=100-lambda_inh=1,81-lambda_ipw=1e-05-lambda_idf=False
+- class: knn.vstan.VSKNN_STAN
+  params: {k: 1000, sample_size: 5000 , similarity: 'cosine', lambda_spw: 1.81, lambda_snh: 100, lambda_inh: 1.81, lambda_ipw: 0.00001, lambda_idf: False }
+  key: vstan

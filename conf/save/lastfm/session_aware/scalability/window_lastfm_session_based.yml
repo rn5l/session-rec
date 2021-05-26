@@ -1,0 +1,29 @@
+type: window # opt|single|window
+key: session_based #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+  skip: [0,1,2,4] # we need only slice 3
+
+results:
+  folder: results/window/scalability/lastfm/
+
+metrics:
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+# GRU4Rec
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'bpr-max', final_act: 'linear', batch_size: 100, dropout_p_hidden: 0.0, learning_rate: 0.04, momentum: 0.1, constrained_embedding: False }
+  key: gru4rec
+# NARM
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.007, factors: 100}
+  key: narm
+

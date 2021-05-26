@@ -1,0 +1,42 @@
+---
+type: opt # single|window, maybe add opt
+key: smf #added to the csv names
+evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: retailr-window #added in the end of the csv names
+  folder: ../../data/retailrocket/single/
+  prefix: events
+  opts: {sessions_test: 5000}
+results:
+  folder: results/opt/retailr_window/
+
+metrics:
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: smf.smf.SessionMF
+  params: {}
+  params_opt:
+    objective: ['bpr_max_org', 'top1_max']
+    activation: ['linear']
+    dropout: {from: 0.0, to: 0.4, in: 5, type: float32}
+    skip: {from: 0.0, to: 0.5, in: 6, type: float32}
+    momentum: {from: 0.0, to: 0.9, in: 10, type: float32}
+    learning_rate: [ {from: 0.1, to: 0.01, in: 10, type: float32}, {from: 0.01, to: 0.001, in: 4, type: float32}, {from: 0.5, to: 0.1, in: 5, type: float32} ]
+  key: smf
+

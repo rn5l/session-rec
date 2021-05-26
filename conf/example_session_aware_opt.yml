@@ -1,0 +1,222 @@
+type: opt # single|window|opt
+key: baselines_and_models #added to the csv names
+evaluation: evaluation_user_based # evaluation_user_based
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared/
+  prefix: events_sample
+  type: hdf # hdf|csv(default)
+
+results:
+  folder: results/session-aware/retailrocket/opt/
+
+metrics:
+- class: accuracy_multiple.MAP
+  length: [10,20]
+- class: accuracy_multiple.Precision
+  length: [10,20]
+- class: accuracy_multiple.Recall
+  length: [10,20]
+- class: accuracy.HitRate
+  length: [10,20]
+- class: accuracy.MRR
+  length: [10,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+# non-neural models
+# SR
+- class: baselines.sr.SequentialRules
+  params: {}
+  params_opt:
+    steps: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,25,30]
+    weighting: ['linear','div','quadratic','log']
+  key: sr
+- class: baselines.usr.USequentialRules
+  params: {}
+  params_opt:
+    steps: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,25,30]
+    weighting: ['linear','div','quadratic','log']
+    boost_own_sessions: {from: 0.1, to: 3.9 , in: 20, type: float32}
+  key: sr_B
+- class: baselines.usr.USequentialRules
+  params: { steps: 12, weighting: quadratic, boost_own_sessions: 3.1, reminders: True, remind_strategy: 'hybrid' }
+  params_opt:
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    weight_base: {from: 1, to: 10, in: 10, type: int32}
+    weight_IRec: {from: 0, to: 9, in: 10, type: int32}
+  key: sr_BR
+#VSKNN
+- class: knn.vsknn.VMContextKNN
+  params: {}
+  params_opt:
+    k: [50,100,500,1000,1500]
+    sample_size: [500,1000,2500,5000,10000]
+    weighting: ['same','div','linear','quadratic','log']
+    weighting_score: ['same','div','linear','quadratic','log']
+    idf_weighting: [False,1,2,5,10]
+  key: vsknn
+- class: knn.uvsknn.UVMContextKNN
+  params: {}
+  params_opt:
+    k: [50,100,500,1000,1500]
+    sample_size: [500,1000,2500,5000,10000]
+    weighting: ['same','div','linear','quadratic','log']
+    weighting_score: ['same','div','linear','quadratic','log']
+    idf_weighting: [False,1,2,5,10]
+    extend_session_length: {from: 1, to: 25, in: 25, type: int32}
+    boost_own_sessions: {from: 0.1, to: 3.9 , in: 20, type: float32}
+  key: vsknn_EB
+- class: knn.uvsknn.UVMContextKNN
+  params: { k: 1500, sample_size: 1000, weighting: log , weighting_score: linear, idf_weighting: 1, extend_session_length: 8, boost_own_sessions: 0.1, reminders: True, remind_strategy: 'hybrid' }
+  params_opt:
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    weight_base: {from: 1, to: 10, in: 10, type: int32}
+    weight_IRec: {from: 0, to: 9, in: 10, type: int32}
+    weight_SSim: {from: 0, to: 9, in: 10, type: int32}
+  key: vsknn_EBR
+# STAN
+- class: knn.stan.STAN
+  params: {}
+  params_opt:
+    k: [100,200,500,1000,1500,2000]
+    sample_size: [1000,2500,5000,10000]
+    #stan
+    lambda_spw: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    lambda_snh: [2.5,5,10,20,40,80,100]
+    lambda_inh: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+  key: stan
+- class: knn.ustan.USTAN
+  params: {}
+  params_opt:
+    k: [100,200,500,1000,1500,2000]
+    sample_size: [1000,2500,5000,10000]
+    #stan
+    lambda_spw: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    lambda_snh: [2.5,5,10,20,40,80,100]
+    lambda_inh: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    extend_session_length: {from: 1, to: 25, in: 25, type: int32}
+  key: stan_E
+- class: knn.ustan.USTAN
+  params: { k: 200, sample_size: 1000, lambda_spw: 0.905 , lambda_snh: 100, lambda_inh: 0.905 , extend_session_length: 2, reminders: True, remind_strategy: 'hybrid' }
+  params_opt:
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    weight_base: {from: 1, to: 10, in: 10, type: int32}
+    weight_IRec: {from: 0, to: 9, in: 10, type: int32}
+    weight_SSim: {from: 0, to: 9, in: 10, type: int32}
+  key: stan_ER
+- class: knn.vstan.VSKNN_STAN
+  params: {}
+  params_opt:
+    k: [100,200,500,1000,1500,2000]
+    sample_size: [1000,2500,5000,10000]
+    similarity: ['cosine','vec']
+    #stan
+    lambda_spw: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    lambda_snh: [2.5,5,10,20,40,80,100]
+    lambda_inh: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    #vsknn
+    lambda_ipw: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    lambda_idf: [False,1,2,5,10]
+  key: vstan
+- class: knn.uvstan.U_VSKNN_STAN
+  params: {}
+  params_opt:
+    k: [100,200,500,1000,1500,2000]
+    sample_size: [1000,2500,5000,10000]
+    similarity: ['cosine','vec']
+    #stan
+    lambda_spw: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    lambda_snh: [2.5,5,10,20,40,80,100]
+    lambda_inh: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    #vsknn
+    lambda_ipw: [0.00001,0.4525,0.905,1.81,3.62,7.24]
+    lambda_idf: [False,1,2,5,10]
+    extend_session_length: {from: 1, to: 25, in: 25, type: int32}
+    boost_own_sessions: {from: 0.1, to: 3.9 , in: 20, type: float32}
+  key: vstan_EB
+- class: knn.uvstan.U_VSKNN_STAN
+  params: {k: 2000, sample_size: 10000 , similarity: 'cosine', lambda_spw: 0.905, lambda_snh: 80, lambda_inh: 1.81, lambda_ipw: 3.62, lambda_idf: 5, extend_session_length: 5, boost_own_sessions: 0.1, reminders: True, remind_strategy: 'hybrid' }
+  params_opt:
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    weight_base: {from: 1, to: 10, in: 10, type: int32}
+    weight_IRec: {from: 0, to: 9, in: 10, type: int32}
+    weight_SSim: {from: 0, to: 9, in: 10, type: int32}
+  key: vstan_EBR
+# session-based models
+# GRU4Rec
+- class: gru4rec.gru4rec.GRU4Rec
+  params: {}
+  params_opt:
+    loss: ['bpr-max', 'top1-max']
+    final_act: ['elu-0.5','linear']
+    dropout_p_hidden: {from: 0.0, to: 0.9, in: 10, type: float}
+    momentum: {from: 0.0, to: 0.9, in: 10, type: float32}
+    learning_rate: [{from: 0.1, to: 0.01, in: 10, type: float32}, {from: 0.5, to: 0.1, in: 5, type: float32}]
+    constrained_embedding: [True,False]
+  key: gru4rec
+- class: gru4rec.ugru4rec.UGRU4Rec
+  params: {loss: 'top1-max', final_act: 'linear', batch_size: 100, dropout_p_hidden: 0.7, learning_rate: 0.08, momentum: 0.1, constrained_embedding: True, reminders: True, remind_strategy: 'hybrid'}
+  params_opt:
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    weight_base: {from: 1, to: 10, in: 10, type: int32}
+    weight_IRec: {from: 0, to: 9, in: 10, type: int32}
+  key: gru4rec_Reminder
+# NARM
+- class: narm.narm.NARM
+  params: { epochs: 20 }
+  params_opt:
+    factors: [50, 100]
+    hidden_units: [50, 100]
+    lr: [{from: 0.01, to: 0.001, in: 10, type: float32},{from: 0.001, to: 0.0001, in: 10, type: float32}]
+  key: narm
+- class: narm.unarm.UNARM
+  params: { epochs: 20, lr: 0.01, factors: 50, reminders: True, remind_strategy: 'hybrid' }
+  params_opt:
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    weight_base: {from: 1, to: 10, in: 10, type: int32}
+    weight_IRec: {from: 0, to: 9, in: 10, type: int32}
+  key: narm_Reminder
+# session-aware models
+- class: IIRNN.ii_rnn.IIRNN
+  params: {max_epoch: 100}
+  params_opt:
+    dropout_pkeep: {from: 0.1, to: 1.0, in: 10, type: float}
+    learning_rate: [{from: 0.01, to: 0.001, in: 10, type: float},{from: 0.001, to: 0.0001, in: 10, type: float}]
+    max_session_representation: [1, 5, 10, 15, 20]
+    use_last_hidden_state: [True, False]
+    embedding_size: [50, 100]
+  key: ii_rnn
+- class: NCFS.ncfs.NCFS
+  params: {}
+  params_opt:
+    window_sz: {from: 1, to: 10, in: 10, type: int32}
+    max_nb_his_sess: [0,1,2,5,10]
+    att_alpha: [0.01, 0.1, 1, 10]
+  key: ncfs
+- class: nsar.nsar.NSAR
+  params: {num_epoch: 20, batch_size: 64, keep_pr: 0.25}
+  params_opt:
+    learning_rate: [ {from: 0.01, to: 0.001, in: 10, type: float32}, {from: 0.05, to: 0.01, in: 5, type: float32} ]
+    hidden_units: [50,100]
+  key: nsar
+- class: hgru4rec.hgru4rec.HGRU4Rec
+  params: {session_layers: 100, user_layers: 100, loss: 'top1'}
+  params_opt:
+    final_act: ['linear', 'relu', 'tanh']
+    dropout_p_hidden_usr: {from: 0.0, to: 0.9, in: 10, type: float}
+    dropout_p_hidden_ses: {from: 0.0, to: 0.9, in: 10, type: float}
+    dropout_p_init: {from: 0.0, to: 0.9, in: 10, type: float}
+    momentum: {from: 0.0, to: 0.9, in: 10, type: float32}
+    learning_rate: [ {from: 0.1, to: 0.01, in: 10, type: float32}, {from: 0.5, to: 0.1, in: 5, type: float32} ]
+    user_propagation_mode: ['init', 'all']
+    batch_size: [50, 100]
+  key: hgru4rec

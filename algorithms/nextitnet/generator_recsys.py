@@ -23,9 +23,9 @@ class NextItNet_Decoder:
             self.softmax_w = tf.get_variable(self.key+"softmax_w", [model_para['item_size'],  model_para['dilated_channels']],tf.float32,tf.random_normal_initializer(0.0, 0.01))
             self.softmax_b = tf.get_variable(self.key+"softmax_b", [model_para['item_size']], tf.float32, tf.constant_initializer(0.1))
             label_flat = tf.reshape(label_seq, [-1, 1])  # 1 is the number of positive example
-            num_sampled = int(0.2* model_para['item_size'])#sample 20% as negatives
+            num_sampled = int(model_para['sampling_rate'] * model_para['item_size']) #sample 20% as negatives
             # tf.nn.nce_loss
-            loss =tf.nn.sampled_softmax_loss(self.softmax_w, self.softmax_b, label_flat, logits_2D, num_sampled,model_para['item_size'])
+            loss =tf.nn.sampled_softmax_loss(self.softmax_w, self.softmax_b, label_flat, logits_2D, num_sampled, model_para['item_size'])
         else:
             logits = ops.conv1d(tf.nn.relu(dilate_input), model_para['item_size'], name=self.key+'logits')
             logits_2D = tf.reshape(logits, [-1, model_para['item_size']])

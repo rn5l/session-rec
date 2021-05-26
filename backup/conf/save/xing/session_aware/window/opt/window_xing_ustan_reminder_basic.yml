@@ -1,0 +1,37 @@
+type: opt # opt|single|window
+key: ustan_reminder #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
+data:
+  name: xing #added in the end of the csv names
+  folder: data/xing/xing2016/prepared_window/
+  prefix: interactions.3 # slice with maximum number of users
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/window/xing/ustan_reminder/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 20 #optional
+
+algorithms:
+- class: knn.ustan.USTAN
+  params: { k: 500, sample_size: 5000, lambda_spw: 0.4525 , lambda_snh: 80, lambda_inh: 0.905 , extend_session_length: 1, boost_own_sessions: 3.9, reminders: True, remind_mode: 'end' }
+  params_opt:
+    remind_strategy: ['recency', 'session_similarity']
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    reminders_num: {from: 1, to: 5, in: 5, type: int32}
+  key: ustan_reminder

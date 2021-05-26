@@ -1,0 +1,59 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="markdown-github.css">
+<style>
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+    }
+
+    @media (max-width: 767px) {
+        .markdown-body {
+            padding: 15px;
+        }
+    }
+</style>
+
+
+<article class="markdown-body">
+<h1>session-aware</h1>
+
+<h2>Requirements</h2>
+To run session-rec, the following libraries are required:
+<ul>
+    <li>Anaconda 4.X (Python 3.5+)</li>
+    <li>BLAS</li>
+    <li>Certifi</li>
+    <li>CUDA</li>
+    <li>Dill</li>
+    <li>NetworkX</li>
+    <li>NumExpr</li>
+    <li>NumPy</li>
+    <li>Pandas</li>
+    <li>Psutil</li>
+    <li>Pympler</li>
+    <li>PyTables</li>
+    <li>Python-dateutil</li>
+    <li>Python-telegram-bot</li>
+    <li>Pytz</li>
+    <li>Pyyaml</li>
+    <li>Scikit-learn</li>
+    <li>SciPy</li>
+    <li>Six</li>
+    <li>Sklearn</li>
+    <li>Tensorflow</li>
+    <li>Tensorflow-gpu</li>
+    <li>Theano</li>
+</ul>
+
+<h2>Installation</h2>
+    <h3>Using docker (Linux users with a GPU that supports Cuda9)</h3>
+<ol>
+    <li>docker image: <code>wolfgangschmid/tensorflow2_theano_python3_miniconda3:0.1</code></li>
+    <li><code>conda install --yes --file requirements_conda.txt</code></li>
+    <li><code>conda install --yes --file requirements_hgru.txt</code></li>
+    <li><code>pip install -r requirements_pip.txt</code></li>
+</ol>
+</article>

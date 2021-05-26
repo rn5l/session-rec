@@ -21,7 +21,7 @@ class RandomPred:
         '''
         pass
 
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids, input_user_id=None, skip=False):
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False):
         '''
         Gives predicton scores for a selected set of items on how likely they be the next item in the session.
                 

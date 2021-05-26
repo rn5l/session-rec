@@ -1,0 +1,34 @@
+type: window # single|window, maybe add opt
+key: ii_rnn #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
+data:
+  name: cosmetics #added in the end of the csv names
+  folder: data/cosmetics/prepared_window/sampled/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/cosmetics/ii_rnn/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# ii_rnn-max_epoch=100-dropout_pkeep=0,5-learning_rate=0,001-max_session_representation=1-use_last_hidden_state=True-embedding_size=100
+- class: IIRNN.ii_rnn.IIRNN
+  params: { learning_rate: 0.001, dropout_pkeep: 0.5, embedding_size: 100, use_last_hidden_state: True, max_session_representation: 1, max_epoch: 100 }
+  key: ii_rnn

@@ -1,0 +1,24 @@
+type: window # opt|single|window
+key: ii_rnn #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared_window/
+  prefix: events
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+  skip: [0,1,2,3] # we need only slice 4 (smallest one)
+
+results:
+  folder: results/window/scalability/retailrocket/
+
+metrics:
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+# IIRNN
+- class: IIRNN.ii_rnn.IIRNN
+  params: { learning_rate: 0.002, dropout_pkeep: 0.4, embedding_size: 100, use_last_hidden_state: False, max_session_representation: 15, max_epoch: 100}
+  key: ii_rnn

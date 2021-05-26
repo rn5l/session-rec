@@ -1,0 +1,42 @@
+type: opt # single|window, maybe add opt
+key: hgru4rec #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname.3
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/window/lastfm/hgru4rec/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: hgru4rec.hgru4rec.HGRU4Rec
+  params: {session_layers: 100, user_layers: 100, loss: 'top1'} # small network, the TOP1 loss always outperformed other ranking losses, so we consider only it
+  params_opt:
+    final_act: ['linear', 'relu', 'tanh'] # None means default (tanh if the loss is brp or top1; softmax for cross-entropy) # cross-entropy is only affected by 'tanh' where the softmax layers is proceeded by a tanh nonlinearity (default: None)
+    dropout_p_hidden_usr: {from: 0.0, to: 0.9, in: 10, type: float}
+    dropout_p_hidden_ses: {from: 0.0, to: 0.9, in: 10, type: float}
+    dropout_p_init: {from: 0.0, to: 0.9, in: 10, type: float}
+    momentum: {from: 0.0, to: 0.9, in: 10, type: float32}
+    learning_rate: [ {from: 0.1, to: 0.01, in: 10, type: float32}, {from: 0.5, to: 0.1, in: 5, type: float32} ]
+    user_propagation_mode: ['init', 'all']
+    batch_size: [50, 100]
+  key: hgru4rec
