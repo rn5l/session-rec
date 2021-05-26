@@ -20,8 +20,7 @@
 <h2>Introduction</h2>
 
 <b>session-aware</b> is a Python-based framework for building and evaluating recommender systems (Python 3.5.x). It
-implements a suite of state-of-the-art
-algorithms and baselines for session-based and session-aware recommendation.
+implements a suite of state-of-the-art algorithms and baselines for session-based and session-aware recommendation.
 <br><br>
 Parts of the framework and its algorithms are based on code developed and shared by:
 <ul>
@@ -115,7 +114,7 @@ To run session-aware, the following libraries are required:
     <li>Scikit-learn</li>
     <li>Tensorflow-gpu</li>
     <li>NetworkX</li>
-    <li>Certifi</li>
+    <li>Certifi</li> 
     <li>NumExpr</li>
     <li>Pytable</li>
     <li>Python-dateutil</li>
@@ -127,24 +126,29 @@ To run session-aware, the following libraries are required:
 </ul>
 
 <h2>Installation</h2>
+<h3>
+    Using docker
+</h3>
 <ol>
-    <li>Download and Install Anaconda (https://www.anaconda.com/distribution/)</li>
-    <li>Unzip the file, and in the main folder, run the following commands:
+    <li>Download and Install Docker (https://www.docker.com/)</li>
+    <li>Run the following commands:
         <ol>
-            <li><code>conda install --yes --file requirements_conda.txt</code></li>
-            <li><code>pip install -r requirements_pip.txt</code></li>      
+            <li><code>docker pull 042019/session-rec-docker</code></li>
+            <li><code>git clone https://github.com/kyraropmet/session-rec.git</code></li>
         </ol>
     </li>
 </ol>
-
-<h2>Configuration files</h2>
-The conf folder contains the configuration files used for the experiments and for the datasets pre-processing.
+<h2>Example of Experiments</h2>
+The data folder contains a small sample dataset. It's possible to have an overview of how the framework works by using as a configuration file:
     <ul>
         <li>
-            *.yml
+            example_next.yml to predict the next item in the session. 
+        </li>
+        <li>
+            example_multiple.yml to predict the remaining items of the session.
         </li>
     </ul>
-
+At the end of the experiments, you can find the evalutaion results in the "results" folder. You can also find the list of recommended items under the "results" folder with the suffix "Saver@". 
 <h2>How to Run It</h2>
 <ol>
     <h3>
@@ -152,21 +156,21 @@ The conf folder contains the configuration files used for the experiments and fo
     </h3>
     <ol>
         <li>
-            Unzip and add any dataset file to the data folder, i.e., events.hdf will then be in the folder
-            data/retairocket/raw
+            Unzip any dataset file to the data folder, i.e., rsc15-clicks.dat will then be in the folder
+            data/rsc15/raw
         </li>
         <li>
             Open and edit any configuration file in the folder conf/preprocess/.. to configure the preprocessing method and parameters.
             <ul>
                 <li>
-                    See, e.g., conf/preprocess/session-aware/retailrocket_window.yml for an example with comments.
+                    See, e.g., conf/preprocess/window/rsc15.yml for an example with comments.
                 </li>
             </ul>
         </li>
         <li>
             Run a configuration with the following command: </br>
             <code>
-                python run_preprocesing.py conf/preprocess/session-aware/retailrocket_window.yml
+                ./dpython run_preprocessing.py conf/preprocess/window/rsc15.yml
             </code>
         </li>
     </ol>
@@ -181,59 +185,24 @@ The conf folder contains the configuration files used for the experiments and fo
             the conf/in folder. When a configuration file in conf/in has been executed, it will be moved to the folder conf/out.
         </li>
         <li>
-            <b>Using Anaconda:</b> </br>
+            <b>Using Docker: </b> </br>
             Run the following command from the main folder: </br>
             <code>
-                python run_config.py conf/in conf/out
+                ./dpython run_config.py conf/in conf/out
             </code></br>
             If you want to run a specific configuration file, run the following command:</br>
             <code>
-                python run_config.py conf/sr.yml
+                ./dpython run_config.py conf/example_next.yml
             </code>
         </li>
         <li>
-            Results will be displayed and saved to the results folder as config.
+            Results and run times will be displayed and saved to the results folder as config.
         </li>
     </ol>
-    <!--</li>-->
-    <!--<h3>-->
-        <!--<li>Run experiments using the Python scripts (CHECK SCRIPTS)-->
-    <!--</h3>-->
-    <!--<ol>-->
-        <!--<li>-->
-            <!--Open and edit one of the run_test*.py scripts in the run_test folder. The usage of all algorithms is-->
-            <!--exemplarily shown in the script.-->
-            <!--<ul>-->
-                <!--<li>-->
-                    <!--runtest.py evaluates predictions for single split in terms of just the next item (HR@X and-->
-                    <!--MRR@X)-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--runtestpr.py evaluates predictions for single split in terms of all remaining items in the-->
-                    <!--session (P@X, R@X, and MAP@X)-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--runtestwindow.py evaluates predictions for window split in terms of the next item (HR@X-->
-                    <!--and MRR@X)-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--Run the script with the following command:</br>-->
-            <!--<code>-->
-                <!--THEANO_FLAGS="device=cuda0,floatX=float32" python run_test*.py-->
-            <!--</code>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--Results and run times will be displayed and saved to the results folder as config.-->
-        <!--</li>-->
-    <!--</ol>-->
-    </li>
-</ol>
-
-
 <h2>How to Configure It</h2>
+<b>Start from one of the examples in the conf folder.</b>
 <h3>Essential Options</h3>
+<div>
 <div>
     <table class="table table-hover table-bordered">
         <tr>
@@ -251,7 +220,7 @@ The conf folder contains the configuration files used for the experiments and fo
         <tr>
             <td>evaluation</td>
             <td>evaluation_user_based</td>
-            <td>Values: <b>session-aware evaluation:</b> evaluation_user_based (evaluation in term of the next item and in terms of the remaining items of the sessions),  <b>session-based evaluation:</b> evaluation (evaluation in term of the next item), evaluation_last (evaluation in term of the last item of the session), evaluation_multiple (evaluation in terms of the remaining items of the sessions).
+            <td>Values: <b>for session-aware evaluation:</b> evaluation_user_based (evaluation in term of the next item and in terms of the remaining items of the sessions),  <b>for session-based evaluation:</b> evaluation (evaluation in term of the next item), evaluation_last (evaluation in term of the last item of the session), evaluation_multiple (evaluation in terms of the remaining items of the sessions).
             </td>
         </tr>
         <tr>
@@ -302,6 +271,287 @@ The conf folder contains the configuration files used for the experiments and fo
             </td>
         </tr>
     </table>
+</div>
+<h2>Algorithms</h2>
+<div>
+    <h3>Baselines</h3>
+    <div>
+        <table class="table table-hover table-bordered">
+            <tr>
+                <th width="20%" scope="col"> Algorithm</th>
+                <th width="12%" class="conf" scope="col">File</th>
+                <th width="68%" class="conf" scope="col">Description</th>
+            </tr>
+            <tr>
+                <td scope="row">Association Rules</td>
+                <td>ar.py</td>
+                <td>Simplified version of the association rule mining technique with a maximum rule size of two.<br>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Markov Chains</td>
+                <td>markov.py</td>
+                <td>Variant of association rules with a focus on sequences in the data. The rules are extracted from a
+                    first-order Markov Chain.
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Sequential Rules</td>
+                <td>sr.py</td>
+                <td>Variation of mc or ar respectively. It also takes the order of actions into account, but in a less
+                    restrictive manner.
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">BPR-MF</td>
+                <td>bpr.py</td>
+                <td>Rendle et al., BPR: Bayesian Personalized Ranking from Implicit Feedback, UAI 2009.
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">Context Tree</td>
+                <td>ct.py</td>
+                <td>Mi et al., Context Tree for Adaptive Session-based Recommendation, 2018.
+                </td>
+            </tr>
+        </table>
+    </div>
+    <h3>Nearest Neighbors</h3>
+    <div>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th width="20%" scope="col"> Algorithm</th>
+            <th width="12%" class="conf" scope="col">File</th>
+            <th width="68%" class="conf" scope="col">Description</th>
+        </tr>
+        <tr>
+            <td scope="row">Item-based kNN</td>
+            <td>iknn.py</td>
+            <td>Considers the last element in a given session and then returns those items as recommendations that
+                are most similar to it in terms of their co-occurrence in other sessions.<br>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Session-based kNN</td>
+            <td>sknn.py</td>
+            <td>
+                Recommend items from the most similar sessions, where session distance is determined with the cosine similarity function or the jaccard index. 
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Vector Multiplication Session-Based kNN</td>
+            <td>vsknn.py</td>
+            <td>More emphasis on the more recent events of a session when computing the similarities. The weights of
+                the other elements are determined using a linear decay function that
+                depends on the position of the element within the session, where elements appearing earlier in the
+                session obtain a lower weight. 
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Sequence and Time Aware Neighborhood</td>
+            <td>stan.py</td>
+            <td>Garg et al., Sequence and time aware neighborhood for session-based recommendations: Stan, SIGIR 2019.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Sequence and Time Aware Neighborhood</td>
+            <td>vstan.py</td>
+            <td>It combines ideas from stan and v-sknn in a single approach. Furthermore, it has a sequence-aware item scoring procedure 
+                as well as the IDF weighting scheme from v-sknn.
+            </td>
+        </tr>
+    </table>
+    </div>
+    <h3>Session-based Neural Models</h3>
+    <div>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th width="20%" scope="col"> Algorithm</th>
+            <th width="12%" class="conf" scope="col">File</th>
+            <th width="68%" class="conf" scope="col">Description</th>
+        </tr>
+        <tr>
+            <td scope="row">CSRM</td>
+            <td>csrm.py</td>
+            <td>Wang et al., A collaborative session-based recommendation approach with parallel memory modules, SIGIR 2019.<br>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Gru4Rec</td>
+            <td>gru4rec.py</td>
+            <td>Hidasi et al., Recurrent Neural Networks with Top-k Gains for Session-based Recommendations, CIKM 2018.<br>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">NextItNet</td>
+            <td>nextitrec.py</td>
+            <td>Yuan et al., A simple convolutional generative network for next item recommendation, WSDM 2019.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">NARM</td>
+            <td>narm.py</td>
+            <td>Li et al., Neural Attentive Session-based Recommendation, CIKM 2017.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">SR-GNN</td>
+            <td>gnn.py</td>
+            <td>Wu et al., Session-based recommendation with graph neural networks, AAAI 2019.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">STAMP</td>
+            <td>STAMP.py</td>
+            <td>Liu et al., STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation, KDD
+                2018.
+            </td>
+        </tr>
+    </table>
+    </div>
+    <h3>Session-aware Neural Models</h3>
+    <div>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th width="20%" scope="col"> Algorithm</th>
+            <th width="12%" class="conf" scope="col">File</th>
+            <th width="68%" class="conf" scope="col">Description</th>
+        </tr>
+        <tr>
+            <td scope="row">HGru4Rec</td>
+            <td>hgru4rec.py</td>
+            <td>Quadrana et al., Method based on the gru4rec algorithm. To model the interactions of a user within a session, it utilizes RNNs based on a single GRU layer, RecSys 2017.<br>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">IIRNN</td>
+            <td>ii_rnn.py</td>
+            <td>Ruocco et al., Method extending a session-based recommender built on RNN, called intra-session RNN, by using a second RNN that is called inter-session RNN, DLRS 2017.<br>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">NCSF</td>
+            <td>ncfs.py</td>
+            <td>Hu et al., Method using three encoders to model inter-session context, intra-session context, and to integrate the information of the intra-session context and the inter-session context for item prediction, IEEE Intelligent Systems, 2018.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">NSAR</td>
+            <td>nsar.py</td>
+            <td>Phuong et al., Method using RNNs to encode session patterns (short-term user preferences) and user embeddings to represent long-term user preferences across session, IEEE Access 2019.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">SHAN</td>
+            <td>shan.py</td>
+            <td>Ying et al., Model using a two-layer hierarchical attention network to learn a hybrid representation for each user that combines the long-term and short-term preferences, IJCAI 2018.
+            </td>
+        </tr>
+    </table>
+    </div>
+    <h3>Factorization-based Methods</h3>
+    <div>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th width="20%" scope="col"> Algorithm</th>
+            <th width="12%" class="conf" scope="col">File</th>
+            <th width="68%" class="conf" scope="col">Description</th>
+        </tr>
+        <tr>
+            <td scope="row">Factorized Personalized Markov Chains</td>
+            <td>fpmc.py</td>
+            <td>
+                <!--Fpmc combines Markov Chains and traditional user-item matrix factorization in a three dimensional-->
+                <!--tensor factorization approach.<br>-->
+                Rendle et al., Factorizing Personalized Markov Chains for Next-basket Recommendation. WWW 2010.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Factored Item Similarity Models</td>
+            <td>fism.py</td>
+            <td>
+                <!--Based on an item-item factorization. It has the advantage of being directly applicable to the-->
+                <!--session-based cold-start scenario, where-->
+                <!--no explicit user representation can be learned. However, fism does not incorporate sequential-->
+                <!--item-to-item transitions like fpmc does. <br>-->
+                Kabbur et al., FISM: Factored Item Similarity Models for top-N Recommender Systems, KDD 2013.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Factorized Sequential Prediction with Item Similarity Models</td>
+            <td>fossil.py</td>
+            <td>
+                <!--Fossil combines fism and factorized Markov chains to incorporate sequential information into the-->
+                <!--model.<br>-->
+                He and McAuley. Fusing Similarity Models with Markov Chains for Sparse Sequential Recommendation.
+                CoRR abs/1609.09152, 2016.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Session-based Matrix Factorization</td>
+            <td>smf.py</td>
+            <td>It combines factorized Markov chains with classic matrix factorization. In
+                addition, the method considers the
+                cold-start situation of session-based recommendation scenarios.
+            </td>
+        </tr>
+    </table>
+</div>
+</div>
+<h2>Related Datasets</h2>
+<div>
+    Datasets can be downloaded from: <a
+        href="https://www.dropbox.com/sh/n281js5mgsvao6s/AADQbYxSFVPCun5DfwtsSxeda?dl=0">https://www.dropbox.com/sh/n281js5mgsvao6s/AADQbYxSFVPCun5DfwtsSxeda?dl=0</a>
+    <br>
+    <br>
+    <table class="tg">
+        <tr>
+            <td class="tg-0pky">RSC15</td>
+            <td class="tg-0pky">The e-commerce dataset used in the 2015 ACM RecSys Challenge.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">RETAILROCKET</td>
+            <td class="tg-0pky">An e-commerce dataset from the company Retail Rocket.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">DIGINETICA</td>
+            <td class="tg-0pky">An e-commerce dataset shared by the company Diginetica.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">ZALANDO</td>
+            <td class="tg-0pky">A private dataset consisting of interaction logs from a European fashion retailer.
+            </td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">NOWPLAYING</td>
+            <td class="tg-0pky">Music listening logs obtained from Twitter.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">30MUSIC</td>
+            <td class="tg-0pky">Music listening logs obtained from Last.fm.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">AOTM</td>
+            <td class="tg-0pky">A public music dataset containing hand-crafted music playlists.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">8TRACKS</td>
+            <td class="tg-0pky">A private music dataset with hand-crafted playlists.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">XING</td>
+            <td class="tg-0pky">Interactions of job postings on a career-oriented social networking site, XING, from about three month.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">COSMETICS</td>
+            <td class="tg-0pky">An e-commerce dataset containing the event history of a cosmetics shop for five months.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">LASTFM</td>
+            <td class="tg-0pky">A music dataset that contains the entire listening history of almost 1,000 users during five year.</td>
+        </tr>
+    </table>
+</div>
 </div>
 </article>
 
