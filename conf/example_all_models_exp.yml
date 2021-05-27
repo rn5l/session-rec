@@ -54,6 +54,15 @@ algorithms:
 - class: knn.uvstan.U_VSKNN_STAN
   params: {k: 2000, sample_size: 10000 , similarity: 'cosine', lambda_spw: 0.905, lambda_snh: 80, lambda_inh: 1.81, lambda_ipw: 3.62, lambda_idf: 5, extend_session_length: 5, boost_own_sessions: 0.1, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 2, weight_base: 6, weight_IRec: 2, weight_SSim: 0}
   key: vstan_EBR
+- class: baselines.ar.AssociationRules
+  params: {}
+  key: ar
+- class: knn.sknn.ContextKNN
+  params: { k: 50, sample_size: 5000, similarity: cosine }
+  key: sknn
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre
 # session-based models
 - class: gru4rec.gru4rec.GRU4Rec
   params: { loss: 'top1-max', final_act: 'linear', dropout_p_hidden: 0.1, learning_rate: 0.08, momentum: 0.1, constrained_embedding: True }
@@ -67,6 +76,18 @@ algorithms:
 - class: narm.unarm.UNARM
   params: { epochs: 20, lr: 0.01, factors: 50, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 4, weight_base: 10, weight_IRec: 7 }
   key: narm_Reminder
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.003, n_epochs: 10, decay_rate: 0.4}
+  key: stamp
+- class: nextitnet.nextitrec.Nextitrec
+  params: { learning_rate: 0.005, iterations: 30, is_negsample: True }
+  key: nextitnet
+- class: sgnn.gnn.GGNN
+  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: True, lr: 0.006, l2: 3.00E-05, lr_dc: 0.36666667, lr_dc_step: 3}
+  key: sgnn
+- class: CSRM.csrm.CSRM
+  params: { hidden_units: 100, epoch: 10, lr: 0.001, memory_size: 128}
+  key: csrm
 # session-aware models
 - class: IIRNN.ii_rnn.IIRNN
   params: { learning_rate: 0.002, dropout_pkeep: 0.4, embedding_size: 100, use_last_hidden_state: False, max_session_representation: 15, max_epoch: 100}

@@ -29,7 +29,7 @@ metrics:
 optimize:
   class: accuracy.MRR
   length: [20]
-  iterations: 100 #optional
+  iterations: 1 #optional
 
 algorithms:
 # non-neural models
@@ -218,5 +218,9 @@ algorithms:
     momentum: {from: 0.0, to: 0.9, in: 10, type: float32}
     learning_rate: [ {from: 0.1, to: 0.01, in: 10, type: float32}, {from: 0.5, to: 0.1, in: 5, type: float32} ]
     user_propagation_mode: ['init', 'all']
-    batch_size: [50, 100]
+    batch_size: [5]  # [50, 100]
   key: hgru4rec
+- class: shan.shan.SHAN
+  params: {iter: 100, global_dimension: 100, lambda_uv: 0.01, lambda_a: 1}
+  params_opt: {}
+  key: shan_combination1

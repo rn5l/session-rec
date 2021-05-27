@@ -85,6 +85,15 @@ def split_data_slice(data, slice_id, days_offset, days_shift):
     report_statistics(data)
 
     data = filter_data(data)
+
+    if SAMPLE:
+        data = sample(data)
+
+    print('--------------------- Sampled---')
+    print('Sampled data set\n\tEvents: {}\n\tUsers: {}\n\tSessions: {}\n\tItems: {}\n\tSpan: {} / {}\n\n'.
+          format(len(data), data[USER_KEY].nunique(), data[SESSION_KEY].nunique(), data[ITEM_KEY].nunique(),
+                 data_start.date().isoformat(),
+                 data_end.date().isoformat()))
     report_statistics(data)
 
     # training-test split
@@ -103,7 +112,7 @@ def last_session_out_split(data, min_session_length):
     if CLEAN_TEST:
         train_items = train[ITEM_KEY].unique()
         test = test[test[ITEM_KEY].isin(train_items)]
-        #  remove sessions in test shorter than min_session_length
+        # Â remove sessions in test shorter than min_session_length
         slen = test[SESSION_KEY].value_counts()
         good_sessions = slen[slen >= min_session_length].index
         test = test[test[SESSION_KEY].isin(good_sessions)].copy()
@@ -264,18 +273,6 @@ if __name__ == '__main__':
     # only keep interactions of type 'view'
     data = data[data[TYPE_KEY] == ACTION_TYPE].copy()
     # data = data[data[TYPE_KEY] != ACTION_TYPE].copy()
-
-
-    if SAMPLE:
-        print("sample data: "+str(SAMPLE_PERCENTAGE)+"%\n")
-        data = sample(data)
-
-            # output
-        print('--------------------- Sampled---')
-        print('Sampled data set\n\tEvents: {}\n\tUsers: {}\n\tSessions: {}\n\tItems: {}\n\n'.
-              format(len(data), data[USER_KEY].nunique(), data[SESSION_KEY].nunique(), data[ITEM_KEY].nunique()))
-
-
     # prepare time format
     data = prepare_time(data, time_key=TIME_KEY)
 
