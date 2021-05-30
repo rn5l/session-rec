@@ -1,2 +1,0 @@
-#!/bin/bash
-docker run -it --runtime=nvidia -v $PWD:/project -w /project wolfgangschmid/tf_theano_py35:0.1 $*

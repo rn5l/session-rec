@@ -1,6 +1,0 @@
-#!/bin/bash
-<<<<<<< HEAD
-docker run -it --runtime=nvidia -v $PWD:/project -w /project 042019/session-rec-docker:latest $*
-=======
-docker run -it --runtime=nvidia -v $PWD:/project -w /project wolfgangschmid/tf_theano_py35:0.1 $*
->>>>>>> sessionAwareDev

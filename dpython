@@ -1,2 +1,3 @@
 #!/bin/bash
-docker run -it --runtime=nvidia --hostname=$HOSTNAME -v $PWD:/project -w /project 042019/session-rec-docker:latest /bin/bash -c "pip install -r requirements.txt; python $*"
+#docker run -it --runtime=nvidia --hostname=$HOSTNAME -v $PWD:/project -w /project 042019/session-rec:latest /bin/bash -c "pip install -r requirements_pip.txt; python $*"
+docker run -it --hostname=$HOSTNAME -v $PWD:/project -w /project maltel/session-rec-cpu:v1 /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh; conda activate srec37; python $*"

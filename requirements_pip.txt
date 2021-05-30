@@ -1,3 +1,0 @@
-python-telegram-bot
-networkx
-scikit-optimize
