@@ -26,7 +26,7 @@ import gc
 CHAT_ID = -325249797
 BOT_TOKEN = '703777769:AAHeTtfZ7OakMpRySop_Ebo1tkBL_xjF63w'
 
-NOTIFY = True
+NOTIFY = False
 TELEGRAM_STATUS = False
 if TELEGRAM_STATUS:
     updater = Updater(BOT_TOKEN)  # , use_context=True
