@@ -1,4 +1,4 @@
 #!/bin/bash
 #docker run -it --runtime=nvidia --hostname=$HOSTNAME -v $PWD:/project -w /project 042019/session-rec:latest /bin/bash -c "pip install -r requirements_pip.txt; python $*"
-docker run -it --runtime=nvidia --hostname=$HOSTNAME -v $PWD:/project -w /project maltel/session-rec-gpu:v1 \
+docker run -it --gpus all --hostname=$HOSTNAME -v $PWD:/project -w /project maltel/session-rec-gpu:v1 \
   /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh; conda activate srec37; THEANO_FLAGS='device=cuda0,floatX=float32' python $*"
