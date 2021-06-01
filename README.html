@@ -142,16 +142,32 @@ To run session-aware, the following libraries are required:
 
 <h2>Installation</h2>
 <h3>
-    Using docker
+    Using docker 
 </h3>
 <ol>
     <li>Download and Install Docker (https://www.docker.com/)</li>
     <li>Run the following commands:
         <ol>
-            <li><code>docker pull 042019/session-rec</code></li>
-            <li><code>git clone https://github.com/rn5l/session-rec.git</code></li>
+            <li>If you are using Windows or you are using Linux but you don't have a GPU: <code>docker pull maltel/session-rec-cpu:v1</code></li>
+            <li>If you are using LINUX and you have a GPU: <code>docker pull maltel/session-rec-gpu:v1</code></li>
         </ol>
     </li>
+    <li>Download the repository: <code>https://github.com/rn5l/session-rec.git</code></li>
+</ol>
+<h3>
+    Using Anaconda
+</h3>
+<ol>
+    <li>Download and Install Anaconda (https://www.anaconda.com/distribution/)</li>
+    <li>Run the following command:<br>
+            From the main folder run: </br>
+        <ol>
+            <li>If you have a GPU: <code>conda install --yes --file environment_gpu.yml</code></li>
+            <li>If you don't have a GPU or you are using Windows: <code>conda install --yes --file environment_cpu.yml</code></li>  
+        </ol>
+    </li>
+    <li>Activate the conda environment: <code>conda activate srec37</code></li>
+    <li>Download the repository: <code>https://github.com/rn5l/session-rec.git</code></li>
 </ol>
 <h2>Example of Experiments</h2>
 The data folder contains a small sample dataset. It's possible to have an overview of how the framework works by using as a configuration file:
@@ -167,30 +183,6 @@ At the end of the experiments, you can find the evalutaion results in the "resul
 <h2>How to Run It</h2>
 <ol>
     <h3>
-        <li>Dataset preprocessing
-    </h3>
-    <ol>
-        <li>
-            Unzip any dataset file to the data folder, i.e., rsc15-clicks.dat will then be in the folder
-            data/rsc15/raw
-        </li>
-        <li>
-            Open and edit any configuration file in the folder conf/preprocess/.. to configure the preprocessing method and parameters.
-            <ul>
-                <li>
-                    See, e.g., conf/preprocess/window/rsc15.yml for an example with comments.
-                </li>
-            </ul>
-        </li>
-        <li>
-            Run a configuration with the following command: </br>
-            <code>
-                ./dpython run_preprocessing.py conf/preprocess/window/rsc15.yml
-            </code>
-        </li>
-    </ol>
-    </li>
-    <h3>
         <li>Run experiments using the configuration file
     </h3>
     <ol>
@@ -202,17 +194,79 @@ At the end of the experiments, you can find the evalutaion results in the "resul
         <li>
             <b>Using Docker: </b> </br>
             Run the following command from the main folder: </br>
+            <ol>
+            <li> If you are using Linux and you have a GPU:
+            <code>
+                ./dpython_gpu run_config.py conf/in conf/out
+            </code> 
+            </li>
+            <li> If you are using Linux and you don't have a GPU:
             <code>
                 ./dpython run_config.py conf/in conf/out
-            </code></br>
-            If you want to run a specific configuration file, run the following command:</br>
+            </code> 
+            </li>
+            <li> If you are using Windows:
             <code>
-                ./dpython run_config.py conf/example_next.yml
-            </code>
+                ./dpython.bat run_config.py conf/in conf/out
+            </code> 
+            </li>
+        </ol>
+        </li>
+        <li>
+            <b>Using Anaconda:</b> </br>
+            Run the following command from the main folder: </br>
+            <ol>
+                <li>If you are using Linux and you have a GPU:
+                <code>
+                    THEANO_FLAGS="device=cuda0,floatX=float32" CUDA_DEVICE_ORDER=PCI_BUS_ID python run_config.py conf/in conf/out
+                </code>
+                </li>
+                <li>If you are using Windows or you are using Linux but you don't have a GPU:
+                <code>
+                    python run_config.py conf/in conf/out
+                </code>
+                </li>
+            </ol>
         </li>
         <li>
             Results and run times will be displayed and saved to the results folder as config.
         </li>
+        <li>
+            If you want to run a specific configuration file, you have to use:</br>
+            <code>
+            conf/example_next.yml
+            </code>
+            instead of:
+            <code>
+            conf/in conf/out
+            </code>
+        </li>
+    </li>
+        </ol>
+                <h3>
+        <li>Dataset preprocessing
+        </h3>
+        <ol>
+            <li>
+                Unzip any dataset file to the data folder, i.e., rsc15-clicks.dat will then be in the folder
+                data/rsc15/raw
+            </li>
+            <li>
+                Open and edit any configuration file in the folder conf/preprocess/.. to configure the preprocessing method and parameters.
+                <ul>
+                    <li>
+                        See, e.g., conf/preprocess/window/rsc15.yml for an example with comments.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Run a configuration file with the following command using the commands described above based on your OS. For example for Linux users that have a GPU and are using docker: </br>
+                <code>
+                    ./dpython_gpu run_preprocessing.py conf/preprocess/window/rsc15.yml
+                </code>
+                </br>
+                Otherwise, replace <code> ./dpython_gpu </code> with the correct command based on your installation and your OS.
+            </li>
     </ol>
 <h2>How to Configure It</h2>
 <b>Start from one of the examples in the conf folder.</b>
