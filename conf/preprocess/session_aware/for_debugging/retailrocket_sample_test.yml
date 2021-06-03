@@ -1,8 +1,8 @@
 type: single # single
 mode: session_aware # session_based | session_aware
-preprocessor: retailrocket_aware_sample # dataset (folder) name
+preprocessor: retailrocket_aware_sample_test # dataset (folder) name
 data:
-  folder: data/retailrocket/
+  folder: data/retailrocket/raw/
   prefix: events
 
 filter:

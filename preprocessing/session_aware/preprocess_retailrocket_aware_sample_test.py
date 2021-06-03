@@ -102,46 +102,12 @@ def filter_data(data, min_item_support= MIN_ITEM_SUPPORT, min_session_length= MI
     print('Num sessions: {}'.format(data[SESSION_KEY].nunique()))
     print('Span: {} / {}'.format(data_start.date().isoformat(), data_end.date().isoformat()))
 
-    print('--------------------- Filtered---')
-    print('Num of users: {}'.format(data[USER_KEY].nunique()))
-    print('Max num of users\' interactions: {}'.format(data.groupby([USER_KEY]).size().max()))
-    print('Min num of users\' interactions: {}'.format(data.groupby([USER_KEY]).size().min()))
-    sess_per_user = data.groupby(USER_KEY)[SESSION_KEY].nunique()
-    print('Max num of users\' sessions: {}'.format(sess_per_user.max()))
-    print('Min num of users\' sessions: {}'.format(sess_per_user.min()))
-    print('---------------------')
-    print('Num of sessions per user: {}'.format(np.count_nonzero(data.groupby(USER_KEY)[SESSION_KEY].nunique())))
-    print('Max sessions\' length: {}'.format(data.groupby([USER_KEY, SESSION_KEY]).size().max()))
-    print('Min sessions\' length: {}'.format(data.groupby([USER_KEY, SESSION_KEY]).size().min()))
-    print('---------------------')
-    print('Num of items: {}'.format(data[ITEM_KEY].nunique()))
-    print('Max num of interactions done with an item: {}'.format(data.groupby([ITEM_KEY]).size().max()))
-    print('Min num of interactions done with an item: {}'.format(data.groupby([ITEM_KEY]).size().min()))
-    print('---------------------')
-
-    grouped_data = data.groupby([USER_KEY]).size().nlargest(5) # take top N user
+    grouped_data = data.groupby([USER_KEY]).size().nlargest(50) # take top N user
     good_users_largest = grouped_data.index
-    grouped_data = data.groupby([USER_KEY]).size().nsmallest(5) # take top N user
+    grouped_data = data.groupby([USER_KEY]).size().nsmallest(50) # take top N user
     good_users_smallest = grouped_data.index
     good_users = good_users_largest | good_users_smallest
     data = data[data[USER_KEY].isin(good_users)].reset_index()
-
-    print('--------------------- Sampled---')
-    print('Num of users: {}'.format(data[USER_KEY].nunique()))
-    print('Max num of users\' interactions: {}'.format(data.groupby([USER_KEY]).size().max()))
-    print('Min num of users\' interactions: {}'.format(data.groupby([USER_KEY]).size().min()))
-    sess_per_user = data.groupby(USER_KEY)[SESSION_KEY].nunique()
-    print('Max num of users\' sessions: {}'.format(sess_per_user.max()))
-    print('Min num of users\' sessions: {}'.format(sess_per_user.min()))
-    print('---------------------')
-    print('Num of sessions per user: {}'.format(np.count_nonzero(data.groupby(USER_KEY)[SESSION_KEY].nunique())))
-    print('Max sessions\' length: {}'.format(data.groupby([USER_KEY, SESSION_KEY]).size().max()))
-    print('Min sessions\' length: {}'.format(data.groupby([USER_KEY, SESSION_KEY]).size().min()))
-    print('---------------------')
-    print('Num of items: {}'.format(data[ITEM_KEY].nunique()))
-    print('Max num of interactions done with an item: {}'.format(data.groupby([ITEM_KEY]).size().max()))
-    print('Min num of interactions done with an item: {}'.format(data.groupby([ITEM_KEY]).size().min()))
-    print('---------------------')
 
     return data
 
@@ -170,54 +136,11 @@ def split_data(data, file, min_session_length, test_sessions): #TODO: extend for
     train_full_sessions, test_sessions = last_session_out_split(data, min_session_length)
     train_valid_sessions, valid_sessions = last_session_out_split(train_full_sessions, min_session_length)
 
-    CLEAN_TEST = len(test_sessions[USER_KEY].unique()) == len(train_full_sessions[USER_KEY].unique()) and len(valid_sessions[USER_KEY].unique()) == len(train_valid_sessions[USER_KEY].unique())
-    print("clean sets")
-    count = 1
-    while not CLEAN_TEST:
-        #  remove users in training set which are not appeared in the test or validation sets
-        # test_users = test_sessions[USER_KEY].unique()
-        # valid_sessions = valid_sessions[valid_sessions[USER_KEY].isin(test_users)]
-        # test
-        test_users = test_sessions[USER_KEY].unique()
-        train_full_sessions = train_full_sessions[train_full_sessions[USER_KEY].isin(test_users)]
-        # validation
-        valid_users = valid_sessions[USER_KEY].unique()
-        train_valid_sessions = train_valid_sessions[train_valid_sessions[USER_KEY].isin(valid_users)]
-        train_full_sessions = train_full_sessions[train_full_sessions[USER_KEY].isin(valid_users)]
-        # exclude items which are not belongs to the training set.
-        # test
-        train_items = train_full_sessions[ITEM_KEY].unique()
-        test_sessions = test_sessions[test_sessions[ITEM_KEY].isin(train_items)]
-        # validation
-        train_items = train_valid_sessions[ITEM_KEY].unique()
-        valid_sessions = valid_sessions[valid_sessions[ITEM_KEY].isin(train_items)]
-        #  remove sessions which are shorter than min_session_length
-        # test
-        sessions_length = test_sessions[SESSION_KEY].value_counts()
-        good_sessions = sessions_length[sessions_length >= min_session_length].index
-        test_sessions = test_sessions[test_sessions[SESSION_KEY].isin(good_sessions)].copy()
-        # validation
-        sessions_length = valid_sessions[SESSION_KEY].value_counts()
-        good_sessions = sessions_length[sessions_length >= min_session_length].index
-        valid_sessions = valid_sessions[valid_sessions[SESSION_KEY].isin(good_sessions)].copy()
-
-        print(count)
-        count = count+1
-
-        CLEAN_TEST = len(test_sessions[USER_KEY].unique()) == len(train_full_sessions[USER_KEY].unique()) and len(
-            valid_sessions[USER_KEY].unique()) == len(train_valid_sessions[USER_KEY].unique())
-
-    print('Training (full) data:')
+    print('Training data:')
     print('Num Events: {}'.format(len(train_full_sessions)))
     print('Num items: {}'.format(train_full_sessions[ITEM_KEY].nunique()))
     print('Num users: {}'.format(train_full_sessions[USER_KEY].nunique()))
     print('Num sessions: {}'.format(train_full_sessions[SESSION_KEY].nunique()))
-
-    print('Training data:')
-    print('Num Events: {}'.format(len(train_valid_sessions)))
-    print('Num items: {}'.format(train_valid_sessions[ITEM_KEY].nunique()))
-    print('Num users: {}'.format(train_valid_sessions[USER_KEY].nunique()))
-    print('Num sessions: {}'.format(train_valid_sessions[SESSION_KEY].nunique()))
 
     print('Test data:')
     print('Num Events: {}'.format(len(test_sessions)))
@@ -237,16 +160,10 @@ def split_data(data, file, min_session_length, test_sessions): #TODO: extend for
     print('Num users: {}'.format(valid_sessions[USER_KEY].nunique()))
     print('Num sessions: {}'.format(valid_sessions[SESSION_KEY].nunique()))
 
-
     print('Write to disk')
     # write to disk
     # subprocess.call(['mkdir', '-p', 'dense/last-session-out'])
-    file = file + FILE_TYPE_PREFIX
-    # subprocess.call(['mkdir', '-p', 'prepared'])
-    train_full_sessions.to_csv('data/retailrocket/prepared/sample/events_train.txt', sep='\t', index=False)
-    test_sessions.to_csv('data/retailrocket/prepared/sample/events_test.txt', sep='\t', index=False)
-    train_valid_sessions.to_csv('data/retailrocket/prepared/sample/events_valid_train.txt', sep='\t', index=False)
-    valid_sessions.to_csv('data/retailrocket/prepared/sample/events_valid_test.txt', sep='\t', index=False)
+    file = file+"_test"+ FILE_TYPE_PREFIX
 
     train_full_sessions.to_hdf(file, 'train')
     test_sessions.to_hdf(file, 'test')
