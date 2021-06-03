@@ -4,14 +4,14 @@ key: time #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: zalando #added in the end of the csv names
-  folder: ../../data/zalando/slices/
+  folder: data/zalando/slices/
   prefix: clicks
   slices: 5
   skip: [1,2,3,4]
   opts: {sessions_test: 1000}
 
 results:
-  folder: results/window/time/zalando/
+  folder: results/window/zalando/
   #pickle_models: results/models/rsc15-window/ # not working for tensorflow models
 
 metrics:
@@ -39,9 +39,9 @@ algorithms:
 - class: CSRM.csrm.CSRM
   params: { hidden_units: 100, epoch: 1, lr: 0.0002, memory_size: 256}
   key: csrm-best
-#- class: ct.ct.ContextTree
-#  params: {}
-#  key: ct-pre
+- class: ct.ct.ContextTree
+  params: {}
+  key: ct-pre
 - class: baselines.markov.MarkovModel
   params: {}
   key: markov

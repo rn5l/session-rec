@@ -1,0 +1,35 @@
+type: window # opt|single|window
+key: stan_ER #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: cosmetics #added in the end of the csv names
+  folder: data/cosmetics/prepared_window/sampled/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/cosmetics/ustan/ER/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# stan_ER-k=1000-sample_size=10000-lambda_spw=0,4525-lambda_snh=40-lambda_inh=0,4525-extend_session_length=7-reminders=True-remind_strategy=hybrid-remind_sessions_num=1-weight_base=8-weight_IRec=0-weight_SSim=1
+- class: knn.ustan.USTAN
+  params: { k: 1000, sample_size: 10000, lambda_spw: 0.4525 , lambda_snh: 40, lambda_inh: 0.4525 , extend_session_length: 7, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 1, weight_base: 8, weight_IRec: 0, weight_SSim: 1 }
+  key: stan_ER
+

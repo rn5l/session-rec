@@ -2,22 +2,80 @@
 <h2>Introduction</h2>
 
 <b>session-rec</b> is a Python-based framework for building and evaluating recommender systems (Python 3.5.x). It
-implements a suite of state-of-the-art
-algorithms and baselines for session-based recommendation.
+implements a suite of state-of-the-art algorithms and baselines for session-based and session-aware recommendation.
 <br><br>
+The authors developed this framework to carry out the experiments described in:
+<ul>
+    <li>
+        S. Latifi, N. Mauro and D. Jannach. 2021. Session-aware recommendation: a surprising quest for the state-of-the-art. Information Sciences.
+    </li>
+    <li>
+        M. Ludewig, N. Mauro, S. Latifi and D. Jannach. 2020. Empirical analysis of session-based recommendation algorithms. User Modeling and User-Adapted Interaction 31 (1), 149-181. 
+    </li>
+    <li>
+        M. Ludewig, N. Mauro, S. Latifi and D. Jannach. Performance comparison of neural and non-neural approaches to session-based recommendation. 2019. Proceedings of the 13th ACM conference on recommender systems, 462-466. 
+    </li>
+    <li>
+         M. Ludewig and D. Jannach. Evaluation of session-based recommendation algorithms. 2018. User Modeling and User-Adapted Interaction 28 (4-5), 331-390. 
+    </li>
+</ul>
 Parts of the framework and its algorithms are based on code developed and shared by:
 <ul>
     <li>
-        Garg et al., Sequence and time aware neighborhood for session-based recommendations: Stan, SIGIR 2019. (Code reproduced from the paper)
-    </li> 
-    <li>
-        He and McAuley, Fusing Similarity Models with Markov Chains for Sparse Sequential Recommendation.
-        CoRR abs/1609.09152, 2016. <a
-            href="https://github.com/rdevooght/sequence-based-recommendations/blob/master/factorization/fossil.py">(Original
-        Code).</a>
+        Quadrana et al., Personalizing Session-based Recommendations with Hierarchical Recurrent Neural Networks, RecSys 2017. <a
+            href="https://github.com/mquad/hgru4rec">(Original Code).</a>
     </li>
     <li>
-        Hidasi et al., Recurrent Neural Networks with Top-k Gains for Session-based Recommendations, CIKM 2018. <a href="https://github.com/hidasib/GRU4Rec">(Original Code).</a>
+        Ruocco et al., Inter-session modeling for session-based recommendation, DLRS 2017. <a
+            href="https://github.com/rainmilk/ieee-is-ncsf">(Original Code).</a>
+    </li>
+    <li>
+        Ying et al., Sequential recommender system based on hierarchical attention network, IJCAI 2018. <a
+            href="https://github.com/chenghu17/Sequential_Recommendation/tree/master/SHAN">(Original Code).</a>
+    </li>
+    <li>
+        Liang et al., Neural cross-session filtering: Next-item prediction under intra- and inter-session context, IEEE Intelligent Systems 2019. <a
+            href="https://github.com/rainmilk/ieee-is-ncsf">(Original Code).</a>
+    </li> 
+    <li>
+        Phuong et al., Neural session-aware recommendation, IEEE Access 2019. <a
+            href="https://github.com/thanhtcptit/RNN-for-Resys">(Original Code).</a>
+    </li>    
+    <li>
+        Rendle et al., BPR: Bayesian Personalized Ranking from Implicit Feedback, UAI 2009. <a
+            href="https://github.com/hidasib/GRU4Rec/blob/master/baselines.py">(Original Code).</a>
+    </li>
+    <li>
+        Mi et al., Context Tree for Adaptive Session-based Recommendation, 2018. (Code shared by the authors).
+    </li>
+    <li>
+        Hidasi et al., Recurrent Neural Networks with Top-k Gains for Session-based Recommendations, CoRR
+        abs/1706.03847, 2017. <a href="https://github.com/hidasib/GRU4Rec">(Original Code).</a>
+    </li>
+    <li>
+        Liu et al., STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation, KDD
+        2018. <a href="https://github.com/uestcnlp/STAMP">(Original Code).</a>
+    </li>
+    <li>
+        Li et al., Neural Attentive Session-based Recommendation, CIKM 2017. <a
+            href="https://github.com/lijingsdu/sessionRec_NARM">(Original Code).</a>
+    </li>
+    <li>
+        Yuan et al., A Simple but Hard-to-Beat Baseline for Session-based Recommendations, CoRR
+        abs/1808.05163, 2018. (Code shared by the authors).
+    </li>
+    <li>
+        Wu et al., Session-based recommendation with graph neural networks, AAAI, 2019. <a
+            href="https://github.com/CRIPAC-DIG/SR-GNN">(Original Code).</a>
+    </li>
+    <li>
+        Wang et al., A collaborative session-based recommendation approach with parallel memory modules, SIGIR, 2019. <a
+            href="https://github.com/wmeirui/CSRM_SIGIR2019">(Original Code).</a>
+    </li>
+    <li>
+        Rendle et al., Factorizing Personalized Markov Chains for Next-basket Recommendation. WWW 2010. <a
+            href="https://github.com/rdevooght/sequence-based-recommendations/blob/master/factorization/fpmc.py">(Original
+        Code).</a>
     </li>
     <li>
         Kabbur et al., FISM: Factored Item Similarity Models for top-N Recommender Systems, KDD 2013. <a
@@ -25,127 +83,94 @@ Parts of the framework and its algorithms are based on code developed and shared
         Code).</a>
     </li>
     <li>
-        Li et al., Neural Attentive Session-based Recommendation, CIKM 2017. <a
-            href="https://github.com/lijingsdu/sessionRec_NARM">(Original Code).</a>
-    </li>
-    <li>
-        Liu et al., STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation, KDD
-        2018. <a href="https://github.com/uestcnlp/STAMP">(Original Code).</a>
-    </li>
-    <li>
-        Mi et al., Context Tree for Adaptive Session-based Recommendation, 2018. (Code shared by the authors).
-    </li>
-    <li>
-        Rendle et al., BPR: Bayesian Personalized Ranking from Implicit Feedback, UAI 2009. <a
-            href="https://github.com/hidasib/GRU4Rec/blob/master/baselines.py">(Original Code).</a>
-    </li>
-    <li>
-        Rendle et al., Factorizing Personalized Markov Chains for Next-basket Recommendation, WWW 2010. <a
-            href="https://github.com/rdevooght/sequence-based-recommendations/blob/master/factorization/fpmc.py">(Original
+        He and McAuley. Fusing Similarity Models with Markov Chains for Sparse Sequential Recommendation.
+        CoRR abs/1609.09152, 2016. <a
+            href="https://github.com/rdevooght/sequence-based-recommendations/blob/master/factorization/fossil.py">(Original
         Code).</a>
-    </li>
-    <li>
-        Wang et al., A collaborative session-based recommendation approach with parallel memory modules, SIGIR 2019. <a
-            href="https://github.com/wmeirui/CSRM_SIGIR2019">(Original
-        Code).</a>
-    </li>
-    <li>
-        Wu et al., Session-based recommendation with graph neural networks, AAAI 2019. <a
-            href="https://github.com/CRIPAC-DIG/SR-GNN">(Original
-        Code).</a>
-    </li>
-    <li>
-        Yuan et al., A simple convolutional generative network for next item recommendation, WSDM 2019. (Code shared by the authors).
     </li>
 </ul>
 
 
 <h2>Requirements</h2>
-To run session-rec, the following libraries are required:
+To run session-aware, the following libraries are required:
 <ul>
-    <li>Anaconda 4.X (Python 3.5+)</li>
-    <li>BLAS</li>
-    <li>CUDA</li>
-    <li>Dill</li>
-    <li>NetworkX</li>
-    <li>NumPy</li>
-    <li>Pandas</li>
-    <li>Psutil</li>
-    <li>Python-telegram-bot</li>
-    <li>Pyyaml</li>
+    <li>Anaconda 4.X (Python 3.5)</li>
     <li>Pympler</li>
+    <li>NumPy</li>
     <li>SciPy</li>
+    <li>BLAS</li>
     <li>Sklearn</li>
+    <li>Dill</li>
+    <li>Pandas</li>
+    <li>Theano</li>
+    <li>Pyyaml</li>
+    <li>CUDA</li>
     <li>Tensorflow</li>
     <li>Theano</li>
+    <li>Psutil</li>
+    <li>Scikit-learn</li>
+    <li>Tensorflow-gpu</li>
+    <li>NetworkX</li>
+    <li>Certifi</li> 
+    <li>NumExpr</li>
+    <li>Pytables</li>
+    <li>Python-dateutil</li>
+    <li>Pytz</li>
+    <li>Six</li>
+    <li>Keras</li>
+    <li>Scikit-optimize</li>
+    <li>Python-telegram-bot</li>
 </ul>
 
 <h2>Installation</h2>
 <h3>
-    Using Anaconda (Windows users)
-</h3>
-<ol>
-    <li>Download and Install Anaconda (https://www.anaconda.com/distribution/)</li>
-    <li>Run the following commands:
-        <ol>
-            <li><code>git clone https://github.com/kyraropmet/session-rec.git</code></li>
-            From the main folder run: </br>
-            <li><code>conda install --yes --file requirements_conda.txt</code></li>
-            <li><code>pip install -r requirements_pip.txt</code></li>      
-        </ol>
-    </li>
-</ol>
-<h3>
-    Using docker (Linux users with a GPU that supports Cuda9)
+    Using docker 
 </h3>
 <ol>
     <li>Download and Install Docker (https://www.docker.com/)</li>
     <li>Run the following commands:
         <ol>
-            <li><code>docker pull 042019/session-rec-docker</code></li>
-            <li><code>git clone https://github.com/kyraropmet/session-rec.git</code></li>
+            <li>If you are using Windows or you are using Linux but you don't have a GPU: <code>docker pull maltel/session-rec-cpu:v1</code></li>
+            <li>If you are using LINUX and you have a GPU: <code>docker pull maltel/session-rec-gpu:v1</code></li>
         </ol>
     </li>
+    <li>Download the repository: <code>https://github.com/rn5l/session-rec.git</code></li>
 </ol>
-
+<h3>
+    Using Anaconda
+</h3>
+<ol>
+    <li>Download and Install Anaconda (https://www.anaconda.com/distribution/)</li>
+    <li>Run the following command:<br>
+            From the main folder run: </br>
+        <ol>
+            <li>If you have a GPU: <code>conda install --yes --file environment_gpu.yml</code></li>
+            <li>If you don't have a GPU or you are using Windows: <code>conda install --yes --file environment_cpu.yml</code></li>  
+        </ol>
+    </li>
+    <li>Activate the conda environment: <code>conda activate srec37</code></li>
+    <li>Download the repository: <code>https://github.com/rn5l/session-rec.git</code></li>
+</ol>
 <h2>Example of Experiments</h2>
 The data folder contains a small sample dataset. It's possible to have an overview of how the framework works by using as a configuration file:
-    <ul>
+    <ul><br>For session-based models:
         <li>
             example_next.yml to predict the next item in the session. 
         </li>
         <li>
             example_multiple.yml to predict the remaining items of the session.
         </li>
+        <br>For session-aware models:
+        <li>
+            example_session_aware_opt.yml to optimize the models. 
+        </li>
+        <li>
+            example_session_aware_exp.yml to evaluate the models.
+        </li>
     </ul>
-At the end of the experiments, you can find the evalutaion results in the "results" folder. You can also find the list of recommended items under the "results" folder with the suffix "Saver@". 
-
+At the end of the experiments, you can find the evalutaion results in the "results" folder.
 <h2>How to Run It</h2>
 <ol>
-    <h3>
-        <li>Dataset preprocessing
-    </h3>
-    <ol>
-        <li>
-            Unzip any dataset file to the data folder, i.e., rsc15-clicks.dat will then be in the folder
-            data/rsc15/raw
-        </li>
-        <li>
-            Open and edit any configuration file in the folder conf/preprocess/.. to configure the preprocessing method and parameters.
-            <ul>
-                <li>
-                    See, e.g., conf/preprocess/window/rsc15.yml for an example with comments.
-                </li>
-            </ul>
-        </li>
-        <li>
-            Run a configuration with the following command: </br>
-            <code>
-                ./dpython run_preprocessing.py conf/preprocess/window/rsc15.yml
-            </code>
-        </li>
-    </ol>
-    </li>
     <h3>
         <li>Run experiments using the configuration file
     </h3>
@@ -156,71 +181,86 @@ At the end of the experiments, you can find the evalutaion results in the "resul
             the conf/in folder. When a configuration file in conf/in has been executed, it will be moved to the folder conf/out.
         </li>
         <li>
-            <b>Using Anaconda:</b> </br>
-            Run the following command from the main folder: </br>
-            <code>
-                python run_config.py conf/in conf/out
-            </code></br>
-            If you want to run a specific configuration file, run the following command:</br>
-            <code>
-                python run_config.py conf/example_next.yml
-            </code>
-        </li>
-        <li>
             <b>Using Docker: </b> </br>
             Run the following command from the main folder: </br>
+            <ol>
+            <li> If you are using Linux and you have a GPU:
+            <code>
+                ./dpython_gpu run_config.py conf/in conf/out
+            </code> 
+            </li>
+            <li> If you are using Linux and you don't have a GPU:
             <code>
                 ./dpython run_config.py conf/in conf/out
-            </code></br>
-            If you want to run a specific configuration file, run the following command:</br>
+            </code> 
+            </li>
+            <li> If you are using Windows:
             <code>
-                ./dpython run_config.py conf/example_next.yml
-            </code>
+                ./dpython.bat run_config.py conf/in conf/out
+            </code> 
+            </li>
+        </ol>
+        </li>
+        <li>
+            <b>Using Anaconda:</b> </br>
+            Run the following command from the main folder: </br>
+            <ol>
+                <li>If you are using Linux and you have a GPU:
+                <code>
+                    THEANO_FLAGS="device=cuda0,floatX=float32" CUDA_DEVICE_ORDER=PCI_BUS_ID python run_config.py conf/in conf/out
+                </code>
+                </li>
+                <li>If you are using Windows or you are using Linux but you don't have a GPU:
+                <code>
+                    python run_config.py conf/in conf/out
+                </code>
+                </li>
+            </ol>
         </li>
         <li>
             Results and run times will be displayed and saved to the results folder as config.
         </li>
-    </ol>
-    <!--</li>-->
-    <!--<h3>-->
-        <!--<li>Run experiments using the Python scripts (CHECK SCRIPTS)-->
-    <!--</h3>-->
-    <!--<ol>-->
-        <!--<li>-->
-            <!--Open and edit one of the run_test*.py scripts in the run_test folder. The usage of all algorithms is-->
-            <!--exemplarily shown in the script.-->
-            <!--<ul>-->
-                <!--<li>-->
-                    <!--runtest.py evaluates predictions for single split in terms of just the next item (HR@X and-->
-                    <!--MRR@X)-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--runtestpr.py evaluates predictions for single split in terms of all remaining items in the-->
-                    <!--session (P@X, R@X, and MAP@X)-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--runtestwindow.py evaluates predictions for window split in terms of the next item (HR@X-->
-                    <!--and MRR@X)-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--Run the script with the following command:</br>-->
-            <!--<code>-->
-                <!--THEANO_FLAGS="device=cuda0,floatX=float32" python run_test*.py-->
-            <!--</code>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--Results and run times will be displayed and saved to the results folder as config.-->
-        <!--</li>-->
-    <!--</ol>-->
+        <li>
+            If you want to run a specific configuration file, you have to use:</br>
+            <code>
+            conf/example_next.yml
+            </code>
+            instead of:
+            <code>
+            conf/in conf/out
+            </code>
+        </li>
     </li>
-</ol>
-
-
+        </ol>
+                <h3>
+        <li>Dataset preprocessing
+        </h3>
+        <ol>
+            <li>
+                Unzip any dataset file to the data folder, i.e., rsc15-clicks.dat will then be in the folder
+                data/rsc15/raw
+            </li>
+            <li>
+                Open and edit any configuration file in the folder conf/preprocess/.. to configure the preprocessing method and parameters.
+                <ul>
+                    <li>
+                        See, e.g., conf/preprocess/window/rsc15.yml for an example with comments.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Run a configuration file with the following command using the commands described above based on your OS. For example for Linux users that have a GPU and are using docker: </br>
+                <code>
+                    ./dpython_gpu run_preprocessing.py conf/preprocess/window/rsc15.yml
+                </code>
+                </br>
+                Otherwise, replace <code> ./dpython_gpu </code> with the correct command based on your installation and your OS.
+            </li>
+    </ol>
 <h2>How to Configure It</h2>
 <b>Start from one of the examples in the conf folder.</b>
 <h3>Essential Options</h3>
+<div>
 <div>
     <table class="table table-hover table-bordered">
         <tr>
@@ -230,17 +270,15 @@ At the end of the experiments, you can find the evalutaion results in the "resul
         </tr>
         <tr>
             <td>type</td>
-            <td>single</td>
+            <td>window</td>
             <td>Values: single (one single training-test split), window (sliding-window protocol), opt (parameters
                 optimization).
             </td>
         </tr>
         <tr>
             <td>evaluation</td>
-            <td>evaluation_multiple</td>
-            <td>Values: evaluation (evaluation in term of the next item), evaluation_last (evaluation in term of the
-                last item of the session), evaluation_multiple (evaluation in terms of the remaining items of the
-                sessions).
+            <td>evaluation_user_based</td>
+            <td>Values: <b>for session-aware evaluation:</b> evaluation_user_based (evaluation in term of the next item and in terms of the remaining items of the sessions),  <b>for session-based evaluation:</b> evaluation (evaluation in term of the next item), evaluation_last (evaluation in term of the last item of the session), evaluation_multiple (evaluation in terms of the remaining items of the sessions).
             </td>
         </tr>
         <tr>
@@ -286,35 +324,12 @@ At the end of the experiments, you can find the evalutaion results in the "resul
         <tr>
             <td scope="row">algorithms</td>
             <td>-</td>
-            <td>See the example.yml, example_opt.yml and example_hybrid_opt.yml for a complete list of the
+            <td>See the configuration files in the conf folder for a list of the
                 algorithms and their parameters.<br>
             </td>
         </tr>
     </table>
 </div>
-
-
-<h2>How to extend it</h2>
-<ol>
-    <li>Make your new algorithm class.</li>
-    <li>Write the following functions:</li>
-    <ul>
-        <li>
-            __init__()
-        </li>
-        <li>
-            fit()
-        </li>
-        <li>
-            predict_next()
-        </li>
-        <li>
-            clear()
-        </li>
-    </ul>
-</ol>
-Tip: look at the implementation of a baseline (e.g.: ar.py).
-
 <h2>Algorithms</h2>
 <div>
     <h3>Baselines</h3>
@@ -405,7 +420,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
         </tr>
     </table>
     </div>
-    <h3>Neural Networks</h3>
+    <h3>Session-based Neural Models</h3>
     <div>
     <table class="table table-hover table-bordered">
         <tr>
@@ -448,6 +463,46 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td>STAMP.py</td>
             <td>Liu et al., STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation, KDD
                 2018.
+            </td>
+        </tr>
+    </table>
+    </div>
+    <h3>Session-aware Neural Models</h3>
+    <div>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th width="20%" scope="col"> Algorithm</th>
+            <th width="12%" class="conf" scope="col">File</th>
+            <th width="68%" class="conf" scope="col">Description</th>
+        </tr>
+        <tr>
+            <td scope="row">HGru4Rec</td>
+            <td>hgru4rec.py</td>
+            <td>Quadrana et al., Method based on the gru4rec algorithm. To model the interactions of a user within a session, it utilizes RNNs based on a single GRU layer, RecSys 2017.<br>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">IIRNN</td>
+            <td>ii_rnn.py</td>
+            <td>Ruocco et al., Method extending a session-based recommender built on RNN, called intra-session RNN, by using a second RNN that is called inter-session RNN, DLRS 2017.<br>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">NCSF</td>
+            <td>ncfs.py</td>
+            <td>Hu et al., Method using three encoders to model inter-session context, intra-session context, and to integrate the information of the intra-session context and the inter-session context for item prediction, IEEE Intelligent Systems, 2018.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">NSAR</td>
+            <td>nsar.py</td>
+            <td>Phuong et al., Method using RNNs to encode session patterns (short-term user preferences) and user embeddings to represent long-term user preferences across session, IEEE Access 2019.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">SHAN</td>
+            <td>shan.py</td>
+            <td>Ying et al., Model using a two-layer hierarchical attention network to learn a hybrid representation for each user that combines the long-term and short-term preferences, IJCAI 2018.
             </td>
         </tr>
     </table>
@@ -504,7 +559,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
 <h2>Related Datasets</h2>
 <div>
     Datasets can be downloaded from: <a
-        href="https://www.dropbox.com/sh/n281js5mgsvao6s/AADQbYxSFVPCun5DfwtsSxeda?dl=0">https://www.dropbox.com/sh/n281js5mgsvao6s/AADQbYxSFVPCun5DfwtsSxeda?dl=0</a>
+        href="https://drive.google.com/drive/folders/1ritDnO_Zc6DFEU6UND9C8VCisT0ETVp5?usp=sharing">https://drive.google.com/drive/folders/1ritDnO_Zc6DFEU6UND9C8VCisT0ETVp5?usp=sharing</a>
     <br>
     <br>
     <table class="tg">
@@ -541,174 +596,18 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">8TRACKS</td>
             <td class="tg-0pky">A private music dataset with hand-crafted playlists.</td>
         </tr>
+        <tr>
+            <td class="tg-0pky">XING</td>
+            <td class="tg-0pky">Interactions of job postings on a career-oriented social networking site, XING, from about three month.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">COSMETICS</td>
+            <td class="tg-0pky">An e-commerce dataset containing the event history of a cosmetics shop for five months.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">LASTFM</td>
+            <td class="tg-0pky">A music dataset that contains the entire listening history of almost 1,000 users during five year.</td>
+        </tr>
     </table>
 </div>
-    <h3>Statistics</h3>
-<div>
-    <table class="tg">
-        <tr>
-            <th class="tg-0pky" width="25%" scope="col">Dataset</th>
-            <th class="tg-0pky" width="15%" scope="col">RSC15-S</th>
-            <th class="tg-dvpl" width="15%" scope="col">RSC15</th>
-            <th class="tg-dvpl" width="15%" scope="col">TMALL</th>
-            <th class="tg-dvpl" width="15%" scope="col">DIGINETICA</th>
-            <th class="tg-dvpl" width="15%" scope="col">RETAILROCKET</th>
-            <th class="tg-dvpl" width="15%" scope="col">ZALANDO</th>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Actions</td>
-            <td class="tg-0pky">31,708,461</td>
-            <td class="tg-dvpl">5,426,961</td>
-            <td class="tg-dvpl">13,418,695</td>
-            <td class="tg-dvpl">263,805</td>
-            <td class="tg-dvpl">212,182</td>
-            <td class="tg-dvpl">4,536,950</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Sessions</td>
-            <td class="tg-0pky">7,981,581</td>
-            <td class="tg-dvpl">1,375,128</td>
-            <td class="tg-dvpl">1,774,729</td>
-            <td class="tg-dvpl">54,574</td>
-            <td class="tg-dvpl">59,962</td>
-            <td class="tg-dvpl">365,126</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Items</td>
-            <td class="tg-0pky">37,483</td>
-            <td class="tg-dvpl">28,582</td>
-            <td class="tg-dvpl">425,348</td>
-            <td class="tg-dvpl">32,137</td>
-            <td class="tg-dvpl">31,968</td>
-            <td class="tg-dvpl">189,328</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Timespan in Days</td>
-            <td class="tg-0pky">182</td>
-            <td class="tg-dvpl">31</td>
-            <td class="tg-dvpl">90</td>
-            <td class="tg-dvpl">31</td>
-            <td class="tg-dvpl">27</td>
-            <td class="tg-dvpl">90</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Actions per Session</td>
-            <td class="tg-0pky">3.97</td>
-            <td class="tg-dvpl">3.95</td>
-            <td class="tg-dvpl">7.56</td>
-            <td class="tg-dvpl">4.78</td>
-            <td class="tg-dvpl">3.54</td>
-            <td class="tg-dvpl">12.43</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Unique Items per Session</td>
-            <td class="tg-0pky">3.17</td>
-            <td class="tg-dvpl">3.17</td>
-            <td class="tg-dvpl">5.56</td>
-            <td class="tg-dvpl">4.01</td>
-            <td class="tg-dvpl">2.56</td>
-            <td class="tg-dvpl">8.39</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Actions per Day</td>
-            <td class="tg-0pky">174,222.31</td>
-            <td class="tg-dvpl">175,063.26</td>
-            <td class="tg-dvpl">149,096.61</td>
-            <td class="tg-dvpl">8,509.84</td>
-            <td class="tg-dvpl">7,858.59</td>
-            <td class="tg-dvpl">50,410.56</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Sessions per Day</td>
-            <td class="tg-0pky">43,854.84</td>
-            <td class="tg-dvpl">44,358.97</td>
-            <td class="tg-dvpl">19,719.22</td>
-            <td class="tg-dvpl">1,760.45</td>
-            <td class="tg-dvpl">2,220.84</td>
-            <td class="tg-dvpl">4,056.96</td>
-        </tr>
-    </table>
-
-</div>
-<div>
-    <table class="tg">
-        <tr>
-            <th class="tg-0pky" width="25%" scope="col">Dataset</th>
-            <th class="tg-0pky" width="15%" scope="col">8TRACKS</th>
-            <th class="tg-dvpl" width="15%" scope="col">30MUSIC</th>
-            <th class="tg-dvpl" width="15%" scope="col">AOTM</th>
-            <th class="tg-dvpl" width="15%" scope="col">NOWPLAYING&nbsp</th>
-            <th class="tg-dvpl" width="15%" scope="col">CLEF</th>
-            <!--<th class="tg-0pky" width="25%" scope="col">Dataset</th>-->
-            <!--<th class="tg-0pky" width="15%" scope="col">8TRACKS</th>-->
-            <!--<th class="tg-dvpl" width="15%" scope="col">30MUSIC</th>-->
-            <!--<th class="tg-dvpl" width="15%" scope="col">AOTM</th>-->
-            <!--<th class="tg-dvpl" width="15%" scope="col">NOWPLAYING</th>-->
-            <!--<th class="tg-dvpl" width="15%" scope="col">CLEF</th>-->
-        </tr>
-        <tr>
-            <td class="tg-0pky">Actions</td>
-            <td class="tg-0pky">1,499,645</td>
-            <td class="tg-dvpl">638,933</td>
-            <td class="tg-dvpl">306,830</td>
-            <td class="tg-dvpl">271,177</td>
-            <td class="tg-dvpl">5,540,486</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Sessions</td>
-            <td class="tg-0pky">132,453</td>
-            <td class="tg-dvpl">37,333</td>
-            <td class="tg-dvpl">21,888</td>
-            <td class="tg-dvpl">27,005</td>
-            <td class="tg-dvpl">1,644,442</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Items</td>
-            <td class="tg-0pky">376,422</td>
-            <td class="tg-dvpl">210,633</td>
-            <td class="tg-dvpl">91,166</td>
-            <td class="tg-dvpl">75,169</td>
-            <td class="tg-dvpl">742</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Timespan in Days</td>
-            <td class="tg-0pky">90</td>
-            <td class="tg-dvpl">90</td>
-            <td class="tg-dvpl">90</td>
-            <td class="tg-dvpl">90</td>
-            <td class="tg-dvpl">6</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Actions per Session</td>
-            <td class="tg-0pky">11.32</td>
-            <td class="tg-dvpl">17.11</td>
-            <td class="tg-dvpl">14.02</td>
-            <td class="tg-dvpl">10.04</td>
-            <td class="tg-dvpl">3.37</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Unique Items per Session</td>
-            <td class="tg-0pky">11.31</td>
-            <td class="tg-dvpl">14.47</td>
-            <td class="tg-dvpl">14.01</td>
-            <td class="tg-dvpl">9.38</td>
-            <td class="tg-dvpl">3.17</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Actions per Day</td>
-            <td class="tg-0pky">16,662.72</td>
-            <td class="tg-dvpl">7099,26</td>
-            <td class="tg-dvpl">3,409.22</td>
-            <td class="tg-dvpl">3,013.08</td>
-            <td class="tg-dvpl">923,414</td>
-        </tr>
-        <tr>
-            <td class="tg-0pky">Sessions per Day</td>
-            <td class="tg-0pky">1,471.70</td>
-            <td class="tg-dvpl">414.81</td>
-            <td class="tg-dvpl">243.20</td>
-            <td class="tg-dvpl">300.06</td>
-            <td class="tg-dvpl">274,074</td>
-        </tr>
-    </table>
 </div>

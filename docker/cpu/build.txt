@@ -1,0 +1,1 @@
+docker build -t maltel/session-rec-cpu:v1 .

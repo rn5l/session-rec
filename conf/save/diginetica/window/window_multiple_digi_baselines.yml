@@ -37,7 +37,7 @@ algorithms:
   params: { file: data/diginetica/slices/recs/markov }
   key: markov
 - class: filemodel.resultfile.ResultFile
-  params: { file: .data/diginetica/slices/recs/ar }
+  params: { file: data/diginetica/slices/recs/ar }
   key: ar
 - class: filemodel.resultfile.ResultFile
   params: { file: data/diginetica/slices/recs/sr }

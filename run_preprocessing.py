@@ -60,12 +60,17 @@ def run_file( conf ):
     preprocessor = load_preprocessor( conf )
     
     #load data from raw and transform
-    data = preprocessor.load_data( conf['data']['folder'] + conf['data']['prefix'] )
+    if 'sample_percentage' in conf['data']:
+        data = preprocessor.load_data(conf['data']['folder'] + conf['data']['prefix'], sample_percentage=conf['data']['sample_percentage'])
+    else:
+        data = preprocessor.load_data( conf['data']['folder'] + conf['data']['prefix'] )
     if type(data) == tuple:
         extra = data[1:]
         data = data[0]
-    data = preprocessor.filter_data( data, **conf['filter'] )
-    
+    # because in session-aware, pre-processing will be applied after data splitting
+    if not(conf['mode'] == 'session_aware' and conf['type'] == 'window'):
+        data = preprocessor.filter_data( data, **conf['filter'] )
+
     ensure_dir( conf['output']['folder'] + conf['data']['prefix'] )
     #call method according to config
     if conf['type'] == 'single':
@@ -77,7 +82,7 @@ def run_file( conf ):
     else:
         if hasattr(preprocessor, conf['type']):
             method_to_call = getattr(preprocessor, conf['type'])
-            method_to_call( data, path+file, **conf['params']  )
+            method_to_call( data, conf['output']['folder'] + conf['data']['prefix'], **conf['params']  )
         else:
             print( 'preprocessing type not supported' )
     
@@ -89,7 +94,7 @@ def load_preprocessor( conf ):
         conf : conf
             Just the last part of the path, e.g., evaluation_last
     '''
-    return importlib.import_module( 'preprocessing.preprocess_' + conf['preprocessor'] )
+    return importlib.import_module( 'preprocessing.'+conf['mode']+'.preprocess_' + conf['preprocessor'] )
 
 def ensure_dir(file_path):
     '''
@@ -108,7 +113,7 @@ if __name__ == '__main__':
     '''
     
     if len( sys.argv ) == 2: 
-        main( sys.argv[1] )
+        main( sys.argv[1] ) # for example: conf/preprocess/window/rsc15.yml
     else:
         print( 'Preprocessing configuration expected.' )
     

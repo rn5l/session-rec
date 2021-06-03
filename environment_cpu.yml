@@ -1,0 +1,26 @@
+name: srec37
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.7
+  - scipy=1.6.2
+  - python-dateutil=2.8.1
+  - pytz=2021.1
+  - certifi=2020.12.5
+  - numpy=1.20.2
+  - dill=0.3.3
+  - pyyaml=5.4.1
+  - networkx=2.5.1
+  - scikit-learn=0.24.2
+  - numexpr=2.7.3
+  - keras=2.3.1
+  - six=1.15.0
+  - theano=1.0.3
+  - pandas=1.2.4
+  - psutil=5.8.0
+  - pympler=0.9
+  - tensorflow=1.14
+  - pytables=3.6.1
+  - scikit-optimize=0.8.1
+  - python-telegram-bot=13.5

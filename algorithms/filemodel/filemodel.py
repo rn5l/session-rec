@@ -20,7 +20,7 @@ class FileModel:
     def fit(self, train, test=None):
         return
 
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False, type='view', timestamp=0):
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False, mode_type='view', timestamp=0):
         '''
         Gives predicton scores for a selected set of items on how likely they be the next item in the session.
 
@@ -39,7 +39,7 @@ class FileModel:
             Prediction scores for selected items on how likely to be the next item of this session. Indexed by the item IDs.
 
         '''
-        return self.model.predict_next(session_id, input_item_id, predict_for_item_ids, skip, type)
+        return self.model.predict_next(session_id, input_item_id, predict_for_item_ids, skip, mode_type)
 
     def predict_next_batch(self, session_ids, input_item_ids, predict_for_item_ids=None, batch=100):
         '''

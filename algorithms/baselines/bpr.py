@@ -89,7 +89,7 @@ class BPR:
                 c.append(err)
             print(it, np.mean(c))
     
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids, input_user_id=None, skip=False, type='view',
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False, mode_type='view',
                      timestamp=0):
         '''
         Gives predicton scores for a selected set of items on how likely they be the next item in the session.

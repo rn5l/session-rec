@@ -502,4 +502,18 @@ class VSKNN_STAN:
         self.session_item_map = dict() 
         self.item_session_map = dict()
         self.session_time = dict()
-    
+
+    def support_users(self):
+        '''
+          whether it is a session-based or session-aware algorithm
+          (if returns True, method "predict_with_training_data" must be defined as well)
+
+          Parameters
+          --------
+
+          Returns
+          --------
+          True : if it is session-aware
+          False : if it is session-based
+        '''
+        return False

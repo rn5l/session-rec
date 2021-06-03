@@ -1,6 +1,6 @@
 ---
 type: opt # single|window, maybe add opt
-key: gru #added to the csv names
+key: sgnn #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: aotm-window #added in the end of the csv names

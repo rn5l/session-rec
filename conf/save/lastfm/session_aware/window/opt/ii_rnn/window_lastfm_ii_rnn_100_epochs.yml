@@ -1,0 +1,39 @@
+type: opt # opt|single|window
+key: ii_rnn #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname.3
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/window/lastfm/ii_rnn/epoch_100/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: IIRNN.ii_rnn.IIRNN
+  params: {max_epoch: 100} # batch_size: 100
+  params_opt:
+    dropout_pkeep: {from: 0.1, to: 1.0, in: 10, type: float}
+    learning_rate: [{from: 0.01, to: 0.001, in: 10, type: float},{from: 0.001, to: 0.0001, in: 10, type: float}]
+    max_session_representation: [1, 5, 10, 15, 20]
+    use_last_hidden_state: [True, False]
+    embedding_size: [50, 100]
+  key: ii_rnn

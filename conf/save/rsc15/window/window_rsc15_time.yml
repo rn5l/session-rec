@@ -4,14 +4,14 @@ key: time #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
   name: rsc15-window #added in the end of the csv names
-  folder: ../../data/rsc15/slices/
+  folder: data/rsc15/slices/
   prefix: yoochoose-clicks-full
   slices: 5
   skip: [1,2,3,4]
   opts: {sessions_test: 1000}
 
 results:
-  folder: results/window/time/rsc15/
+  folder: results/window/rsc15/
   #pickle_models: results/models/rsc15-window/ # not working for tensorflow models
 
 metrics:
@@ -21,7 +21,7 @@ metrics:
   length: [3,5,10,15,20]
 - class: time_memory_usage.Time_usage_training
 - class: time_memory_usage.Time_usage_testing
-#- class: time_memory_usage.Memory_usage
+- class: time_memory_usage.Memory_usage
 
 algorithms:
 - class: STAMP.model.STAMP.Seq2SeqAttNN

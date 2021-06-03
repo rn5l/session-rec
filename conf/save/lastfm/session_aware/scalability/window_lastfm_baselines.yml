@@ -1,0 +1,48 @@
+type: window # opt|single|window
+key: baseline #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+  skip: [0,1,2,4] # we need only slice 3
+
+results:
+  folder: results/window/scalability/lastfm/
+
+metrics:
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+# SR
+- class: baselines.sr.SequentialRules
+  params: { steps: 8, weighting: quadratic }
+  key: sr
+- class: baselines.usr.USequentialRules
+  params: { steps: 20, weighting: quadratic, boost_own_sessions: 3.1 }
+  key: sr_B
+# VSKNN
+- class: knn.vsknn.VMContextKNN
+  params: { k: 50, sample_size: 500, weighting: quadratic , weighting_score: quadratic, idf_weighting: 5 }
+  key: vsknn
+- class: knn.uvsknn.UVMContextKNN
+  params: { k: 50, sample_size: 500, weighting: quadratic , weighting_score: quadratic, idf_weighting: 1, extend_session_length: 3, boost_own_sessions: 2.5 }
+  key: vsknn_EB
+# STAN
+- class: knn.stan.STAN
+  params: { k: 100, sample_size: 10000, lambda_spw: 0.00001 , lambda_snh: 80, lambda_inh: 3.62 }
+  key: stan
+- class: knn.ustan.USTAN
+  params: { k: 100, sample_size: 2500, lambda_spw: 0.00001 , lambda_snh: 100, lambda_inh: 7.24 , extend_session_length: 17, boost_own_sessions: 2.7, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 3, weight_base: 5, weight_IRec: 0, weight_SSim: 6 }
+  key: stan_EBR
+# VSTAN
+- class: knn.vstan.VSKNN_STAN
+  params: {k: 1000, sample_size: 5000 , similarity: 'cosine', lambda_spw: 1.81, lambda_snh: 100, lambda_inh: 1.81, lambda_ipw: 0.00001, lambda_idf: False }
+  key: vstan
+- class: knn.uvstan.U_VSKNN_STAN
+  params: {k: 1000, sample_size: 10000 , similarity: 'cosine', lambda_spw: 0.4525, lambda_snh: 100, lambda_inh: 3.62, lambda_ipw: 0.4525, lambda_idf: 5, extend_session_length: 7, boost_own_sessions: 3.7 }
+  key: vstan_EB

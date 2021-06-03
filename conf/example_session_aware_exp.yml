@@ -1,0 +1,85 @@
+type: single # single|window|opt
+key: baselines_and_models #added to the csv names
+evaluation: evaluation_user_based # evaluation_user_based
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared/
+  prefix: events_sample
+  type: hdf # hdf|csv(default)
+#  slices: 5 #only window
+#  skip: [0,3] #only window
+
+results:
+  folder: results/session-aware/retailrocket/
+
+metrics:
+- class: accuracy_multiple.MAP
+  length: [10,20]
+- class: accuracy_multiple.Precision
+  length: [10,20]
+- class: accuracy_multiple.Recall
+  length: [10,20]
+- class: accuracy.HitRate
+  length: [10,20]
+- class: accuracy.MRR
+  length: [10,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# non-neural models
+- class: baselines.sr.SequentialRules
+  params: { steps: 15, weighting: quadratic }
+  key: sr
+- class: baselines.usr.USequentialRules
+  params: { steps: 12, weighting: quadratic, boost_own_sessions: 3.1 , reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 2, weight_base: 5, weight_IRec: 3}
+  key: sr_BR
+- class: knn.vsknn.VMContextKNN
+  params: { k: 50, sample_size: 500, weighting: log , weighting_score: linear, idf_weighting: 10  }
+  key: vsknn
+- class: knn.uvsknn.UVMContextKNN
+  params: { k: 1500, sample_size: 1000, weighting: log , weighting_score: linear, idf_weighting: 1, extend_session_length: 8, boost_own_sessions: 0.1, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 4, weight_base: 8, weight_IRec: 1, weight_SSim: 1 }
+  key: vsknn_EBR
+- class: knn.stan.STAN
+  params: { k: 1500, sample_size: 2500, lambda_spw: 0.905 , lambda_snh: 100, lambda_inh: 0.4525 }
+  key: stan
+- class: knn.ustan.USTAN
+  params: { k: 200, sample_size: 1000, lambda_spw: 0.905 , lambda_snh: 100, lambda_inh: 0.905 , extend_session_length: 2, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 9, weight_base: 10, weight_IRec: 3, weight_SSim: 2 }
+  key: stan_ER
+- class: knn.vstan.VSKNN_STAN
+  params: {k: 200, sample_size: 5000 , similarity: 'vec', lambda_spw: 1.81, lambda_snh: 40, lambda_inh: 0.905, lambda_ipw: 0.905, lambda_idf: False }
+  key: vstan
+- class: knn.uvstan.U_VSKNN_STAN
+  params: {k: 2000, sample_size: 10000 , similarity: 'cosine', lambda_spw: 0.905, lambda_snh: 80, lambda_inh: 1.81, lambda_ipw: 3.62, lambda_idf: 5, extend_session_length: 5, boost_own_sessions: 0.1, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 2, weight_base: 6, weight_IRec: 2, weight_SSim: 0}
+  key: vstan_EBR
+# session-based models
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'top1-max', final_act: 'linear', dropout_p_hidden: 0.1, learning_rate: 0.08, momentum: 0.1, constrained_embedding: True }
+  key: gru4rec
+- class: gru4rec.ugru4rec.UGRU4Rec
+  params: { loss: 'top1-max', final_act: 'linear', batch_size: 100, dropout_p_hidden: 0.7, learning_rate: 0.08, momentum: 0.1, constrained_embedding: True, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 3, weight_base: 9, weight_IRec: 2 }
+  key: gru4rec_Reminder
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.007, hidden_units: 100, factors: 100 }
+  key: narm
+- class: narm.unarm.UNARM
+  params: { epochs: 20, lr: 0.01, factors: 50, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 4, weight_base: 10, weight_IRec: 7 }
+  key: narm_Reminder
+# session-aware models
+- class: IIRNN.ii_rnn.IIRNN
+  params: { learning_rate: 0.002, dropout_pkeep: 0.4, embedding_size: 100, use_last_hidden_state: False, max_session_representation: 15, max_epoch: 100}
+  key: ii_rnn
+- class: NCFS.ncfs.NCFS
+  params: { window_sz: 2, max_nb_his_sess: 5, att_alpha: 10 }
+  key: ncfs
+- class: nsar.nsar.NSAR
+  params: {num_epoch: 20, batch_size: 64, keep_pr: 0.25, learning_rate: 0.01, hidden_units: 100}
+  key: nsar
+- class: hgru4rec.hgru4rec.HGRU4Rec
+  params: { final_act: 'linear', dropout_p_hidden_usr: 0.4, dropout_p_hidden_ses: 0.3, dropout_p_init: 0.4, momentum: 0.3, learning_rate: 0.06, user_propagation_mode: 'all', batch_size: 5 }
+  key: hgru4rec
+- class: shan.shan.SHAN
+  params: { iter: 100, global_dimension: 100, lambda_uv: 0.01, lambda_a: 1 }
+  key: shan

@@ -1,0 +1,40 @@
+type: window # opt|single|window
+key: session_aware #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+  skip: [0,1,2,4] # we need only slice 3
+
+results:
+  folder: results/window/scalability/lastfm/
+
+metrics:
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+- class: time_memory_usage.Memory_usage
+
+algorithms:
+# HGRU4Rec
+- class: hgru4rec.hgru4rec.HGRU4Rec
+  params: { final_act: 'linear', dropout_p_hidden_usr: 0.7, dropout_p_hidden_ses: 0.1, dropout_p_init: 0.3, momentum: 0.5, learning_rate: 0.09, user_propagation_mode: 'all', batch_size: 50 }
+  key: hgru4rec
+# IIRNN
+- class: IIRNN.ii_rnn.IIRNN
+  params: { learning_rate: 0.001, dropout_pkeep: 0.6, embedding_size: 100, use_last_hidden_state: True, max_session_representation: 20, max_epoch: 100 }
+  key: ii_rnn
+# NCFS
+- class: NCFS.ncfs.NCFS
+  params: { window_sz: 1, max_nb_his_sess: 0, att_alpha: 1 }
+  key: ncfs
+# NSAR
+- class: nsar.nsar.NSAR # small network, the TOP1 loss always outperformed other ranking losses, so we consider only it
+  params: {num_epoch: 20, batch_size: 64, keep_pr: 0.25, learning_rate: 0.003, hidden_units: 100}
+  key: nsar
+# SHAN
+- class: shan.shan.SHAN
+  params: {iter: 100, global_dimension: 100, lambda_uv: 0.01, lambda_a: 10}
+  key: shan

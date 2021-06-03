@@ -108,7 +108,7 @@ class ContextKNN:
         self.session_time.update({session : time})
         
         
-    def predict_next( self, session_id, input_item_id, predict_for_item_ids, input_user_id=None, skip=False, type='view', timestamp=0 ):
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids, skip=False, mode_type='view', timestamp=0):
         '''
         Gives predicton scores for a selected set of items on how likely they be the next item in the session.
                 
@@ -131,7 +131,12 @@ class ContextKNN:
 #         gc.collect()
 #         process = psutil.Process(os.getpid())
 #         print( 'cknn.predict_next: ', process.memory_info().rss, ' memory used')
-        
+
+        # if(type(session_id) is np.ndarray):
+        #     session_id = session_id[0]
+        # if(type(input_item_id) is np.ndarray):
+        #     input_item_id = input_item_id[0]
+
         if( self.session != session_id ): #new session
             
             if( self.extend ):
@@ -152,7 +157,7 @@ class ContextKNN:
             self.session_items = list()
             self.relevant_sessions = set()
         
-        if type == 'view':
+        if mode_type == 'view':
             self.session_items.append( input_item_id )
         
         if skip:
@@ -539,5 +544,19 @@ class ContextKNN:
         self.session_item_map = dict() 
         self.item_session_map = dict()
         self.session_time = dict()
-        
-        
+
+    def support_users(self):
+        '''
+          whether it is a session-based or session-aware algorithm
+          (if returns True, method "predict_with_training_data" must be defined as well)
+
+          Parameters
+          --------
+
+          Returns
+          --------
+          True : if it is session-aware
+          False : if it is session-based
+        '''
+        return False
+

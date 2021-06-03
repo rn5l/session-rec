@@ -1,0 +1,20 @@
+type: window # single
+mode: session_aware # session_based | session_aware
+preprocessor: xing_aware # dataset (folder) name
+data:
+  folder: data/xing/xing2016/
+  prefix: interactions
+
+filter:
+  min_item_support: 5 #20
+  min_session_length: 2 #3
+  min_user_sessions: 3 # 5
+
+params:
+  num_slices: 5
+  days_offset: 0
+  days_shift: 16 # total_interval = 82
+  min_session_length: 2 #3
+
+output:
+  folder: data/xing/xing2016/prepared_window/

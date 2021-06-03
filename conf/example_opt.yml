@@ -1,4 +1,3 @@
----
 type: opt # single|window, maybe add opt
 key: baselines_and_models #added to the csv names
 evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple

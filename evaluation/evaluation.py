@@ -315,7 +315,7 @@ def evaluate_sessions(pr, metrics, test_data, train_data, items=None, cut_off=20
             
             for m in metrics:
                 if hasattr(m, 'stop_predict'):
-                    m.start_predict( pr )
+                    m.stop_predict( pr )
             
             preds[np.isnan(preds)] = 0
 #             preds += 1e-8 * np.random.rand(len(preds)) #Breaking up ties

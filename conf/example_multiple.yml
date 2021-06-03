@@ -1,9 +1,8 @@
----
 type: single # single|window, maybe add opt
 key: baselines #added to the csv names
-evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple
+evaluation: evaluation_multiple #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based|evaluation_user_based_multiple
 data:
-  name: aotm #added in the end of the csv names
+  name: rsc15-100k #added in the end of the csv names
   folder: data/rsc15/prepared/
   prefix: yoochoose-clicks-100k
   opts: {sessions_test: 100}

@@ -1,0 +1,40 @@
+---
+type: opt # single|window, maybe add opt
+key: sr_reminders #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared/
+  prefix: events
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/retailrocket/sr_reminders/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 100 #optional
+
+algorithms:
+- class: baselines.usr.USequentialRules
+  params: {reminders: True, remind_strategy: 'recency'}
+  params_opt:
+    steps: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,25,30]
+    weighting: ['linear','div','quadratic','log']
+    remind_mode: ['top', 'end']
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    reminders_num: {from: 1, to: 5, in: 5, type: int32}
+  key: sr_reminders

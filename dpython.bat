@@ -1,0 +1,1 @@
+docker run -it --hostname=%COMPUTERNAME% -v %cd%:/project -w /project maltel/session-rec-cpu:v1 /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh; conda activate srec37; python %*"

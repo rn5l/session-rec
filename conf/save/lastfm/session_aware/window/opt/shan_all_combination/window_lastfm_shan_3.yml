@@ -1,0 +1,36 @@
+type: opt # single|window, maybe add opt
+key: lastfm3 #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname.3
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/window/lastfm/shan/all_combination/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 1 #optional
+
+algorithms:
+- class: shan.shan.SHAN # small network, the TOP1 loss always outperformed other ranking losses, so we consider only it
+  params: {iter: 100, global_dimension: 100, lambda_uv: 0.01, lambda_a: 50}
+  params_opt: {}
+#  lambda_uv: [0.01, 0.001, 0.0001]
+#  lambda_a:  [1,10,50]
+  key: shan3

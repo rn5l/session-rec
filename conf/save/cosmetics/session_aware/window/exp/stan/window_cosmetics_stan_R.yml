@@ -1,0 +1,35 @@
+type: window # opt|single|window
+key: stan_R #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: cosmetics #added in the end of the csv names
+  folder: data/cosmetics/prepared_window/sampled/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/cosmetics/ustan/R/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# stan_R-k=500-sample_size=2500-lambda_spw=0,905-lambda_snh=40-lambda_inh=0,4525-reminders=True-remind_strategy=hybrid-remind_sessions_num=10-weight_base=7-weight_IRec=0-weight_SSim=5
+- class: knn.ustan.USTAN
+  params: { k: 500, sample_size: 2500, lambda_spw: 0.905 , lambda_snh: 40, lambda_inh: 0.4525, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 10, weight_base: 7, weight_IRec: 0, weight_SSim: 5 }
+  key: stan_R
+

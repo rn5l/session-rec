@@ -150,7 +150,7 @@ class Nextitrec:
         index_list = [self.itemrev[a] for a in range(len(self.items))]
         self.index_list = list(map(lambda x: int(x) if x != '<UNK>' else -1, index_list))
 
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids=None, skip=False, type='view', timestamp=0):
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids=None, skip=False, mode_type='view', timestamp=0):
         # if numIters % args.eval_iter == 0:
         batch_size_test = 1
         if self.old_session_id != session_id:
@@ -210,3 +210,18 @@ class Nextitrec:
 
     def clear(self):
         self.sess.close()
+
+    def support_users(self):
+        '''
+          whether it is a session-based or session-aware algorithm
+          (if returns True, method "predict_with_training_data" must be defined as well)
+
+          Parameters
+          --------
+
+          Returns
+          --------
+          True : if it is session-aware
+          False : if it is session-based
+        '''
+        return False

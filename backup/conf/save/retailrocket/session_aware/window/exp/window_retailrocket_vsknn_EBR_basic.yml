@@ -1,0 +1,39 @@
+type: window # opt|single|window
+key: vsknn_EBR #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_next_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared_window/
+  prefix: events
+  type: hdf #hdf (if there is no type, the default is csv)
+  slices: 5
+
+results:
+  folder: results/window/retailrocket/uvsknn/EBR/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [3,5,10,15,20]
+- class: accuracy_multiple.NDCG
+  length: [3,5,10,15,20]
+- class: accuracy.HitRate
+  length: [3,5,10,15,20]
+- class: accuracy.MRR
+  length: [3,5,10,15,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+- class: time_memory_usage.Time_usage_training
+- class: time_memory_usage.Time_usage_testing
+#- class: time_memory_usage.Memory_usage
+
+algorithms:
+# vsknn_EBR-k=1500-sample_size=1000-weighting=log-weighting_score=linear-idf_weighting=1-extend_session_length=8-boost_own_sessions=0,1-reminders=True-remind_mode=end-remind_strategy=session_similarity-remind_sessions_num=5-reminders_num=5
+- class: knn.uvsknn.UVMContextKNN
+  params: { k: 1500, sample_size: 1000, weighting: log , weighting_score: linear, idf_weighting: 1, extend_session_length: 8, boost_own_sessions: 0.1, reminders: True, remind_strategy: 'session_similarity', remind_mode: 'end', remind_sessions_num: 5, reminders_num: 5 }
+  key: vsknn_EBR

@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run -it --runtime=nvidia --hostname=$HOSTNAME -v $PWD:/project -w /project 042019/session-rec-docker:latest /bin/bash -c "pip install -r requirements.txt; python $*"

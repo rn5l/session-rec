@@ -63,7 +63,7 @@ class Popularity:
         #take the unique values out of those top scorers
         items = recs.index.unique()
                 
-        self.sum += ( self.pop_scores[ items ].sum() / len( items ) )
+        self.sum += ( self.pop_scores[ self.pop_scores.index.intersection(items) ].sum() / len( items ) )
         self.tests += 1
     
     def add_multiple(self, result, next_items, for_item=0, session=0, position=None):   

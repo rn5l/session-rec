@@ -132,7 +132,7 @@ class GGNN(Model):
         config.gpu_options.allow_growth = True
         self.sess = tf.Session(config=config)
         self.sess.run(tf.global_variables_initializer())
-    
+
     def ggnn(self, batch_size, adj_in, adj_out):
         fin_state = tf.nn.embedding_lookup(self.embedding, self.item)
         cell = tf.nn.rnn_cell.GRUCell(self.out_size)
@@ -223,7 +223,8 @@ class GGNN(Model):
                     self.predicted_item_ids.append(int(self.reversed_item_dict[idx + 1]))  # because in item_dic, indexes start from 1 (not 0)
 
 
-    def predict_next(self, session_id, input_item_id, predict_for_item_ids=None, skip=False, type='view', timestamp=0):
+
+    def predict_next(self, session_id, input_item_id, predict_for_item_ids=None, skip=False, mode_type='view', timestamp=0):
 
         if (self.session != session_id):  # new session
             self.session = session_id
@@ -257,3 +258,18 @@ class GGNN(Model):
     def clear(self):
         self.sess.close()
         pass
+
+    def support_users(self):
+        '''
+          whether it is a session-based or session-aware algorithm
+          (if returns True, method "predict_with_training_data" must be defined as well)
+
+          Parameters
+          --------
+
+          Returns
+          --------
+          True : if it is session-aware
+          False : if it is session-based
+        '''
+        return False

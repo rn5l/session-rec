@@ -1,0 +1,37 @@
+type: opt # opt|single|window
+key: vsknn_EBR #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple
+data:
+  name: lastfm #added in the end of the csv names
+  folder: data/lastfm/prepared_window/
+  prefix: userid-timestamp-artid-artname-traid-traname.3
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/window/lastfm/uvsknn/EBR/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 20 #optional
+
+algorithms:
+- class: knn.uvsknn.UVMContextKNN
+  params: {  k: 50, sample_size: 500, weighting: quadratic , weighting_score: quadratic, idf_weighting: 1, extend_session_length: 3, boost_own_sessions: 2.5, reminders: True, remind_mode: 'end' }
+  params_opt:
+    remind_strategy: ['recency', 'session_similarity']
+    remind_sessions_num: {from: 1, to: 10, in: 10, type: int32}
+    reminders_num: {from: 1, to: 5, in: 5, type: int32}
+  key: vsknn_EBR

@@ -10,7 +10,7 @@ data:
   slices: 5
 
 results:
-  folder: results/diginetica_single/
+  folder: results/diginetica_window/
 
 metrics:
 - class: accuracy.HitRate
@@ -40,8 +40,8 @@ algorithms:
   params: { steps: 20, weighting: quadratic }
   key: sr
 - class: knn.sknn.ContextKNN
-  params: { k: 100, sampling_size: 500, similarity: cosine }
+  params: { k: 100, sample_size: 500, similarity: cosine }
   key: sknn
 - class: knn.vsknn.VMContextKNN
-  params: { k: 500, sampling_size: 5000, weighting: quadratic , weighting_score: div, idf_weighting: 5  }
+  params: { k: 500, sample_size: 5000, weighting: quadratic , weighting_score: div, idf_weighting: 5  }
   key: vsknn

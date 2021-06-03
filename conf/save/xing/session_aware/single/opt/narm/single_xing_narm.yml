@@ -1,0 +1,38 @@
+---
+type: opt # single|window, maybe add opt
+key: narm #added to the csv names
+evaluation: evaluation_user_based #evaluation|evaluation_last|evaluation_multiple|evaluation_user_based_next|evaluation_user_based_multiple
+data:
+  name: xing #added in the end of the csv names
+  folder: data/xing/xing2016/prepared/
+  prefix: interactions
+  type: hdf #hdf (if there is no type, the default is csv)
+
+results:
+  folder: results/opt/xing/narm/
+
+metrics:
+- class: accuracy_multiple.Precision
+  length: [5,10,15,20]
+- class: accuracy_multiple.Recall
+  length: [5,10,15,20]
+- class: accuracy_multiple.MAP
+  length: [5,10,15,20]
+- class: accuracy.HitRate
+  length: [5,10,15,20]
+- class: accuracy.MRR
+  length: [5,10,15,20]
+
+
+optimize:
+  class: accuracy.MRR
+  length: [20]
+  iterations: 50 #optional
+
+algorithms:
+- class: narm.narm.NARM
+  params: { epochs: 20 }
+  params_opt:
+    factors: [50, 100]
+    lr: [{from: 0.01, to: 0.001, in: 10, type: float32},{from: 0.0001, to: 0.001, in: 10, type: float32}]
+  key: narm

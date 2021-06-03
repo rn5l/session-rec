@@ -78,9 +78,9 @@ def evaluate_sessions(pr, metrics, test_data, train_data, items=None, cut_off=20
         ts = test_data[time_key][pos]
         rest = test_data[item_key][pos+1:offset_sessions[current_session_idx]+length_session[current_session_idx]].values
         
-        #print('Recommend')
-        #print( current_item )
-        #print( rest )
+        for m in metrics:
+            if hasattr(m, 'start_predict'):
+                m.start_predict( pr )
         
         for m in metrics:
             if hasattr(m, 'start_predict'):
@@ -89,7 +89,7 @@ def evaluate_sessions(pr, metrics, test_data, train_data, items=None, cut_off=20
         preds = pr.predict_next(current_session, current_item, items_to_predict, timestamp=ts)
         
         for m in metrics:
-            if hasattr(m, 'start_predict'):
+            if hasattr(m, 'stop_predict'):
                 m.stop_predict( pr )
             
         preds[np.isnan(preds)] = 0

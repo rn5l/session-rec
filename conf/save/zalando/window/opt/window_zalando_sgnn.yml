@@ -5,13 +5,13 @@ evaluation: evaluation #evaluation|evaluation_last|evaluation_multiple
 data:
 #  name: digi-sample #added in the end of the csv names
   name: zalando #added in the end of the csv names
-  folder: ../../data/zalando/single/
+  folder: data/zalando/single/
   prefix: clicks
 #  slices: 5 #only window
 #  skip: [0,3] #only window
 
 results:
-  folder: results/sgnn/opt/zalando/
+  folder: results/opt/zalando_window/
 
 metrics:
 - class: accuracy.HitRate
