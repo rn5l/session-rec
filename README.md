@@ -8,32 +8,16 @@ algorithms and baselines for session-based recommendation.
 Parts of the framework and its algorithms are based on code developed and shared by:
 <ul>
     <li>
-        Rendle et al., BPR: Bayesian Personalized Ranking from Implicit Feedback, UAI 2009. <a
-            href="https://github.com/hidasib/GRU4Rec/blob/master/baselines.py">(Original Code).</a>
-    </li>
+        Garg et al., Sequence and time aware neighborhood for session-based recommendations: Stan, SIGIR 2019. (Code reproduced from the paper)
+    </li> 
     <li>
-        Mi et al., Context Tree for Adaptive Session-based Recommendation, 2018. (Code shared by the authors).
-    </li>
-    <li>
-        Hidasi et al., Recurrent Neural Networks with Top-k Gains for Session-based Recommendations, CoRR
-        abs/1706.03847, 2017. <a href="https://github.com/hidasib/GRU4Rec">(Original Code).</a>
-    </li>
-    <li>
-        Liu et al., STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation, KDD
-        2018. <a href="https://github.com/uestcnlp/STAMP">(Original Code).</a>
-    </li>
-    <li>
-        Li et al., Neural Attentive Session-based Recommendation, CIKM 2017. <a
-            href="https://github.com/lijingsdu/sessionRec_NARM">(Original Code).</a>
-    </li>
-    <li>
-        Yuan et al., A Simple but Hard-to-Beat Baseline for Session-based Recommendations, CoRR
-        abs/1808.05163, 2018. (Code shared by the authors).
-    </li>
-    <li>
-        Rendle et al., Factorizing Personalized Markov Chains for Next-basket Recommendation. WWW 2010. <a
-            href="https://github.com/rdevooght/sequence-based-recommendations/blob/master/factorization/fpmc.py">(Original
+        He and McAuley, Fusing Similarity Models with Markov Chains for Sparse Sequential Recommendation.
+        CoRR abs/1609.09152, 2016. <a
+            href="https://github.com/rdevooght/sequence-based-recommendations/blob/master/factorization/fossil.py">(Original
         Code).</a>
+    </li>
+    <li>
+        Hidasi et al., Recurrent Neural Networks with Top-k Gains for Session-based Recommendations, CIKM 2018. <a href="https://github.com/hidasib/GRU4Rec">(Original Code).</a>
     </li>
     <li>
         Kabbur et al., FISM: Factored Item Similarity Models for top-N Recommender Systems, KDD 2013. <a
@@ -41,10 +25,37 @@ Parts of the framework and its algorithms are based on code developed and shared
         Code).</a>
     </li>
     <li>
-        He and McAuley. Fusing Similarity Models with Markov Chains for Sparse Sequential Recommendation.
-        CoRR abs/1609.09152, 2016. <a
-            href="https://github.com/rdevooght/sequence-based-recommendations/blob/master/factorization/fossil.py">(Original
+        Li et al., Neural Attentive Session-based Recommendation, CIKM 2017. <a
+            href="https://github.com/lijingsdu/sessionRec_NARM">(Original Code).</a>
+    </li>
+    <li>
+        Liu et al., STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation, KDD
+        2018. <a href="https://github.com/uestcnlp/STAMP">(Original Code).</a>
+    </li>
+    <li>
+        Mi et al., Context Tree for Adaptive Session-based Recommendation, 2018. (Code shared by the authors).
+    </li>
+    <li>
+        Rendle et al., BPR: Bayesian Personalized Ranking from Implicit Feedback, UAI 2009. <a
+            href="https://github.com/hidasib/GRU4Rec/blob/master/baselines.py">(Original Code).</a>
+    </li>
+    <li>
+        Rendle et al., Factorizing Personalized Markov Chains for Next-basket Recommendation, WWW 2010. <a
+            href="https://github.com/rdevooght/sequence-based-recommendations/blob/master/factorization/fpmc.py">(Original
         Code).</a>
+    </li>
+    <li>
+        Wang et al., A collaborative session-based recommendation approach with parallel memory modules, SIGIR 2019. <a
+            href="https://github.com/wmeirui/CSRM_SIGIR2019">(Original
+        Code).</a>
+    </li>
+    <li>
+        Wu et al., Session-based recommendation with graph neural networks, AAAI 2019. <a
+            href="https://github.com/CRIPAC-DIG/SR-GNN">(Original
+        Code).</a>
+    </li>
+    <li>
+        Yuan et al., A simple convolutional generative network for next item recommendation, WSDM 2019. (Code shared by the authors).
     </li>
 </ul>
 
@@ -53,20 +64,20 @@ Parts of the framework and its algorithms are based on code developed and shared
 To run session-rec, the following libraries are required:
 <ul>
     <li>Anaconda 4.X (Python 3.5+)</li>
-    <li>Pympler</li>
-    <li>NumPy</li>
-    <li>SciPy</li>
     <li>BLAS</li>
-    <li>Sklearn</li>
-    <li>Dill</li>
-    <li>Pandas</li>
-    <li>Theano</li>
-    <li>Pyyaml</li>
     <li>CUDA</li>
-    <li>Tensorflow</li>
-    <li>Theano</li>
+    <li>Dill</li>
+    <li>NetworkX</li>
+    <li>NumPy</li>
+    <li>Pandas</li>
     <li>Psutil</li>
     <li>Python-telegram-bot</li>
+    <li>Pyyaml</li>
+    <li>Pympler</li>
+    <li>SciPy</li>
+    <li>Sklearn</li>
+    <li>Tensorflow</li>
+    <li>Theano</li>
 </ul>
 
 <h2>Installation</h2>
@@ -130,7 +141,7 @@ At the end of the experiments, you can find the evalutaion results in the "resul
         <li>
             Run a configuration with the following command: </br>
             <code>
-                ./dpython run_preprocesing.py conf/preprocess/window/rsc15.yml
+                ./dpython run_preprocessing.py conf/preprocess/window/rsc15.yml
             </code>
         </li>
     </ol>
@@ -379,8 +390,21 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
                 session obtain a lower weight. 
             </td>
         </tr>
+        <tr>
+            <td scope="row">Sequence and Time Aware Neighborhood</td>
+            <td>stan.py</td>
+            <td>Garg et al., Sequence and time aware neighborhood for session-based recommendations: Stan, SIGIR 2019.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">Sequence and Time Aware Neighborhood</td>
+            <td>vstan.py</td>
+            <td>It combines ideas from stan and v-sknn in a single approach. Furthermore, it has a sequence-aware item scoring procedure 
+                as well as the IDF weighting scheme from v-sknn.
+            </td>
+        </tr>
     </table>
-</div>
+    </div>
     <h3>Neural Networks</h3>
     <div>
     <table class="table table-hover table-bordered">
@@ -390,17 +414,21 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <th width="68%" class="conf" scope="col">Description</th>
         </tr>
         <tr>
-            <td scope="row">Gru4Rec</td>
-            <td>gru4rec.py</td>
-            <td>Hidasi et al., Recurrent Neural Networks with Top-k Gains for Session-based Recommendations, CoRR
-                abs/1706.03847, 2017.<br>
+            <td scope="row">CSRM</td>
+            <td>csrm.py</td>
+            <td>Wang et al., A collaborative session-based recommendation approach with parallel memory modules, SIGIR 2019.<br>
             </td>
         </tr>
         <tr>
-            <td scope="row">STAMP</td>
-            <td>STAMP.py</td>
-            <td>Liu et al., STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation, KDD
-                2018.
+            <td scope="row">Gru4Rec</td>
+            <td>gru4rec.py</td>
+            <td>Hidasi et al., Recurrent Neural Networks with Top-k Gains for Session-based Recommendations, CIKM 2018.<br>
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">NextItNet</td>
+            <td>nextitrec.py</td>
+            <td>Yuan et al., A simple convolutional generative network for next item recommendation, WSDM 2019.
             </td>
         </tr>
         <tr>
@@ -410,10 +438,16 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             </td>
         </tr>
         <tr>
-            <td scope="row">NextItNet</td>
-            <td>nextitrec.py</td>
-            <td>Yuan et al., A Simple but Hard-to-Beat Baseline for Session-based Recommendations, CoRR
-                abs/1808.05163, 2018.
+            <td scope="row">SR-GNN</td>
+            <td>gnn.py</td>
+            <td>Wu et al., Session-based recommendation with graph neural networks, AAAI 2019.
+            </td>
+        </tr>
+        <tr>
+            <td scope="row">STAMP</td>
+            <td>STAMP.py</td>
+            <td>Liu et al., STAMP: Short-Term Attention/Memory Priority Model for Session-based Recommendation, KDD
+                2018.
             </td>
         </tr>
     </table>
@@ -483,6 +517,10 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">An e-commerce dataset from the company Retail Rocket.</td>
         </tr>
         <tr>
+            <td class="tg-0pky">DIGINETICA</td>
+            <td class="tg-0pky">An e-commerce dataset shared by the company Diginetica.</td>
+        </tr>
+        <tr>
             <td class="tg-0pky">ZALANDO</td>
             <td class="tg-0pky">A private dataset consisting of interaction logs from a European fashion retailer.
             </td>
@@ -513,6 +551,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <th class="tg-0pky" width="15%" scope="col">RSC15-S</th>
             <th class="tg-dvpl" width="15%" scope="col">RSC15</th>
             <th class="tg-dvpl" width="15%" scope="col">TMALL</th>
+            <th class="tg-dvpl" width="15%" scope="col">DIGINETICA</th>
             <th class="tg-dvpl" width="15%" scope="col">RETAILROCKET</th>
             <th class="tg-dvpl" width="15%" scope="col">ZALANDO</th>
         </tr>
@@ -521,6 +560,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">31,708,461</td>
             <td class="tg-dvpl">5,426,961</td>
             <td class="tg-dvpl">13,418,695</td>
+            <td class="tg-dvpl">263,805</td>
             <td class="tg-dvpl">212,182</td>
             <td class="tg-dvpl">4,536,950</td>
         </tr>
@@ -529,6 +569,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">7,981,581</td>
             <td class="tg-dvpl">1,375,128</td>
             <td class="tg-dvpl">1,774,729</td>
+            <td class="tg-dvpl">54,574</td>
             <td class="tg-dvpl">59,962</td>
             <td class="tg-dvpl">365,126</td>
         </tr>
@@ -537,6 +578,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">37,483</td>
             <td class="tg-dvpl">28,582</td>
             <td class="tg-dvpl">425,348</td>
+            <td class="tg-dvpl">32,137</td>
             <td class="tg-dvpl">31,968</td>
             <td class="tg-dvpl">189,328</td>
         </tr>
@@ -545,6 +587,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">182</td>
             <td class="tg-dvpl">31</td>
             <td class="tg-dvpl">90</td>
+            <td class="tg-dvpl">31</td>
             <td class="tg-dvpl">27</td>
             <td class="tg-dvpl">90</td>
         </tr>
@@ -553,6 +596,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">3.97</td>
             <td class="tg-dvpl">3.95</td>
             <td class="tg-dvpl">7.56</td>
+            <td class="tg-dvpl">4.78</td>
             <td class="tg-dvpl">3.54</td>
             <td class="tg-dvpl">12.43</td>
         </tr>
@@ -561,6 +605,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">3.17</td>
             <td class="tg-dvpl">3.17</td>
             <td class="tg-dvpl">5.56</td>
+            <td class="tg-dvpl">4.01</td>
             <td class="tg-dvpl">2.56</td>
             <td class="tg-dvpl">8.39</td>
         </tr>
@@ -569,6 +614,7 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">174,222.31</td>
             <td class="tg-dvpl">175,063.26</td>
             <td class="tg-dvpl">149,096.61</td>
+            <td class="tg-dvpl">8,509.84</td>
             <td class="tg-dvpl">7,858.59</td>
             <td class="tg-dvpl">50,410.56</td>
         </tr>
@@ -577,8 +623,9 @@ Tip: look at the implementation of a baseline (e.g.: ar.py).
             <td class="tg-0pky">43,854.84</td>
             <td class="tg-dvpl">44,358.97</td>
             <td class="tg-dvpl">19,719.22</td>
-            <td class="tg-dvpl">2220.84</td>
-            <td class="tg-dvpl">4056.96</td>
+            <td class="tg-dvpl">1,760.45</td>
+            <td class="tg-dvpl">2,220.84</td>
+            <td class="tg-dvpl">4,056.96</td>
         </tr>
     </table>
 

@@ -1,0 +1,18 @@
+---
+type: retrain # single|window
+preprocessor: music # 
+data:
+  folder: data/nowplaying/raw/
+  prefix: nowplaying
+
+filter: 
+  min_item_support: 2
+  min_session_length: 5
+
+params:
+  days_test: 14 #all days to be tested
+  days_train: 60 #to start retaining
+  days_retrain: 1 #numner of days to include data for retraining
+
+output:
+  folder: data/nowplaying/retrain/

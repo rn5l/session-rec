@@ -72,6 +72,8 @@ def run_file( conf ):
         preprocessor.split_data( data, conf['output']['folder'] + conf['data']['prefix'], **conf['params']  )
     elif conf['type'] == 'window':
         preprocessor.slice_data( data, conf['output']['folder'] + conf['data']['prefix'], **conf['params']  )
+    elif conf['type'] == 'retrain':
+        preprocessor.retrain_data(data, conf['output']['folder'] + conf['data']['prefix'], **conf['params'])
     else:
         if hasattr(preprocessor, conf['type']):
             method_to_call = getattr(preprocessor, conf['type'])
