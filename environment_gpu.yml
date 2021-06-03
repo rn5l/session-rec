@@ -2,6 +2,7 @@ name: srec37
 channels:
   - defaults
   - conda-forge
+  - mila-udem
 dependencies:
   - python=3.7
   - scipy=1.6.2

@@ -2,8 +2,10 @@ name: srec37
 channels:
   - defaults
   - conda-forge
+  - mila-udem
 dependencies:
   - python=3.7
+  - pip
   - scipy=1.6.2
   - python-dateutil=2.8.1
   - pytz=2021.1
@@ -16,7 +18,6 @@ dependencies:
   - numexpr=2.7.3
   - keras=2.3.1
   - six=1.15.0
-  - theano==1.0.3
   - pandas=1.2.4
   - psutil=5.8.0
   - pympler=0.9
@@ -24,3 +25,4 @@ dependencies:
   - pytables=3.6.1
   - scikit-optimize=0.8.1
   - python-telegram-bot=13.5
+  - theano=1.0.3
