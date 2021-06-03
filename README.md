@@ -113,7 +113,7 @@ To run session-aware, the following libraries are required:
     <li>NetworkX</li>
     <li>Certifi</li> 
     <li>NumExpr</li>
-    <li>Pytable</li>
+    <li>Pytables</li>
     <li>Python-dateutil</li>
     <li>Pytz</li>
     <li>Six</li>
@@ -153,15 +153,22 @@ To run session-aware, the following libraries are required:
 </ol>
 <h2>Example of Experiments</h2>
 The data folder contains a small sample dataset. It's possible to have an overview of how the framework works by using as a configuration file:
-    <ul>
+    <ul><br>For session-based models:
         <li>
             example_next.yml to predict the next item in the session. 
         </li>
         <li>
             example_multiple.yml to predict the remaining items of the session.
         </li>
+        <br>For session-aware models:
+        <li>
+            example_session_aware_opt.yml to optimize the models. 
+        </li>
+        <li>
+            example_session_aware_exp.yml to evaluate the models.
+        </li>
     </ul>
-At the end of the experiments, you can find the evalutaion results in the "results" folder. You can also find the list of recommended items under the "results" folder with the suffix "Saver@". 
+At the end of the experiments, you can find the evalutaion results in the "results" folder.
 <h2>How to Run It</h2>
 <ol>
     <h3>
