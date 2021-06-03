@@ -1,0 +1,72 @@
+type: single # single|window|opt
+key: baselines_and_models #added to the csv names
+evaluation: evaluation_user_based # evaluation_user_based
+data:
+  name: retailrocket #added in the end of the csv names
+  folder: data/retailrocket/prepared/
+  prefix: events_sample
+  type: hdf # hdf|csv(default)
+#  slices: 5 #only window
+#  skip: [0,3] #only window
+
+results:
+  folder: results/session-aware/retailrocket/
+
+metrics:
+- class: accuracy_multiple.MAP
+  length: [10,20]
+- class: accuracy_multiple.Precision
+  length: [10,20]
+- class: accuracy_multiple.Recall
+  length: [10,20]
+- class: accuracy.HitRate
+  length: [10,20]
+- class: accuracy.MRR
+  length: [10,20]
+- class: coverage.Coverage
+  length: [20]
+- class: popularity.Popularity
+  length: [20]
+
+algorithms:
+# session-based models
+- class: gru4rec.gru4rec.GRU4Rec
+  params: { loss: 'top1-max', final_act: 'linear', dropout_p_hidden: 0.1, learning_rate: 0.08, momentum: 0.1, constrained_embedding: True }
+  key: gru4rec
+- class: gru4rec.ugru4rec.UGRU4Rec
+  params: { loss: 'top1-max', final_act: 'linear', batch_size: 100, dropout_p_hidden: 0.7, learning_rate: 0.08, momentum: 0.1, constrained_embedding: True, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 3, weight_base: 9, weight_IRec: 2 }
+  key: gru4rec_Reminder
+- class: narm.narm.NARM
+  params: { epochs: 20, lr: 0.007, hidden_units: 100, factors: 100 }
+  key: narm
+- class: narm.unarm.UNARM
+  params: { epochs: 20, lr: 0.01, factors: 50, reminders: True, remind_strategy: 'hybrid', remind_sessions_num: 4, weight_base: 10, weight_IRec: 7 }
+  key: narm_Reminder
+- class: STAMP.model.STAMP.Seq2SeqAttNN
+  params: { init_lr: 0.003, n_epochs: 10, decay_rate: 0.4}
+  key: stamp
+- class: nextitnet.nextitrec.Nextitrec
+  params: { learning_rate: 0.005, iterations: 30, is_negsample: True }
+  key: nextitnet
+- class: sgnn.gnn.GGNN
+  params: { hidden_size: 100, out_size: 100, step: 1, nonhybrid: True, batch_size: 100, epoch_n: 10, batch_predict: True, lr: 0.006, l2: 3.00E-05, lr_dc: 0.36666667, lr_dc_step: 3}
+  key: sgnn
+- class: CSRM.csrm.CSRM
+  params: { hidden_units: 100, epoch: 10, lr: 0.001, memory_size: 128}
+  key: csrm
+# session-aware models
+- class: IIRNN.ii_rnn.IIRNN
+  params: { learning_rate: 0.002, dropout_pkeep: 0.4, embedding_size: 100, use_last_hidden_state: False, max_session_representation: 15, max_epoch: 100}
+  key: ii_rnn
+- class: NCFS.ncfs.NCFS
+  params: { window_sz: 2, max_nb_his_sess: 5, att_alpha: 10 }
+  key: ncfs
+- class: nsar.nsar.NSAR
+  params: {num_epoch: 20, batch_size: 64, keep_pr: 0.25, learning_rate: 0.01, hidden_units: 100}
+  key: nsar
+- class: hgru4rec.hgru4rec.HGRU4Rec
+  params: { final_act: 'linear', dropout_p_hidden_usr: 0.4, dropout_p_hidden_ses: 0.3, dropout_p_init: 0.4, momentum: 0.3, learning_rate: 0.06, user_propagation_mode: 'all', batch_size: 5 }
+  key: hgru4rec
+- class: shan.shan.SHAN
+  params: { iter: 100, global_dimension: 100, lambda_uv: 0.01, lambda_a: 1 }
+  key: shan

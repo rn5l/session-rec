@@ -23,10 +23,10 @@ import random
 import gc
 
 # telegram notificaitons
-CHAT_ID = -325249797
-BOT_TOKEN = '703777769:AAHeTtfZ7OakMpRySop_Ebo1tkBL_xjF63w'
+CHAT_ID = -1
+BOT_TOKEN = 'API_TOKEN'
 
-NOTIFY = True
+NOTIFY = False
 TELEGRAM_STATUS = False
 if TELEGRAM_STATUS:
     updater = Updater(BOT_TOKEN)  # , use_context=True
