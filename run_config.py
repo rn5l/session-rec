@@ -54,7 +54,7 @@ def main(conf, out=None):
         print('Loading file')
         send_message('processing config ' + conf)
         stream = open(str(file))
-        c = yaml.load(stream)
+        c = yaml.safe_load(stream)
         stream.close()
 
         try:
@@ -96,7 +96,7 @@ def main(conf, out=None):
                         send_message('processing config ' + list[0])
 
                         stream = open(str(file))
-                        c = yaml.load(stream)
+                        c = yaml.safe_load(stream)
                         stream.close()
 
                         run_file(c)
@@ -133,7 +133,7 @@ def main(conf, out=None):
                     send_message('processing config ' + conf)
 
                     stream = open(str(Path(conf)))
-                    c = yaml.load(stream)
+                    c = yaml.safe_load(stream)
                     stream.close()
 
                     run_file(c)

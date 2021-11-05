@@ -32,7 +32,7 @@ def main( conf ):
         
         print( 'Loading file' )
         stream = open( str(file) )
-        c = yaml.load(stream)
+        c = yaml.safe_load(stream)
         stream.close()
         print( 'processing config ' + conf )
         
