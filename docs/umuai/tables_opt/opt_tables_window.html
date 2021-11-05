@@ -1,0 +1,1221 @@
+	<ul class="nav nav-tabs" id="tables_tabs">
+		<li class="active"><a href="#opt-gru4rec" data-toggle="tab" aria-expanded="true">GRU4REC</a></li>
+		<li class=""><a href="#opt-stamp" data-toggle="tab" aria-expanded="true">STAMP</a></li>
+		<li class=""><a href="#opt-narm" data-toggle="tab" aria-expanded="true">NARM</a></li>
+		<li class=""><a href="#opt-nextitnet" data-toggle="tab" aria-expanded="true">NEXTITNET</a></li>
+		<li class=""><a href="#opt-csrm" data-toggle="tab" aria-expanded="true">CSRM</a></li>
+		<li class=""><a href="#opt-srgnn" data-toggle="tab" aria-expanded="true">SR-GNN</a></li>
+		<li><a href="#opt-sr" data-toggle="tab" aria-expanded="true">SR</a></li>
+		<li><a href="#opt-sknn" data-toggle="tab" aria-expanded="true">SKNN</a></li>
+		<li><a href="#opt-vsknn" data-toggle="tab" aria-expanded="true">VSKNN</a></li>
+		<li><a href="#opt-vstan" data-toggle="tab" aria-expanded="true">VSTAN</a></li>
+		<li><a href="#opt-stan" data-toggle="tab" aria-expanded="true">STAN</a></li>
+		<!--li><a href="#opt-ct" data-toggle="tab" aria-expanded="true">CT</a></li-->
+
+	</ul>
+	<div class="tab-content">
+		<div id="opt-gru4rec" class="tab-pane fade active in">
+			
+			<h3>Hyperparameters for <span class="caps">gru4rec</span> (fixed layer size of 100)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+                <tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Loss Function</td>
+					<td align="right">BPR-MAX</td>
+					<td align="right">TOP1-MAX</td>
+					<td align="right">-</td>
+				</tr>
+                <tr>
+					<td>Final Activation Function</td>
+					<td align="right">ELU-0.5</td>
+					<td align="right">Linear</td>
+					<td align="right">-</td>
+                </tr>
+				<tr>
+					<td>Learning Rate</td>
+					<td align="right">0.1<br>0.5</td>
+					<td align="right">0.01<br>0.1</td>
+					<td align="right">10<br>5</td>
+				</tr>
+				<tr>
+					<td>Momentum</td>
+					<td align="right">0.00</td>
+					<td align="right">0.90</td>
+					<td align="right">0.10</td>
+				</tr>
+				<tr>
+					<td>Drop-Out</td>
+					<td align="right">0.00</td>
+					<td align="right">0.90</td>
+					<td align="right">0.10</td>
+				</tr>
+                <tr>
+                    <td>Constrained Embedding</td>
+                    <td align="right">True</td>
+                    <td align="right">False</td>
+                    <td align="right">-</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+							
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Loss Function</th>
+					<th>Final Activation Function</th>
+					<th>Learning Rate</th>
+					<th>Momentum</th>
+					<th>Drop-Out</th>
+					<th>Constrained Embedding</th>
+				</tr>
+				<tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">TOP1-MAX</td><!--loss -->
+					<td align="right">Linear</td><!--final-act -->
+					<td align="right">0.04</td><!--learning_rate -->
+					<td align="right">0.0</td><!--momentum -->
+					<td align="right">0.3</td><!--dropout_p_hidden -->
+					<td align="right">True</td><!--constrained_embedding -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">TOP1-MAX</td><!--loss -->
+					<td align="right">Linear</td><!--final-act -->
+					<td align="right">0.03</td><!--learning_rate -->
+					<td align="right">0.2</td><!--momentum -->
+					<td align="right">0.3</td><!--dropout_p_hidden -->
+					<td align="right">True</td><!--constrained_embedding -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">BPR-MAX</td><!--loss -->
+					<td align="right">ELU-0.5</td><!--final-act -->
+					<td align="right">0.1</td><!--learning_rate -->
+					<td align="right">0.3</td><!--momentum -->
+					<td align="right">0.1</td><!--dropout_p_hidden -->
+					<td align="right">False</td><!--constrained_embedding -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">TOP1-MAX</td><!--loss -->
+					<td align="right">Linear</td><!--final-act -->
+					<td align="right">0.05</td><!--learning_rate -->
+					<td align="right">0.0</td><!--momentum -->
+					<td align="right">0.4</td><!--dropout_p_hidden -->
+					<td align="right">True</td><!--constrained_embedding -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">TOP1-MAX</td><!--loss -->
+					<td align="right">ELU-0.5</td><!--final-act -->
+					<td align="right">0.07</td><!--learning_rate -->
+					<td align="right">0.0</td><!--momentum -->
+					<td align="right">0.6</td><!--dropout_p_hidden -->
+					<td align="right">True</td><!--constrained_embedding -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">TOP1-MAX</td><!--loss -->
+					<td align="right">ELU-0.5</td><!--final-act -->
+					<td align="right">0.04</td><!--learning_rate -->
+					<td align="right">0.3</td><!--momentum -->
+					<td align="right">0.8</td><!--dropout_p_hidden -->
+					<td align="right">True</td><!--constrained_embedding -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">TOP1-MAX</td><!--loss -->
+					<td align="right">ELU-0.5</td><!--final-act -->
+					<td align="right">0.04</td><!--learning_rate -->
+					<td align="right">0.6</td><!--momentum -->
+					<td align="right">0.0</td><!--dropout_p_hidden -->
+					<td align="right">False</td><!--constrained_embedding -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">TOP1-MAX</td><!--loss -->
+					<td align="right">ELU-0.5</td><!--final-act -->
+					<td align="right">0.05</td><!--learning_rate -->
+					<td align="right">0.1</td><!--momentum -->
+					<td align="right">0.6</td><!--dropout_p_hidden -->
+					<td align="right">True</td><!--constrained_embedding -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">TOP1-MAX</td><!--loss -->
+					<td align="right">ELU-0.5</td><!--final-act -->
+					<td align="right">0.05</td><!--learning_rate -->
+					<td align="right">0.1</td><!--momentum -->
+					<td align="right">0.6</td><!--dropout_p_hidden -->
+					<td align="right">True</td><!--constrained_embedding -->
+				</tr>
+			</tbody></table>
+			<br>
+						
+		</div>
+		<div id="opt-stamp" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">stamp</span> (fixed layer size of 100)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+                <tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Number of Epochs</td>
+					<td align="right">10</td>
+					<td align="right">30</td>
+					<td align="right">10</td>
+				</tr>
+                <tr>
+					<td>Decay Rate</td>
+					<td align="right">0.0</td>
+					<td align="right">0.9</td>
+					<td align="right">10</td>
+                </tr>
+				<tr>
+					<td>Initial Learning Rate</td>
+					<td align="right">0.001<br>0.0001</td>
+					<td align="right">0.01<br>0.001</td>
+					<td align="right">10<br>10</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Number of Epochs</th>
+					<th>Decay Rate</th>
+					<th>Initial Learning Rate</th>
+				</tr>
+				<tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">20</td><!--n_epochs -->
+					<td align="right">0</td><!--decay_rate -->
+					<td align="right">0.0007</td><!--init_lr -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">10</td><!--n_epochs -->
+					<td align="right">0.6</td><!--decay_rate -->
+					<td align="right">0.0008</td><!--init_lr -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">30</td><!--n_epochs -->
+					<td align="right">0.7</td><!--decay_rate -->
+					<td align="right">0.009</td><!--init_lr -->
+				</tr>
+			 	<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">20</td><!--n_epochs -->
+					<td align="right">0.1</td><!--decay_rate -->
+					<td align="right">0.0009</td><!--init_lr -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">20</td><!--n_epochs -->
+					<td align="right">0.1</td><!--decay_rate -->
+					<td align="right">0.0008</td><!--init_lr -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">30</td><!--n_epochs -->
+					<td align="right">0.0</td><!--decay_rate -->
+					<td align="right">0.0008</td><!--init_lr -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">30</td><!--n_epochs -->
+					<td align="right">0</td><!--decay_rate -->
+					<td align="right">0.004</td><!--init_lr -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">20</td><!--n_epochs -->
+					<td align="right">0.9</td><!--decay_rate -->
+					<td align="right">0.0005</td><!--init_lr -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">10</td><!--n_epochs -->
+					<td align="right">0.4</td><!--decay_rate -->
+					<td align="right">0.003</td><!--init_lr -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-narm" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">narm</span> (fixed factors' number of 100, layer size of of 100, and epochs' number of 20)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+                <tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Learning Rate</td>
+					<td align="right">0.1<br>0.5</td>
+					<td align="right">0.01<br>0.1</td>
+					<td align="right">10<br>5</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Learning Rate</th>
+				</tr>
+				<tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">0.0008</td><!--learning_rate -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">0.01</td><!--learning_rate -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">0.007</td><!--learning_rate -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+				 	<td align="right">0.0007</td><!--learning_rate -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+				 	<td align="right">0.008</td><!--learning_rate -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">0.002</td><!--learning_rate -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">0.004</td><!--learning_rate -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">0.004</td><!--learning_rate -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">0.007</td><!--learning_rate -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-nextitnet" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">nextitnet</span></h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Learning Rate</td>
+					<td align="right">0.01<br>0.001</td>
+					<td align="right">0.001<br>0.0001</td>
+					<td align="right">10<br>5</td>
+				</tr>
+				<tr>
+					<td>Iterations</td>
+					<td align="right">10</td>
+					<td align="right">30</td>
+					<td align="right">10</td>
+				</tr>
+                <tr>
+                    <td>Negative Sampling</td>
+                    <td align="right">True</td>
+                    <td align="right">False</td>
+                    <td align="right">-</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Learning Rate</th>
+					<th>Iterations</th>
+					<th>Negative Sampling</th>
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">0.006</td><!--learning_rate -->
+					<td align="right">10</td><!--iteration -->
+					<td align="right">True</td><!--is_negsample -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">0.003</td><!--learning_rate -->
+					<td align="right">10</td><!--iteration -->
+					<td align="right">False</td><!--is_negsample -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">0.009</td><!--learning_rate -->
+					<td align="right">20</td><!--iteration -->
+					<td align="right">False</td><!--is_negsample -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">0.005</td><!--learning_rate -->
+					<td align="right">30</td><!--iteration -->
+					<td align="right">True</td><!--is_negsample -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+
+		<div id="opt-csrm" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">csrm</span> (fixed embedding dimension of 100 in 10 epochs)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Learning Rate</td>
+					<td align="right">0.001<br>0.0001</td>
+					<td align="right">0.0001<br>0.00001</td>
+					<td align="right">10<br>10</td>
+					<td align="right">-</td>				
+				</tr>
+                <tr>
+                    <td>Memory Size</td>
+                    <td align="right">-</td>
+                    <td align="right">-</td>
+					<td align="right">-</td>
+					<td align="right">128,256,512</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Learning Rate</th>
+					<th>Memory Size</th>
+				</tr>
+			    <tr>
+					<td>RSC15</td><!--dataset -->	
+					<td align="right">0.0002</td><!--steps -->
+					<td align="right">256</td><!--weighting -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">0.0003</td><!--steps -->
+					<td align="right">512</td><!--weighting -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">0.0005</td><!--steps -->
+					<td align="right">256</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">0.0002</td><!--steps -->
+				 	<td align="right">256</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">0.0008</td><!--steps -->
+					<td align="right">256</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">0.00001</td><!--steps -->
+					<td align="right">256</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">0.0005</td><!--steps -->
+					<td align="right">128</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">0.0009</td><!--steps -->
+					<td align="right">128</td><!--weighting -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+
+		<div id="opt-srgnn" class="tab-pane fade">
+			<h3>Hyperparameters for <span class="caps">sr-gnn</span> (fixed hidden layer size of 100)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+                <tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Learning Rate</td>
+					<td align="right">0.01</td>
+					<td align="right">0.0001</td>
+					<td align="right">20</td>
+				</tr>
+				<tr>
+					<td>L2 Regularization</td>
+					<td align="right">0.0001</td>
+					<td align="right">0.000001</td>
+					<td align="right">20</td>
+				</tr>
+				<tr>
+					<td>LR Decay</td>
+					<td align="right">0.0</td>
+					<td align="right">0.9</td>
+					<td align="right">10</td>
+				</tr>
+                <tr>
+                    <td>LR Decay Steps</td>
+                    <td align="right">3</td>
+                    <td align="right">7</td>
+					<td align="right">3</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+							
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Learning Rate</th>
+					<th>L2 Regularization</th>
+					<th>LR Decay</th>
+					<th>LR Decay Steps</th>
+				</tr>
+				<tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">0.0007</td><!--loss -->
+					<td align="right">0.00001</td><!--final-act -->
+					<td align="right">0.1</td><!--learning_rate -->
+					<td align="right">7</td><!--momentum -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">0.0002</td><!--loss -->
+					<td align="right">0.000003</td><!--final-act -->
+					<td align="right">0.54</td><!--learning_rate -->
+					<td align="right">3</td><!--momentum -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">0.006</td><!--loss -->
+					<td align="right">0.000005</td><!--final-act -->
+					<td align="right">0.28</td><!--learning_rate -->
+					<td align="right">3</td><!--momentum -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">0.0001</td><!--loss -->
+					<td align="right">0.000007</td><!--final-act -->
+					<td align="right">0.63</td><!--learning_rate -->
+					<td align="right">3</td><!--momentum -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">0.002</td><!--loss -->
+					<td align="right">0.00005</td><!--final-act -->
+					<td align="right">0.46</td><!--learning_rate -->
+					<td align="right">7</td><!--momentum -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">0.001</td><!--loss -->
+					<td align="right">0.00006</td><!--final-act -->
+					<td align="right">0.1</td><!--learning_rate -->
+					<td align="right">7</td><!--momentum -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">0.006</td><!--loss -->
+					<td align="right">0.000007</td><!--final-act -->
+					<td align="right">0.1</td><!--learning_rate -->
+					<td align="right">3</td><!--momentum -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">0.006</td><!--loss -->
+					<td align="right">0.00003</td><!--final-act -->
+					<td align="right">0.36</td><!--learning_rate -->
+					<td align="right">3</td><!--momentum -->
+				</tr>
+			</tbody></table>
+			<br>
+						
+		</div>
+
+		<div id="opt-sr" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">sr</span></h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Steps</td>
+					<td align="right">2<br>14</td>
+					<td align="right">15<br>30</td>
+					<td align="right">13<br>4</td>
+				</tr>
+                <tr>
+                    <td>Weighting</td>
+                    <td align="right">-</td>
+                    <td align="right">-</td>
+                    <td align="right">-</td>
+                    <td align="right">Div, Linear, Quadratic, Log</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Steps</th>
+					<th>Weighting</th>
+				</tr>
+			    <tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">8</td><!--steps -->
+					<td align="right">Div</td><!--weighting -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">7</td><!--steps -->
+					<td align="right">Div</td><!--weighting -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">3</td><!--steps -->
+					<td align="right">Quadratic</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">25</td><!--steps -->
+				 	<td align="right">Div</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">30</td><!--steps -->
+				 	<td align="right">Quadratic</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">25</td><!--steps -->
+					<td align="right">Log</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">6</td><!--steps -->
+					<td align="right">Div</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">9</td><!--steps -->
+					<td align="right">Quadratic</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">30</td><!--steps -->
+					<td align="right">Quadratic</td><!--weighting -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-sknn" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">sknn</span> (fixed sampling mode of recent)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Number of Neighbors</td>
+                    <td align="right">50, 100, 500, 1000, 1500</td>
+				</tr>
+				<tr>
+					<td>Sample Size</td>
+                    <td align="right">500, 1000, 2500, 5000, 10000</td>
+				</tr>
+                <tr>
+                    <td>Similarity</td>
+                    <td align="right">Cosine, Jaccard</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Number of Neighbors</th>
+					<th>Sample Size</th>
+					<th>Similarity</th>
+				</tr>
+			    <tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">Jaccard</td><!--similarity -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">50</td><!--neighbors -->
+					<td align="right">5000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">50</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">100</td><!--neighbors -->
+					<td align="right">500</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">1000</td><!--neighbors -->
+					<td align="right">5000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">1000</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">50</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">50</td><!--neighbors -->
+					<td align="right">2500</td><!--sample-size -->
+					<td align="right">Jaccard</td><!--similarity -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">100</td><!--neighbors -->
+					<td align="right">500</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-vsknn" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">vsknn</span> (fixed sampling mode of recent)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody	>
+				<tr>
+					<th>Parameter</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Number of Neighbors</td>
+                    <td align="right">50, 100, 500, 1000, 1500</td>
+				</tr>
+				<tr>
+					<td>Sample Size</td>
+                    <td align="right">500, 1000, 2500, 5000, 10000</td>
+				</tr>
+                <tr>
+                    <td>Weighting</td>
+                    <td align="right">Same, Div, Linear, Quadratic, Log</td>
+				</tr>
+				<tr>
+                    <td>Weighting Score</td>
+                    <td align="right">Same, Div, Linear, Quadratic, Log</td>
+				</tr>
+				<tr>
+                    <td>IDF Weighting</td>
+                    <td align="right">False, 1, 2, 5, 10</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Number of Neighbors</th>
+					<th>Sample Size</th>
+					<th>Weighting</th>
+					<th>Weighting Score</th>
+					<th>IDF_Weighting</th>
+				</tr>
+			    <tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">100</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">Quadratic</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+					<td align="right">False</td><!--idf_weighting -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">1500</td><!--neighbors -->
+					<td align="right">2500</td><!--sample-size -->
+					<td align="right">Same</td><!--weighting -->
+					<td align="right">Linear</td><!--weighting_score -->
+					<td align="right">10</td><!--idf_weighting -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">50</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">Log</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+					<td align="right">10</td><!--idf_weighting -->
+				</tr>
+                <tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">5000</td><!--sample-size -->
+					<td align="right">Quadratic</td><!--weighting -->
+					<td align="right">Div</td><!--weighting_score -->
+				 	<td align="right">5</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">50</td><!--neighbors -->
+					<td align="right">2500</td><!--sample-size -->
+					<td align="right">Log</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+				 	<td align="right">1</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">100</td><!--neighbors -->
+					<td align="right">5000</td><!--sample-size -->
+					<td align="right">Quaratic</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+					<td align="right">False</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">50</td><!--neighbors -->
+					<td align="right">100</td><!--sample-size -->
+					<td align="right">Div</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+					<td align="right">False</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">100</td><!--neighbors -->
+					<td align="right">2500</td><!--sample-size -->
+					<td align="right">Quadratic</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+					<td align="right">False</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">100</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">Quadratic</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+					<td align="right">False</td><!--idf_weighting -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+
+		<div id="opt-vstan" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">vstan</span> (fixed sampling mode of recent)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody	>
+				<tr>
+					<th>Parameter</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Number of Neighbors</td>
+                    <td align="right">100, 200, 500, 1000, 1500, 2000</td>
+				</tr>
+				<tr>
+					<td>Sample Size</td>
+                    <td align="right">1000, 2500, 5000, 10000</td>
+				</tr>
+				<tr>
+					<td>Similarity</td>
+                    <td align="right">Cosine, Dot Product</td>
+				</tr>
+                <tr>
+                    <td>Session Position Weighting</td>
+                    <td align="right">0.00001, L/8, L/4, L/2, L, 2L (L=average session length in the dataset)</td>
+				</tr>
+				<tr>
+                    <td>Session Neighborhood Weighting</td>
+                    <td align="right">2.5, 5, 10, 20, 40, 80, 100</td>
+				</tr>
+				<tr>
+                    <td>Item Neighborhood Weighting</td>
+                    <td align="right">0.00001, L/8, L/4, L/2, L, 2L (L=average session length in the dataset)</td>
+				</tr>
+				<tr>
+                    <td>Item Position Weighting</td>
+                    <td align="right">0.00001, L/8, L/4, L/2, L, 2L (L=average session length in the dataset)</td>
+				</tr>
+				<tr>
+                    <td>IDF Weighting</td>
+                    <td align="right">False, 1, 2, 5, 10</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Number of Neighbors</th>
+					<th>Sample Size</th>
+					<th>Similarity</th>
+					<th>Session Position Weighting</th>
+					<th>Session Neighborhood Weighting</th>
+					<th>Item Neighborhood Weighting</th>
+					<th>Item Position Weighting</th>
+					<th>IDF Weighting</th>
+				</tr>
+			    <tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">1500</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--sample-size -->
+					<td align="right">0.5</td><!--weighting -->
+					<td align="right">5</td><!--weighting_score -->
+					<td align="right">2</td><!--idf_weighting -->
+					<td align="right">2</td><!--idf_weighting -->
+					<td align="right">2</td><!--idf_weighting -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">1000</td><!--neighbors -->
+					<td align="right">2500</td><!--sample-size -->
+					<td align="right">Dot Product</td><!--sample-size -->
+					<td align="right">3.62</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">0.4525</td><!--idf_weighting -->
+					<td align="right">3.62</td><!--idf_weighting -->
+					<td align="right">1</td><!--idf_weighting -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">1500</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--sample-size -->
+					<td align="right">3.13</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">3.13</td><!--idf_weighting -->
+					<td align="right">1.56</td><!--idf_weighting -->
+					<td align="right">1</td><!--idf_weighting -->
+				</tr>
+                <tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">1500</td><!--neighbors -->
+					<td align="right">5000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--sample-size -->
+					<td align="right">4.9</td><!--weighting -->
+					<td align="right">40</td><!--weighting_score -->
+					<td align="right">4.9</td><!--idf_weighting -->
+					<td align="right">1.225</td><!--idf_weighting -->
+					<td align="right">10</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">2000</td><!--neighbors -->
+					<td align="right">2500</td><!--sample-size -->
+					<td align="right">Cosine</td><!--sample-size -->
+					<td align="right">5.68</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">22.72</td><!--idf_weighting -->
+					<td align="right">0.00001</td><!--idf_weighting -->
+					<td align="right">False</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">200</td><!--neighbors -->
+					<td align="right">5000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--sample-size -->
+					<td align="right">7.05</td><!--weighting -->
+					<td align="right">80</td><!--weighting_score -->
+					<td align="right">14.1</td><!--idf_weighting -->
+					<td align="right">0.00001</td><!--idf_weighting -->
+					<td align="right">5</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">200</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">Dot Product</td><!--sample-size -->
+					<td align="right">10.2</td><!--weighting -->
+					<td align="right">40</td><!--weighting_score -->
+					<td align="right">2</td><!--idf_weighting -->
+					<td align="right">1.275</td><!--idf_weighting -->
+					<td align="right">False</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">2000</td><!--neighbors -->
+					<td align="right">2000</td><!--sample-size -->
+					<td align="right">Dot Product</td><!--sample-size -->
+					<td align="right">8.4</td><!--weighting -->
+					<td align="right">40</td><!--weighting_score -->
+					<td align="right">4.2</td><!--idf_weighting -->
+					<td align="right">0.00001</td><!--idf_weighting -->
+					<td align="right">1</td><!--idf_weighting -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+
+		<div id="opt-stan" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">stan</span> (fixed sampling mode of recent)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Number of Neighbors</td>
+                    <td align="right">100, 200, 500, 1000, 1500, 2000</td>
+				</tr>
+				<tr>
+					<td>Sample Size</td>
+                    <td align="right">1000, 2500, 5000, 10000</td>
+				</tr>
+				<tr>
+					<td>Similarity</td>
+                    <td align="right">Cosine, Dot Product</td>
+				</tr>
+                <tr>
+                    <td>Session Position Weighting</td>
+                    <td align="right">0.00001, L/8, L/4, L/2, L, 2L (L=average session length in the dataset)</td>
+				</tr>
+				<tr>
+                    <td>Session Neighborhood Weighting</td>
+                    <td align="right">2.5, 5, 10, 20, 40, 80, 100</td>
+				</tr>
+				<tr>
+                    <td>Item Neighborhood Weighting</td>
+                    <td align="right">0.00001, L/8, L/4, L/2, L, 2L (L=average session length in the dataset)</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Number of Neighbors</th>
+					<th>Sample Size</th>
+					<th>Session Position Weighting</th>
+					<th>Session Neighborhood Weighting</th>
+					<th>Item Neighborhood Weighting</th>
+				</tr>
+			    <tr>
+					<td>RSC15</td><!--dataset -->
+					<td align="right">1000</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">0.00001</td><!--weighting -->
+					<td align="right">10</td><!--weighting_score -->
+					<td align="right">2</td><!--idf_weighting -->
+				</tr>
+			    <tr>
+                	<td>RETAILROCKET</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">1.81</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">0.4525</td><!--idf_weighting -->
+				</tr>
+                <tr>
+                	<td>ZALANDO</td><!--dataset -->
+					<td align="right">100</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">1.56</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">3.13</td><!--idf_weighting -->
+				</tr>
+                <tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">1.225</td><!--weighting -->
+					<td align="right">20</td><!--weighting_score -->
+					<td align="right">4.9</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>8TRACKS</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">5.68</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">11.36</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>AOTM</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">28.2</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">14.1</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>NOWPLAYING</td><!--dataset -->
+					<td align="right">2000</td><!--neighbors -->
+					<td align="right">2500</td><!--sample-size -->
+					<td align="right">0.00001</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">20.4</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>30MUSIC</td><!--dataset -->
+					<td align="right">1000</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">0.00001</td><!--weighting -->
+					<td align="right">100</td><!--weighting_score -->
+					<td align="right">4.2</td><!--idf_weighting -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+
+		<div id="opt-ct" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">vsknn</span></h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Expert</td>
+                    <td align="right">StdExpert, DirichletExpert</td>
+				</tr>
+				<tr>
+					<td>Max Considered Context Length</td>
+                    <td align="right">5,10,20,30,40,50,75</td>
+				</tr>
+				<tr>
+					<td>Number of Recent Candidates (Only for Adaptive Configuration)</td>
+                    <td align="right">5,10,20,30,40,50,75</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Expert</th>
+					<th>Max Considered Context Length</th>
+					<th>Number of Recent Candidates</th>
+				</tr>
+			    <tr>
+					<td>All</td><!--dataset -->
+					<td align="right">StdExpert</td><!--expert -->
+					<td align="right">50</td><!--history_maxlen -->
+					<td align="right">1000</td><!--nb_candidates -->
+				</tr>
+
+			</tbody></table>
+			<br>
+
+		</div>
+    </div>

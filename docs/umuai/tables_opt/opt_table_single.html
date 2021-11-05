@@ -1,0 +1,549 @@
+	<ul class="nav nav-tabs" id="tables_tabs">
+		<li class="active"><a href="#opt-sigle-gru4rec" data-toggle="tab" aria-expanded="true">GRU4REC</a></li>
+		<li class=""><a href="#opt-sigle-stamp" data-toggle="tab" aria-expanded="true">STAMP</a></li>
+		<li class=""><a href="#opt-sigle-narm" data-toggle="tab" aria-expanded="true">NARM</a></li>
+		<li class=""><a href="#opt-sigle-nextitnet" data-toggle="tab" aria-expanded="true">NEXTITNET</a></li>
+		<li><a href="#opt-sigle-ar" data-toggle="tab" aria-expanded="true">AR</a></li>
+		<li><a href="#opt-sigle-sr" data-toggle="tab" aria-expanded="true">SR</a></li>
+		<li><a href="#opt-sigle-sknn" data-toggle="tab" aria-expanded="true">SKNN</a></li>
+		<li><a href="#opt-sigle-vsknn" data-toggle="tab" aria-expanded="true">VSKNN</a></li>
+		<li><a href="#opt-sigle-ct" data-toggle="tab" aria-expanded="true">CT</a></li>
+
+	</ul>
+	<div class="tab-content">
+		<div id="opt-sigle-gru4rec" class="tab-pane fade active in">
+			
+			<h3>Hyperparameters for <span class="caps">gru4rec</span> (fixed layer size of 100)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+                <tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Loss Function</td>
+					<td align="right">BPR-MAX</td>
+					<td align="right">TOP1-MAX</td>
+					<td align="right">-</td>
+				</tr>
+                <tr>
+					<td>Final Activation Function</td>
+					<td align="right">ELU-0.5</td>
+					<td align="right">Linear</td>
+					<td align="right">-</td>
+                </tr>
+				<tr>
+					<td>Learning Rate</td>
+					<td align="right">0.1<br>0.5</td>
+					<td align="right">0.01<br>0.1</td>
+					<td align="right">10<br>5</td>
+				</tr>
+				<tr>
+					<td>Momentum</td>
+					<td align="right">0.00</td>
+					<td align="right">0.90</td>
+					<td align="right">0.10</td>
+				</tr>
+				<tr>
+					<td>Drop-Out</td>
+					<td align="right">0.00</td>
+					<td align="right">0.90</td>
+					<td align="right">0.10</td>
+				</tr>
+                <tr>
+                    <td>Constrained Embedding</td>
+                    <td align="right">True</td>
+                    <td align="right">False</td>
+                    <td align="right">-</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+							
+					<tbody>
+					<tr>
+						<th>Dataset</th>
+						<th>Loss Function</th>
+						<th>Final Activation Function</th>
+						<th>Learning Rate</th>
+						<th>Momentum</th>
+						<th>Drop-Out</th>
+						<th>Constrained Embedding</th>
+					</tr>
+					<tr>
+						<td>RSC15/4</td><!--dataset -->
+						<td align="right">BPR-MAX</td><!--loss -->
+						<td align="right">Linear</td><!--final-act -->
+						<td align="right">0.09</td><!--learning_rate -->
+						<td align="right">0.0</td><!--momentum -->
+						<td align="right">0.1</td><!--dropout_p_hidden -->
+						<td align="right">True</td><!--constrained_embedding -->
+					</tr>
+					<tr>
+						<td>RSC15/64</td><!--dataset -->
+						<td align="right">BPR-MAX</td><!--loss -->
+						<td align="right">Linear</td><!--final-act -->
+						<td align="right">0.05</td><!--learning_rate -->
+						<td align="right">0.3</td><!--momentum -->
+						<td align="right">0.1</td><!--dropout_p_hidden -->
+						<td align="right">False</td><!--constrained_embedding -->
+					</tr>
+					<tr>
+						<td>DIGINETICA</td><!--dataset -->
+						<td align="right">BPR-MAX</td><!--loss -->
+						<td align="right">ELU-0.5</td><!--final-act -->
+						<td align="right">0.02</td><!--learning_rate -->
+						<td align="right">0.5</td><!--momentum -->
+						<td align="right">0.1</td><!--dropout_p_hidden -->
+						<td align="right">True</td><!--constrained_embedding -->
+					</tr>
+					<tr>
+						<td>DIGINETICA (STAMP)</td><!--dataset -->
+						<td align="right">BPR-MAX</td><!--loss -->
+						<td align="right">ELU-0.5</td><!--final-act -->
+						<td align="right">0.05</td><!--learning_rate -->
+						<td align="right">0.1</td><!--momentum -->
+						<td align="right">0.2</td><!--dropout_p_hidden -->
+						<td align="right">True</td><!--constrained_embedding -->
+					</tr>
+				</tbody></table>
+			<br>
+						
+		</div>
+		<div id="opt-sigle-stamp" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">stamp</span> (fixed layer size of 100)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+                <tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Number of Epochs</td>
+					<td align="right">10</td>
+					<td align="right">30</td>
+					<td align="right">10</td>
+				</tr>
+                <tr>
+					<td>Decay Rate</td>
+					<td align="right">0.0</td>
+					<td align="right">0.9</td>
+					<td align="right">10</td>
+                </tr>
+				<tr>
+					<td>Initial Learning Rate</td>
+					<td align="right">0.001<br>0.0001</td>
+					<td align="right">0.01<br>0.001</td>
+					<td align="right">10<br>10</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Number of Epochs</th>
+					<th>Decay Rate</th>
+					<th>Initial Learning Rate</th>
+				</tr>
+				<tr>
+					<td>RSC15/4</td><!--dataset -->
+					<td align="right">20</td><!--n_epochs -->
+					<td align="right">0.2</td><!--decay_rate -->
+					<td align="right">0.0002</td><!--init_lr -->
+				</tr>
+			    <tr>
+					<td>RSC15/64</td><!--dataset -->
+					<td align="right">30</td><!--n_epochs -->
+					<td align="right">0.4</td><!--decay_rate -->
+					<td align="right">0.0004</td><!--init_lr -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">10</td><!--n_epochs -->
+					<td align="right">0.3</td><!--decay_rate -->
+					<td align="right">0.0007</td><!--init_lr -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">30</td><!--n_epochs -->
+					<td align="right">0.9</td><!--decay_rate -->
+					<td align="right">0.0004</td><!--init_lr -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-sigle-narm" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">narm</span> (fixed factors' number of 100, layer size of of 100, and epochs' number of 20)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+                <tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Learning Rate</td>
+					<td align="right">0.1<br>0.5</td>
+					<td align="right">0.01<br>0.1</td>
+					<td align="right">10<br>5</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Learning Rate</th>
+				</tr>
+				<tr>
+					<td>RSC15/4</td><!--dataset -->
+					<td align="right">0.002</td><!--learning_rate -->
+				</tr>
+				<tr>
+					<td>RSC15/64</td><!--dataset -->
+					<td align="right">0.005</td><!--learning_rate -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+				 	<td align="right">0.0007</td><!--learning_rate -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+				 	<td align="right">0.002</td><!--learning_rate -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-sigle-nextitnet" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">nextitnet</span> (?)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+				</tr>
+				<tr>
+					<td>Learning Rate</td>
+					<td align="right">0.01<br>0.001</td>
+					<td align="right">0.001<br>0.0001</td>
+					<td align="right">10<br>5</td>
+				</tr>
+				<tr>
+					<td>Iterations</td>
+					<td align="right">10</td>
+					<td align="right">30</td>
+					<td align="right">10</td>
+				</tr>
+                <tr>
+                    <td>Negative Sampling</td>
+                    <td align="right">True</td>
+                    <td align="right">False</td>
+                    <td align="right">-</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Learning Rate</th>
+					<th>Iterations</th>
+					<th>Negative Sampling</th>
+				</tr>
+				<tr>
+                	<td>RSC15/64</td><!--dataset -->
+					<td align="right">0.001</td><!--learning_rate -->
+					<td align="right">10</td><!--iteration -->
+					<td align="right">False</td><!--is_negsample -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-sigle-ar" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">ar</span> <br>fixed pruning size of 20</h3>
+
+		</div>
+		<div id="opt-sigle-sr" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">sr</span> (fixed pruning size of 100)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Steps</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Steps</td>
+					<td align="right">1</td>
+					<td align="right">20</td>
+					<td align="right">1</td> <!--todo: right?! -->
+                    <td align="right">-</td>
+				</tr>
+                <tr>
+                    <td>Weighting</td>
+                    <td align="right">-</td>
+                    <td align="right">-</td>
+                    <td align="right">-</td>
+                    <td align="right">Div, Linear, Quadratic, Log, Same</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Steps</th>
+					<th>Weighting</th>
+				</tr>
+			    <tr>
+					<td>RSC15/4</td><!--dataset -->
+					<td align="right">2</td><!--steps -->
+					<td align="right">Log</td><!--weighting -->
+				</tr>
+			    <tr>
+                	<td>RSC15/64</td><!--dataset -->
+					<td align="right">4</td><!--steps -->
+						<td align="right">Quadratic</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">15</td><!--steps -->
+				 	<td align="right">Div</td><!--weighting -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">8</td><!--steps -->
+				 	<td align="right">Quadratic</td><!--weighting -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-sigle-sknn" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">sknn</span> (fixed sampling mode of recent)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Number of Neighbors</td>
+                    <td align="right">50, 100, 500, 1000, 1500</td>
+				</tr>
+				<tr>
+					<td>Sample Size</td>
+                    <td align="right">500, 1000, 2500, 5000, 10000</td>
+				</tr>
+                <tr>
+                    <td>Similarity</td>
+                    <td align="right">Cosine, Jaccard</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Number of Neighbors</th>
+					<th>Sample Size</th>
+					<th>Similarity</th>
+				</tr>
+			    <tr>
+					<td>RSC15/4</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">500</td><!--sample-size -->
+					<td align="right">Jaccard</td><!--similarity -->
+				</tr>
+			    <tr>
+                	<td>RSC15/64</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+                <tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">50</td><!--neighbors -->
+					<td align="right">500</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">100</td><!--neighbors -->
+					<td align="right">500</td><!--sample-size -->
+					<td align="right">Cosine</td><!--similarity -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-sigle-vsknn" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">vsknn</span> (fixed sampling mode of recent)</h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody	>
+				<tr>
+					<th>Parameter</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Number of Neighbors</td>
+                    <td align="right">50, 100, 500, 1000, 1500</td>
+				</tr>
+				<tr>
+					<td>Sample Size</td>
+                    <td align="right">500, 1000, 2500, 5000, 10000</td>
+				</tr>
+                <tr>
+                    <td>Weighting</td>
+                    <td align="right">Same, Div, Linear, Quadratic, Log</td>
+				</tr>
+				<tr>
+                    <td>Weighting Score</td>
+                    <td align="right">Same, Div, Linear, Quadratic, Log</td>
+				</tr>
+				<tr>
+                    <td>IDF Weighting</td>
+                    <td align="right">False, 1, 2, 5, 10</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Number of Neighbors</th>
+					<th>Sample Size</th>
+					<th>Weighting</th>
+					<th>Weighting Score</th>
+					<th>IDF_Weighting</th>
+				</tr>
+			    <tr>
+					<td>RSC15/4</td><!--dataset -->
+					<td align="right">1000</td><!--neighbors -->
+					<td align="right">1000</td><!--sample-size -->
+					<td align="right">Log</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+					<td align="right">5</td><!--idf_weighting -->
+				</tr>
+				<tr>
+					<td>RSC15/64</td><!--dataset -->
+					<td align="right">1000</td><!--neighbors -->
+					<td align="right">5000</td><!--sample-size -->
+					<td align="right">Log</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+					<td align="right">2</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">5000</td><!--sample-size -->
+					<td align="right">Quadratic</td><!--weighting -->
+					<td align="right">Div</td><!--weighting_score -->
+				 	<td align="right">10</td><!--idf_weighting -->
+				</tr>
+				<tr>
+                	<td>DIGINETICA (STAMP)</td><!--dataset -->
+					<td align="right">500</td><!--neighbors -->
+					<td align="right">10000</td><!--sample-size -->
+					<td align="right">Quadratic</td><!--weighting -->
+					<td align="right">Quadratic</td><!--weighting_score -->
+				 	<td align="right">10</td><!--idf_weighting -->
+				</tr>
+			</tbody></table>
+			<br>
+
+		</div>
+		<div id="opt-sigle-ct" class="tab-pane fade">
+
+			<h3>Hyperparameters for <span class="caps">vsknn</span></h3>
+			<p>
+				We tested the following hyperparameter space:
+			</p>
+			<table class="hyper-space">
+				<tbody>
+				<tr>
+					<th>Parameter</th>
+					<th>Options</th>
+				</tr>
+				<tr>
+					<td>Expert</td>
+                    <td align="right">StdExpert, DirichletExpert</td>
+				</tr>
+				<tr>
+					<td>Max Considered Context Length</td>
+                    <td align="right">5,10,20,30,40,50,75</td>
+				</tr>
+				<tr>
+					<td>Number of Recent Candidates (Only for Adaptive Configuration)</td>
+                    <td align="right">5,10,20,30,40,50,75</td>
+				</tr>
+			</tbody></table>
+			<br>
+			<table class="hyper-params">
+
+				<tbody>
+                <tr>
+					<th>Dataset</th>
+					<th>Expert</th>
+					<th>Max Considered Context Length</th>
+					<th>Number of Recent Candidates</th>
+				</tr>
+			    <tr>
+					<td>RSC15/4, RSC15/64, DIGINETICA, DIGINETICA(STAMP)</td><!--dataset -->
+					<td align="right">StdExpert</td><!--expert -->
+					<td align="right">50</td><!--history_maxlen -->
+					<td align="right">1000</td><!--nb_candidates -->
+				</tr>
+
+			</tbody></table>
+			<br>
+
+		</div>
+    </div>

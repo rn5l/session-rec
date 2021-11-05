@@ -1,0 +1,282 @@
+<!DOCTYPE html >
+
+<html>
+
+<head>
+
+	<title>UMUAI - Additional Information and Results</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond|Roboto+Slab|Zilla+Slab" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+	<link rel="stylesheet" href="css/sortable-theme-tu.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<!--<link rel="stylesheet" href="css/style_anon.css" />-->
+	<script src="js/sortable.min.js"></script>
+	
+	<link rel="include" href="tables_window/tables_rsc15.html" data-target="window-rsc15" />
+	<link rel="include" href="tables_window/tables_diginetica.html" data-target="window-diginetica" />
+	<link rel="include" href="tables_window/tables_zalando.html" data-target="window-zalando" />
+	<link rel="include" href="tables_window/tables_retailrocket.html" data-target="window-retailrocket" />
+	
+	<link rel="include" href="tables_window/tables_8tracks.html" data-target="window-8tracks" />
+	<link rel="include" href="tables_window/tables_aotm.html" data-target="window-aotm" />
+	<link rel="include" href="tables_window/tables_nowplaying.html" data-target="window-nowplaying" />
+	<link rel="include" href="tables_window/tables_30music.html" data-target="window-30music" />
+	
+	<link rel="include" href="tables_single/tables_rsc15_64.html" data-target="single-rsc15_64" />
+	<link rel="include" href="tables_single/tables_rsc15_4.html" data-target="single-rsc15_4" />
+	<link rel="include" href="tables_single/tables_diginetica.html" data-target="single-diginetica" />
+	
+	<link rel="include" href="tables_opt/opt_table_single.html" data-target="single-params" />
+	<link rel="include" href="tables_opt/opt_tables_window.html" data-target="window-params" />
+
+	<script type="text/javascript">
+		
+		function round( element, size ) {
+			var rounded = parseFloat( $(element).html() ).toFixed( size );
+			$(element).html( rounded );
+		}
+	
+		$( document ).ready( function() {
+			
+			$( "link[rel=include]" ).each( function() {
+				target = $( this ).attr("data-target");
+				url = $( this ).attr("href");
+				$( "#"+target ).load( url, function() {
+					$( this ).find( ".algo" ).each( function() {
+						name = $(this).html();
+						el = $(this).closest( ".tab-pane" ).find( ".configs ."+name );
+						$(this).attr( "title", el.html() );
+						$(this).attr( "data-placement", "top" );
+						$(this).attr( "data-container", "body" );
+						$(this).attr( "data-html", "true" );
+					});
+					$( this ).find( ".algo" ).tooltip();
+					
+					$( this ).find( ".num-4" ).each( function() {
+						round(this,4);
+					});
+					
+					$( this ).find( ".num-3" ).each( function() {
+						round(this,3);
+					});
+					
+					$( this ).find( ".num2" ).each( function() {
+						round(this, 2);
+					});
+					
+					window.Sortable.initTable( $( this ).find( ".sortable-theme-minimal" ).get(0)  );
+					if ( $( this ).find( ".sortable-theme-minimal" ).length > 1 ) {
+						window.Sortable.initTable( $( this ).find( ".sortable-theme-minimal" ).get(1)  );
+						window.Sortable.initTable( $( this ).find( ".sortable-theme-minimal" ).get(2)  );
+					}
+					//$( this ).find( ".sortable-theme-minimal" ).DataTable();
+					$( this ).find( ".sortable-theme-minimal th:nth-child(2)" ).click();
+					
+				} );
+
+			} );
+			
+			$( "table.hyper-params td:not(:nth-child(1)):not(:nth-child(2))" ).each( function() {
+				round(this,2);
+			} );
+			
+			$( "table.hyper-space tr:not(:nth-child(1)):not(:nth-child(2)) td:not(:nth-child(1))" ).each( function() {
+				round(this,2);
+			} );
+			
+			$( ".num-4" ).each( function() {
+				round(this,4);
+			});
+			
+			$( ".num-3" ).each( function() {
+				round(this,3);
+			});
+			
+			$( ".num-2" ).each( function() {
+				round(this,2);
+			});
+			
+		} );
+	</script>
+	
+</head>
+
+<body>
+
+<div class="mainbox">
+			
+	<h2>
+		<span class="highlighted">
+			Empirical Analysis of Session-based Recommendation Algorithms
+		</span> <br />
+		<span class="subtext">
+			A Comparison of Neural and Non-Neural Approaches
+		</span> <br />
+		<span class="subtext italic">
+			Additional Information: Source Code, Optimized Hyper-Parameters and Additional Result Tables
+		</span>
+	</h2>    
+	
+	<hr/>
+	
+	<div class="authors">
+		
+		<div class="author">
+			Malte Ludewig <br/>
+			<span class="mail">malte.ludewig [at] tu-dortmund.de</span><br/>
+		</div>
+        
+        	<div class="author">
+			Noemi Mauro <br/>
+			<span class="mail">noemi.mauro [at] unito.it</span><br/>
+		</div>
+        
+        	<div class="author">
+			Sara Latifi <br/>
+			<span class="mail">sara.latifi [at] aau.at</span><br/>
+		</div>
+        
+        	<div class="author">
+			Dietmar Jannach <br/>
+			<span class="mail">dietmar.jannach [at] aau.at</span><br/>
+		</div>
+		
+	</div>
+	
+	<hr/>
+	
+	<div class="abstract">
+		<p>Recommender systems are tools that support online users by pointing them to potential items of interest in situations of information overload. In recent years, the class of session-based recommendation algorithms received more attention in the research literature. These algorithms base their recommendations solely on the observed interactions with the user in an ongoing session and do not require the existence of long-term preference profiles. Most recently, a number of deep learning based ("neural") approaches to session-based recommendations were proposed. However, previous research indicates that today's complex neural recommendation methods are not always better than comparably simple algorithms in terms of prediction accuracy.
+		</p>
+		<p>With this work, our goal is to shed light on the state-of-the-art in the area of session-based recommendation and on the progress that is made with neural approaches. For this purpose, we compare twelve algorithmic approaches, among them six recent neural methods, under identical conditions on various datasets. We find that the progress in terms of prediction accuracy that is achieved with neural methods is still limited. In most cases, our experiments show that simple heuristic methods based on nearest-neighbors schemes are preferable over conceptually and computationally more complex methods. Observations from a user study furthermore indicate that recommendations based on heuristic methods were also well accepted by the study participants. To support future progress and reproducibility in this area, we publicly share the \textsc{\small{session-rec}} evaluation framework that was used in our research.
+		</p>
+	</div>
+	
+	<nav>
+		<ul class="nav nav-tabs">
+		  <li class="active"><a data-toggle="tab" href="#sources">Source Code and Datasets</a></li>
+		  <li><a data-toggle="tab" href="#window">Full Result Tables</a></li>
+		  <!--<li><a data-toggle="tab" href="#single">Additional Single Split Results</a></li>-->
+		</ul>
+	</nav>
+	
+	<div class="tab-content">
+	
+		<div id="sources" class="tab-pane fade in active">
+			
+			<h3>Source Code and Datasets</h3>
+			
+			<p>
+				The full source code of the framework can be found here: <br/>
+				<a href="https://github.com/rn5l/session-rec">https://github.com/rn5l/session-rec</a>
+			</p>
+			
+			<p>
+				The datasets used in the evaluation can be downloaded here: <br/>
+				<a href="https://www.dropbox.com/sh/n281js5mgsvao6s/AADQbYxSFVPCun5DfwtsSxeda?dl=0">https://www.dropbox.com/sh/n281js5mgsvao6s/AADQbYxSFVPCun5DfwtsSxeda?dl=0</a>
+			</p>
+			
+									
+		</div>
+		
+		<div id="window" class="tab-pane fade in">
+			
+			<ul class="nav nav-tabs" id="tables_tabs">
+	            <li class="active"><a href="#window-rsc15" data-toggle="tab">RSC15</a></li>
+	            <li><a href="#window-retailrocket" data-toggle="tab">RETAILROCKET</a></li>
+	            <li><a href="#window-zalando" data-toggle="tab">ZALANDO</a></li>
+	            <li><a href="#window-diginetica" data-toggle="tab">DIGINETICA</a></li>
+	            <li><a href="#window-8tracks" data-toggle="tab">8TRACKS</a></li>
+	            <li><a href="#window-aotm" data-toggle="tab">AOTM</a></li>
+	            <li><a href="#window-nowplaying" data-toggle="tab">NOWPLAYING</a></li>
+	            <li><a href="#window-30music" data-toggle="tab">30MUSIC</a></li>
+	            <li><a href="#window-params" data-toggle="tab">Hyperparameters</a></li>
+	        </ul>
+			
+			<div class="tab-content">
+
+				<div id="window-rsc15" class="tab-pane fade in active">
+					aaaaa
+				</div>
+				
+				<div id="window-retailrocket" class="tab-pane fade in">
+				 	ccccc
+				</div>
+				
+				<div id="window-zalando" class="tab-pane fade in">
+					ddddd
+				</div>
+				
+				<div id="window-diginetica" class="tab-pane fade in">
+					iiiiii
+				</div>
+				
+				<div id="window-8tracks" class="tab-pane fade in">
+					eeeee
+				</div>
+				
+				<div id="window-aotm" class="tab-pane fade in">
+					fffff
+				</div>
+				
+				<div id="window-nowplaying" class="tab-pane fade in">
+					ggggg
+				</div>
+				
+				<div id="window-30music" class="tab-pane fade in">
+					hhhhh
+				</div>
+				
+				<div id="window-params" class="tab-pane fade in">
+					iiiiii
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		<!--div id="single" class="tab-pane fade in">
+			
+			<ul class="nav nav-tabs" id="tables_tabs">
+	            <li class="active"><a href="#single-rsc15_64" data-toggle="tab">RSC15/64</a></li>
+	            <li><a href="#single-rsc15_4" data-toggle="tab">RSC15/4</a></li>
+	            <li><a href="#single-diginetica" data-toggle="tab">DIGINETICA</a></li>
+	            <li><a href="#single-params" data-toggle="tab">Hyperparameters</a></li>
+	        </ul>
+			
+			<div class="tab-content">
+			
+				<div id="single-rsc15_64" class="tab-pane fade in active">
+					aaaaa
+				</div>
+				
+				<div id="single-rsc15_4" class="tab-pane fade in">
+					bbbbb
+				</div>
+				
+				<div id="single-diginetica" class="tab-pane fade in">
+				 	ccccc
+				</div>
+				
+				<div id="single-params" class="tab-pane fade in">
+					ddddd
+				</div>
+			
+			</div>
+			
+		</div-->
+		
+	</div>
+	<br/>
+	<br/>
+</div>	
+
+<script type="text/javascript"></script>
+
+</body>
+</html>
